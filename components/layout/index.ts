@@ -3,3 +3,4 @@ export { Footer } from "./footer";
 export { DesktopNav } from "./desktop-nav";
 export { MobileNav } from "./mobile-nav";
 export { PageHeader } from "./page-header";
+export { LanguageToggle } from "./language-toggle";

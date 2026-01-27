@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
 import {
   Sheet,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { navigation } from "@/data/navigation";
+import { Link } from "@/i18n/routing";
 import { siteConfig } from "@/data/site-config";
 import { cn } from "@/lib/utils";
 
@@ -23,6 +23,63 @@ interface MobileNavProps {
 
 export function MobileNav({ open, onOpenChange }: MobileNavProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const t = useTranslations("nav");
+
+  const navigation = [
+    { title: t("home"), href: "/" },
+    {
+      title: t("about"),
+      href: "/about",
+      children: [
+        { title: t("aboutAsad"), href: "/about" },
+        { title: t("history"), href: "/about/history" },
+        { title: t("leadership"), href: "/about/leadership" },
+        { title: t("statutes"), href: "/about/statutes" },
+      ],
+    },
+    {
+      title: t("sports"),
+      href: "/sports",
+      children: [
+        { title: t("sportsOverview"), href: "/sports" },
+        { title: t("competitions"), href: "/sports/competitions" },
+        { title: t("friendlyMatches"), href: "/sports/friendly-matches" },
+        { title: t("internalChallenge"), href: "/sports/internal-challenge" },
+        { title: t("jerseys"), href: "/sports/jerseys" },
+      ],
+    },
+    {
+      title: t("community"),
+      href: "/community",
+      children: [
+        { title: t("communityOverview"), href: "/community" },
+        { title: t("asadSundays"), href: "/community/asad-sundays" },
+        { title: t("babyShower"), href: "/community/baby-shower" },
+        { title: t("backToSchool"), href: "/community/back-to-school" },
+        { title: t("soapOilThrift"), href: "/community/soap-oil-thrift" },
+        { title: t("ndjangi"), href: "/community/ndjangi" },
+        { title: t("socialFund"), href: "/community/social-fund" },
+      ],
+    },
+    {
+      title: t("members"),
+      href: "/members",
+      children: [
+        { title: t("membership"), href: "/members" },
+        { title: t("inMemoriam"), href: "/members/in-memoriam" },
+      ],
+    },
+    {
+      title: t("media"),
+      href: "/media",
+      children: [
+        { title: t("mediaOverview"), href: "/media" },
+        { title: t("photoGallery"), href: "/media/gallery" },
+        { title: t("programOfYear"), href: "/media/program" },
+      ],
+    },
+    { title: t("contact"), href: "/contact" },
+  ];
 
   const toggleExpanded = (href: string) => {
     setExpandedItems((prev) =>

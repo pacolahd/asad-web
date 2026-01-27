@@ -1,12 +1,29 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "@/i18n/routing";
 import { siteConfig } from "@/data/site-config";
-import { navigation } from "@/data/navigation";
 
 export function Footer() {
+  const t = useTranslations("footer");
+  const tNav = useTranslations("nav");
   const currentYear = new Date().getFullYear();
+
+  const quickLinks = [
+    { title: tNav("home"), href: "/" },
+    { title: tNav("about"), href: "/about" },
+    { title: tNav("sports"), href: "/sports" },
+    { title: tNav("community"), href: "/community" },
+    { title: tNav("contact"), href: "/contact" },
+  ];
+
+  const programLinks = [
+    { title: tNav("asadSundays"), href: "/community/asad-sundays" },
+    { title: tNav("backToSchool"), href: "/community/back-to-school" },
+    { title: tNav("ndjangi"), href: "/community/ndjangi" },
+    { title: tNav("socialFund"), href: "/community/social-fund" },
+  ];
 
   return (
     <footer className="border-t bg-muted/50">
@@ -57,9 +74,9 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <h3 className="font-semibold mb-4">{t("quickLinks")}</h3>
             <ul className="space-y-2">
-              {navigation.slice(0, 5).map((item) => (
+              {quickLinks.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
@@ -74,46 +91,24 @@ export function Footer() {
 
           {/* Programs */}
           <div>
-            <h3 className="font-semibold mb-4">Community Programs</h3>
+            <h3 className="font-semibold mb-4">{t("communityPrograms")}</h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/community/asad-sundays"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  ASAD Sundays
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/community/back-to-school"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Back to School
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/community/ndjangi"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  ASAD Ndjangi
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/community/social-fund"
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Social Fund
-                </Link>
-              </li>
+              {programLinks.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="font-semibold mb-4">Contact Us</h3>
+            <h3 className="font-semibold mb-4">{t("contactUs")}</h3>
             <ul className="space-y-3">
               {siteConfig.contact.address && (
                 <li className="flex items-start gap-2">
@@ -153,11 +148,14 @@ export function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} {siteConfig.fullName}. All rights reserved.
+            &copy; {currentYear} {siteConfig.fullName}. {t("allRightsReserved")}
           </p>
           <p className="text-sm text-muted-foreground">
-            Founded in {siteConfig.founded} in {siteConfig.location.neighborhood}
-            , {siteConfig.location.city}
+            {t("foundedIn", {
+              year: siteConfig.founded,
+              neighborhood: siteConfig.location.neighborhood,
+              city: siteConfig.location.city,
+            })}
           </p>
         </div>
       </div>

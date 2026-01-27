@@ -1,31 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { siteConfig } from "@/data/site-config";
 
 export const metadata: Metadata = {
-  title: {
-    default: `${siteConfig.name} - ${siteConfig.fullName}`,
-    template: `%s | ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  keywords: [
-    "ASAD",
-    "Association Sportive des Amis du Developpement",
-    "Bonaberi",
-    "Douala",
-    "Cameroon",
-    "Football",
-    "Community Sports",
-    "Sports Association",
-  ],
-  authors: [{ name: siteConfig.name }],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    title: siteConfig.fullName,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
-  },
+  title: "ASAD - Association Sportive des Amis du Developpement",
+  description:
+    "ASAD is a community sports organization dedicated to promoting sports, unity, and development in Bonaberi, Douala, Cameroon since 2004.",
 };
 
 export default function RootLayout({
@@ -33,9 +12,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className="font-sans antialiased">{children}</body>
-    </html>
-  );
+  return children;
 }

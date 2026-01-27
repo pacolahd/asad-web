@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DesktopNav } from "./desktop-nav";
 import { MobileNav } from "./mobile-nav";
+import { LanguageToggle } from "./language-toggle";
+import { Link } from "@/i18n/routing";
 import { siteConfig } from "@/data/site-config";
 
 export function Header() {
@@ -34,16 +35,21 @@ export function Header() {
         {/* Desktop Navigation */}
         <DesktopNav className="hidden lg:flex" />
 
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden"
-          onClick={() => setMobileMenuOpen(true)}
-          aria-label="Open menu"
-        >
-          <Menu className="h-6 w-6" />
-        </Button>
+        {/* Right side: Language Toggle + Mobile Menu */}
+        <div className="flex items-center gap-2">
+          <LanguageToggle />
+
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="lg:hidden"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
+        </div>
 
         {/* Mobile Navigation */}
         <MobileNav open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} />

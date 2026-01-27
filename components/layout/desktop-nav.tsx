@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +10,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { navigation } from "@/data/navigation";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 interface DesktopNavProps {
@@ -18,6 +18,154 @@ interface DesktopNavProps {
 }
 
 export function DesktopNav({ className }: DesktopNavProps) {
+  const t = useTranslations("nav");
+
+  const navigation = [
+    {
+      title: t("home"),
+      href: "/",
+    },
+    {
+      title: t("about"),
+      href: "/about",
+      children: [
+        {
+          title: t("aboutAsad"),
+          href: "/about",
+          description: t("aboutDescription"),
+        },
+        {
+          title: t("history"),
+          href: "/about/history",
+          description: t("historyDescription"),
+        },
+        {
+          title: t("leadership"),
+          href: "/about/leadership",
+          description: t("leadershipDescription"),
+        },
+        {
+          title: t("statutes"),
+          href: "/about/statutes",
+          description: t("statutesDescription"),
+        },
+      ],
+    },
+    {
+      title: t("sports"),
+      href: "/sports",
+      children: [
+        {
+          title: t("sportsOverview"),
+          href: "/sports",
+          description: t("sportsDescription"),
+        },
+        {
+          title: t("competitions"),
+          href: "/sports/competitions",
+          description: t("competitionsDescription"),
+        },
+        {
+          title: t("friendlyMatches"),
+          href: "/sports/friendly-matches",
+          description: t("friendlyMatchesDescription"),
+        },
+        {
+          title: t("internalChallenge"),
+          href: "/sports/internal-challenge",
+          description: t("internalChallengeDescription"),
+        },
+        {
+          title: t("jerseys"),
+          href: "/sports/jerseys",
+          description: t("jerseysDescription"),
+        },
+      ],
+    },
+    {
+      title: t("community"),
+      href: "/community",
+      children: [
+        {
+          title: t("communityOverview"),
+          href: "/community",
+          description: t("communityDescription"),
+        },
+        {
+          title: t("asadSundays"),
+          href: "/community/asad-sundays",
+          description: t("asadSundaysDescription"),
+        },
+        {
+          title: t("babyShower"),
+          href: "/community/baby-shower",
+          description: t("babyShowerDescription"),
+        },
+        {
+          title: t("backToSchool"),
+          href: "/community/back-to-school",
+          description: t("backToSchoolDescription"),
+        },
+        {
+          title: t("soapOilThrift"),
+          href: "/community/soap-oil-thrift",
+          description: t("soapOilThriftDescription"),
+        },
+        {
+          title: t("ndjangi"),
+          href: "/community/ndjangi",
+          description: t("ndjangiDescription"),
+        },
+        {
+          title: t("socialFund"),
+          href: "/community/social-fund",
+          description: t("socialFundDescription"),
+        },
+      ],
+    },
+    {
+      title: t("members"),
+      href: "/members",
+      children: [
+        {
+          title: t("membership"),
+          href: "/members",
+          description: t("membershipDescription"),
+        },
+        {
+          title: t("inMemoriam"),
+          href: "/members/in-memoriam",
+          description: t("inMemoriamDescription"),
+        },
+      ],
+    },
+    {
+      title: t("media"),
+      href: "/media",
+      children: [
+        {
+          title: t("mediaOverview"),
+          href: "/media",
+          description: t("mediaDescription"),
+        },
+        {
+          title: t("photoGallery"),
+          href: "/media/gallery",
+          description: t("photoGalleryDescription"),
+        },
+        {
+          title: t("programOfYear"),
+          href: "/media/program",
+          description: t("programOfYearDescription"),
+        },
+      ],
+    },
+    {
+      title: t("contact"),
+      href: "/contact",
+    },
+  ];
+
   return (
     <NavigationMenu className={className}>
       <NavigationMenuList>
