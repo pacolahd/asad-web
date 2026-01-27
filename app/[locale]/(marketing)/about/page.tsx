@@ -11,45 +11,113 @@ import {
 } from "@/components/ui/card";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getAboutPage, getSiteSettings } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "About ASAD",
   description: `Learn about ${siteConfig.fullName}, a community sports organization in ${siteConfig.location.neighborhood}, ${siteConfig.location.city} since ${siteConfig.founded}.`,
 };
 
-const values = [
+export const revalidate = 300;
+
+const defaultValues = [
   {
     icon: Target,
+    key: "mission",
     title: "Our Mission",
     description:
       "To promote sports, unity, and community development through football and social programs that support our members and their families.",
   },
   {
     icon: Heart,
+    key: "vision",
     title: "Our Vision",
     description:
       "To be a model community organization that demonstrates how sports can transform lives and strengthen communities.",
   },
   {
     icon: Users,
+    key: "values",
     title: "Our Values",
     description:
       "Unity, sportsmanship, mutual support, transparency, and commitment to community development guide everything we do.",
   },
   {
     icon: Trophy,
+    key: "commitment",
     title: "Our Commitment",
     description:
       "We are committed to providing a supportive environment where members can grow, compete, and contribute to the community.",
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const locale = await getLocale() as Locale;
+
+  let settings = siteConfig;
+  let pageContent: {
+    headerTitle?: string | null;
+    headerDescription?: string | null;
+    storyTitle?: string | null;
+    storyContent?: string | null;
+    missionTitle?: string | null;
+    missionDescription?: string | null;
+    visionTitle?: string | null;
+    visionDescription?: string | null;
+    valuesTitle?: string | null;
+    valuesDescription?: string | null;
+    commitmentTitle?: string | null;
+    commitmentDescription?: string | null;
+  } = {};
+
+  try {
+    const payloadSettings = await getSiteSettings(locale);
+    if (payloadSettings) {
+      settings = {
+        ...siteConfig,
+        founded: payloadSettings.founded || siteConfig.founded,
+        location: payloadSettings.location || siteConfig.location,
+      };
+    }
+
+    const payloadPage = await getAboutPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log('Using static about data:', error instanceof Error ? error.message : 'CMS not available');
+  }
+
+  const values = [
+    {
+      icon: Target,
+      title: pageContent.missionTitle || defaultValues[0].title,
+      description: pageContent.missionDescription || defaultValues[0].description,
+    },
+    {
+      icon: Heart,
+      title: pageContent.visionTitle || defaultValues[1].title,
+      description: pageContent.visionDescription || defaultValues[1].description,
+    },
+    {
+      icon: Users,
+      title: pageContent.valuesTitle || defaultValues[2].title,
+      description: pageContent.valuesDescription || defaultValues[2].description,
+    },
+    {
+      icon: Trophy,
+      title: pageContent.commitmentTitle || defaultValues[3].title,
+      description: pageContent.commitmentDescription || defaultValues[3].description,
+    },
+  ];
+
   return (
     <>
       <PageHeader
-        title="About ASAD"
-        description={`Discover the story behind the Association Sportive des Amis du Developpement and our commitment to community development.`}
+        title={pageContent.headerTitle || "About ASAD"}
+        description={pageContent.headerDescription || `Discover the story behind the Association Sportive des Amis du Developpement and our commitment to community development.`}
       />
 
       {/* Name Meaning Section */}
@@ -80,27 +148,33 @@ export default function AboutPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                Our Story
+                {pageContent.storyTitle || "Our Story"}
               </h2>
               <div className="mt-6 space-y-4 text-muted-foreground">
-                <p>
-                  Founded in <strong>{siteConfig.founded}</strong> in the vibrant
-                  neighborhood of {siteConfig.location.neighborhood},{" "}
-                  {siteConfig.location.city}, ASAD began as a group of football
-                  enthusiasts who shared a common vision: to create a community
-                  where sports could bring people together.
-                </p>
-                <p>
-                  What started as friendly Sunday football matches has grown into
-                  a comprehensive community organization. Today, ASAD is not just
-                  about sports—it&apos;s about building a supportive family where
-                  members look out for each other.
-                </p>
-                <p>
-                  Our programs have expanded to include financial support systems,
-                  educational initiatives, and social events that strengthen the
-                  bonds between members and their families.
-                </p>
+                {pageContent.storyContent ? (
+                  <p>{pageContent.storyContent}</p>
+                ) : (
+                  <>
+                    <p>
+                      Founded in <strong>{settings.founded}</strong> in the vibrant
+                      neighborhood of {settings.location.neighborhood},{" "}
+                      {settings.location.city}, ASAD began as a group of football
+                      enthusiasts who shared a common vision: to create a community
+                      where sports could bring people together.
+                    </p>
+                    <p>
+                      What started as friendly Sunday football matches has grown into
+                      a comprehensive community organization. Today, ASAD is not just
+                      about sports—it&apos;s about building a supportive family where
+                      members look out for each other.
+                    </p>
+                    <p>
+                      Our programs have expanded to include financial support systems,
+                      educational initiatives, and social events that strengthen the
+                      bonds between members and their families.
+                    </p>
+                  </>
+                )}
               </div>
               <div className="mt-8">
                 <Button asChild>
@@ -114,11 +188,11 @@ export default function AboutPage() {
               <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
                 <div className="text-center p-8">
                   <div className="text-6xl md:text-8xl font-bold text-primary">
-                    {new Date().getFullYear() - siteConfig.founded}+
+                    {new Date().getFullYear() - settings.founded}+
                   </div>
                   <p className="text-xl font-medium mt-4">Years of Excellence</p>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Since {siteConfig.founded}
+                    Since {settings.founded}
                   </p>
                 </div>
               </div>
@@ -174,7 +248,7 @@ export default function AboutPage() {
                 <CardHeader>
                   <CardTitle>Our History</CardTitle>
                   <CardDescription>
-                    Follow our journey from {siteConfig.founded} to today
+                    Follow our journey from {settings.founded} to today
                   </CardDescription>
                 </CardHeader>
               </Card>

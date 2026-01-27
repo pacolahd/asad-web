@@ -18,13 +18,25 @@ import {
 } from "@/components/ui/card";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getMembersPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Membership",
   description: `Join ${siteConfig.name} and become part of a community that values sports, unity, and mutual support. Learn about membership conditions and benefits.`,
 };
 
-const membershipBenefits = [
+export const revalidate = 300;
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  users: Users,
+  calendar: Calendar,
+  heart: Heart,
+  'file-text': FileText,
+};
+
+const defaultMembershipBenefits = [
   {
     icon: Users,
     title: "Community & Fellowship",
@@ -51,7 +63,7 @@ const membershipBenefits = [
   },
 ];
 
-const membershipRequirements = [
+const defaultMembershipRequirements = [
   "Be at least 18 years of age",
   "Share ASAD's values of unity, sportsmanship, and community development",
   "Commit to participating regularly in ASAD activities",
@@ -60,7 +72,7 @@ const membershipRequirements = [
   "Be recommended by an existing member or attend trial Sundays",
 ];
 
-const membershipProcess = [
+const defaultMembershipProcess = [
   {
     step: 1,
     title: "Express Interest",
@@ -87,12 +99,55 @@ const membershipProcess = [
   },
 ];
 
-export default function MembersPage() {
+export default async function MembersPage() {
+  const locale = await getLocale() as Locale;
+
+  let pageContent: {
+    headerTitle?: string | null;
+    headerDescription?: string | null;
+    benefits?: Array<{ icon?: string | null; title?: string | null; description?: string | null }> | null;
+    requirements?: Array<{ requirement?: string | null }> | null;
+    process?: Array<{ title?: string | null; description?: string | null }> | null;
+    duesTitle?: string | null;
+    duesContent?: string | null;
+    ctaTitle?: string | null;
+    ctaDescription?: string | null;
+  } = {};
+
+  try {
+    const payloadPage = await getMembersPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log('Using static members data:', error instanceof Error ? error.message : 'CMS not available');
+  }
+
+  const membershipBenefits = pageContent.benefits && pageContent.benefits.length > 0
+    ? pageContent.benefits.map((b) => ({
+        icon: iconMap[b.icon || ''] || Users,
+        title: b.title || '',
+        description: b.description || '',
+      }))
+    : defaultMembershipBenefits;
+
+  const membershipRequirements = pageContent.requirements && pageContent.requirements.length > 0
+    ? pageContent.requirements.map((r) => r.requirement || '')
+    : defaultMembershipRequirements;
+
+  const membershipProcess = pageContent.process && pageContent.process.length > 0
+    ? pageContent.process.map((p, index) => ({
+        step: index + 1,
+        title: p.title || '',
+        description: p.description || '',
+      }))
+    : defaultMembershipProcess;
+
   return (
     <>
       <PageHeader
-        title="Join ASAD"
-        description="Become part of a community that values sports, unity, and mutual support. ASAD membership opens doors to fellowship, programs, and a family that stands together."
+        title={pageContent.headerTitle || "Join ASAD"}
+        description={pageContent.headerDescription || "Become part of a community that values sports, unity, and mutual support. ASAD membership opens doors to fellowship, programs, and a family that stands together."}
       />
 
       {/* Benefits */}
@@ -174,12 +229,11 @@ export default function MembersPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Membership Dues</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {pageContent.duesTitle || "Membership Dues"}
+            </h2>
             <p className="text-muted-foreground mb-6">
-              ASAD membership involves a one-time registration fee and regular
-              dues that support our programs and activities. Specific amounts
-              are communicated upon application. Our fees are designed to be
-              accessible while ensuring we can deliver meaningful programs.
+              {pageContent.duesContent || "ASAD membership involves a one-time registration fee and regular dues that support our programs and activities. Specific amounts are communicated upon application. Our fees are designed to be accessible while ensuring we can deliver meaningful programs."}
             </p>
           </div>
         </div>
@@ -189,11 +243,11 @@ export default function MembersPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Ready to Join?</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {pageContent.ctaTitle || "Ready to Join?"}
+            </h2>
             <p className="text-muted-foreground mb-6">
-              Take the first step toward becoming part of the ASAD family.
-              Contact us to learn more or visit us on any Sunday to experience
-              our community firsthand.
+              {pageContent.ctaDescription || "Take the first step toward becoming part of the ASAD family. Contact us to learn more or visit us on any Sunday to experience our community firsthand."}
             </p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button asChild>

@@ -1,0 +1,11 @@
+export { HomePage } from './HomePage';
+export { AboutPage } from './AboutPage';
+export { HistoryPage } from './HistoryPage';
+export { LeadershipPage } from './LeadershipPage';
+export { StatutesPage } from './StatutesPage';
+export { CommunityPage } from './CommunityPage';
+export { SportsPage } from './SportsPage';
+export { MembersPage } from './MembersPage';
+export { InMemoriamPage } from './InMemoriamPage';
+export { MediaPage } from './MediaPage';
+export { ContactPage } from './ContactPage';

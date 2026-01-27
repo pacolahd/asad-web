@@ -11,13 +11,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getMediaPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Media",
   description: `Browse photos, videos, and media from ${siteConfig.name}'s activities, events, and celebrations.`,
 };
 
-const mediaCategories = [
+export const revalidate = 300;
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  camera: Camera,
+  calendar: Calendar,
+  video: Video,
+};
+
+const defaultMediaCategories = [
   {
     icon: Camera,
     title: "Photo Gallery",
@@ -26,6 +37,7 @@ const mediaCategories = [
     href: "/media/gallery",
     count: "500+",
     unit: "Photos",
+    disabled: false,
   },
   {
     icon: Calendar,
@@ -35,6 +47,7 @@ const mediaCategories = [
     href: "/media/program",
     count: "12",
     unit: "Months Planned",
+    disabled: false,
   },
   {
     icon: Video,
@@ -48,12 +61,53 @@ const mediaCategories = [
   },
 ];
 
-export default function MediaPage() {
+export default async function MediaPage() {
+  const locale = await getLocale() as Locale;
+
+  let pageContent: {
+    headerTitle?: string | null;
+    headerDescription?: string | null;
+    categories?: Array<{
+      icon?: string | null;
+      title?: string | null;
+      description?: string | null;
+      href?: string | null;
+      count?: string | null;
+      unit?: string | null;
+      disabled?: boolean | null;
+    }> | null;
+    featuredTitle?: string | null;
+    featuredDescription?: string | null;
+    submitTitle?: string | null;
+    submitDescription?: string | null;
+  } = {};
+
+  try {
+    const payloadPage = await getMediaPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log('Using static media data:', error instanceof Error ? error.message : 'CMS not available');
+  }
+
+  const mediaCategories = pageContent.categories && pageContent.categories.length > 0
+    ? pageContent.categories.map((c) => ({
+        icon: iconMap[c.icon || ''] || Camera,
+        title: c.title || '',
+        description: c.description || '',
+        href: c.href || '#',
+        count: c.count || '',
+        unit: c.unit || '',
+        disabled: c.disabled || false,
+      }))
+    : defaultMediaCategories;
+
   return (
     <>
       <PageHeader
-        title="Media Gallery"
-        description="Capturing the moments that make ASAD special. Browse through our collection of photos, videos, and memories from years of community building."
+        title={pageContent.headerTitle || "Media Gallery"}
+        description={pageContent.headerDescription || "Capturing the moments that make ASAD special. Browse through our collection of photos, videos, and memories from years of community building."}
       />
 
       {/* Media Categories */}
@@ -111,9 +165,11 @@ export default function MediaPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center mb-12">
-            <h2 className="text-2xl font-bold">Featured Moments</h2>
+            <h2 className="text-2xl font-bold">
+              {pageContent.featuredTitle || "Featured Moments"}
+            </h2>
             <p className="mt-4 text-muted-foreground">
-              Some of our most memorable captures from recent events.
+              {pageContent.featuredDescription || "Some of our most memorable captures from recent events."}
             </p>
           </div>
 
@@ -145,11 +201,11 @@ export default function MediaPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Have Photos to Share?</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {pageContent.submitTitle || "Have Photos to Share?"}
+            </h2>
             <p className="text-muted-foreground">
-              If you have photos from ASAD events that you&apos;d like to add to
-              our gallery, please share them with the media coordinator at any
-              ASAD Sunday gathering or through our contact page.
+              {pageContent.submitDescription || "If you have photos from ASAD events that you'd like to add to our gallery, please share them with the media coordinator at any ASAD Sunday gathering or through our contact page."}
             </p>
           </div>
         </div>

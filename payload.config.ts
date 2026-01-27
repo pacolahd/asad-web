@@ -21,6 +21,19 @@ import { Documents } from '@/collections/Documents';
 
 // Globals
 import { SiteSettings } from '@/globals/SiteSettings';
+import {
+  HomePage,
+  AboutPage,
+  HistoryPage,
+  LeadershipPage,
+  StatutesPage,
+  CommunityPage,
+  SportsPage,
+  MembersPage,
+  InMemoriamPage,
+  MediaPage,
+  ContactPage,
+} from '@/globals/pages';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -61,7 +74,22 @@ export default buildConfig({
     MemorialMembers,
     Documents,
   ],
-  globals: [SiteSettings],
+  globals: [
+    // Settings
+    SiteSettings,
+    // Pages
+    HomePage,
+    AboutPage,
+    HistoryPage,
+    LeadershipPage,
+    StatutesPage,
+    CommunityPage,
+    SportsPage,
+    MembersPage,
+    InMemoriamPage,
+    MediaPage,
+    ContactPage,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'CHANGE-ME-IN-PRODUCTION',
   typescript: {

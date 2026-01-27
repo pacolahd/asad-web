@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/layout";
 import { TeamGrid } from "@/components/sections";
 import { leadershipTeam } from "@/data/leadership";
 import { siteConfig } from "@/data/site-config";
-import { getLeadership, getMediaUrl } from "@/lib/data";
+import { getLeadership, getMediaUrl, getLeadershipPage } from "@/lib/data";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -18,6 +18,13 @@ export default async function LeadershipPage() {
   const locale = await getLocale() as Locale;
 
   let members = leadershipTeam;
+  let pageContent: {
+    headerTitle?: string | null;
+    headerDescription?: string | null;
+    introContent?: string | null;
+    electionNoteTitle?: string | null;
+    electionNoteContent?: string | null;
+  } = {};
 
   try {
     const payloadLeadership = await getLeadership(locale);
@@ -31,6 +38,11 @@ export default async function LeadershipPage() {
         since: l.since || undefined,
       }));
     }
+
+    const payloadPage = await getLeadershipPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
   } catch (error) {
     console.log('Using static leadership data:', error instanceof Error ? error.message : 'CMS not available');
   }
@@ -38,8 +50,8 @@ export default async function LeadershipPage() {
   return (
     <>
       <PageHeader
-        title="Leadership Team"
-        description="Meet the dedicated individuals who lead ASAD with vision, integrity, and commitment to our community."
+        title={pageContent.headerTitle || "Leadership Team"}
+        description={pageContent.headerDescription || "Meet the dedicated individuals who lead ASAD with vision, integrity, and commitment to our community."}
       />
 
       <section className="py-16 md:py-24">
@@ -47,10 +59,14 @@ export default async function LeadershipPage() {
           {/* Introduction */}
           <div className="mx-auto max-w-3xl text-center mb-16">
             <p className="text-lg text-muted-foreground">
-              Our leadership team is composed of dedicated members who volunteer
-              their time and expertise to guide ASAD. Elected by the general
-              assembly, they work tirelessly to ensure the organization fulfills
-              its mission of promoting sports and community development.
+              {pageContent.introContent || (
+                <>
+                  Our leadership team is composed of dedicated members who volunteer
+                  their time and expertise to guide ASAD. Elected by the general
+                  assembly, they work tirelessly to ensure the organization fulfills
+                  its mission of promoting sports and community development.
+                </>
+              )}
             </p>
           </div>
 
@@ -60,12 +76,16 @@ export default async function LeadershipPage() {
           {/* Note about elections */}
           <div className="mx-auto max-w-3xl text-center mt-16 p-6 bg-muted/30 rounded-lg">
             <h3 className="text-lg font-semibold mb-2">
-              Democratic Leadership
+              {pageContent.electionNoteTitle || "Democratic Leadership"}
             </h3>
             <p className="text-sm text-muted-foreground">
-              ASAD&apos;s leadership is elected democratically by the general
-              assembly of members. Elections are held according to our statutes
-              to ensure transparent and fair governance.
+              {pageContent.electionNoteContent || (
+                <>
+                  ASAD&apos;s leadership is elected democratically by the general
+                  assembly of members. Elections are held according to our statutes
+                  to ensure transparent and fair governance.
+                </>
+              )}
             </p>
           </div>
         </div>

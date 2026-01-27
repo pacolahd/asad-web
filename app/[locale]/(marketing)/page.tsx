@@ -10,7 +10,7 @@ import {
 import { Hero, Stats, FeatureGrid, CTA } from "@/components/sections";
 import { communityPrograms } from "@/data/programs";
 import { siteConfig } from "@/data/site-config";
-import { getPrograms, getStats, getSiteSettings, getGalleryAlbums } from "@/lib/data";
+import { getPrograms, getStats, getSiteSettings, getGalleryAlbums, getHomePage } from "@/lib/data";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -24,6 +24,16 @@ export default async function HomePage() {
   let stats = undefined;
   let settings = siteConfig;
   let albums: { title: string }[] = [];
+  let pageContent: {
+    whatIsAsadTitle?: string | null;
+    whatIsAsadContent?: string | null;
+    communityTitle?: string | null;
+    communityDescription?: string | null;
+    galleryTitle?: string | null;
+    galleryDescription?: string | null;
+    ctaTitle?: string | null;
+    ctaDescription?: string | null;
+  } = {};
 
   try {
     const payloadPrograms = await getPrograms(locale, 'community');
@@ -64,10 +74,16 @@ export default async function HomePage() {
 
     const payloadAlbums = await getGalleryAlbums(locale);
     albums = payloadAlbums.slice(0, 3).map((a) => ({ title: a.title }));
+
+    const payloadPageContent = await getHomePage(locale);
+    if (payloadPageContent) {
+      pageContent = payloadPageContent;
+    }
   } catch (error) {
     // CMS not configured, use static data
     console.log('Using static data:', error instanceof Error ? error.message : 'CMS not available');
   }
+
   return (
     <>
       {/* Hero Section */}
@@ -82,18 +98,24 @@ export default async function HomePage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                What Does <span className="text-primary">ASAD</span> Mean?
+                {pageContent.whatIsAsadTitle || (
+                  <>What Does <span className="text-primary">ASAD</span> Mean?</>
+                )}
               </h2>
               <p className="mt-4 text-lg text-muted-foreground">
                 <strong>A</strong>ssociation <strong>S</strong>portive des{" "}
                 <strong>A</strong>mis du <strong>D</strong>eveloppement
               </p>
               <p className="mt-4 text-muted-foreground">
-                ASAD is more than just a sports club. We are a family of friends
-                united by our love for football and our commitment to community
-                development. Founded in {settings.founded} in{" "}
-                {settings.location.neighborhood}, we have grown to become a
-                pillar of our community.
+                {pageContent.whatIsAsadContent || (
+                  <>
+                    ASAD is more than just a sports club. We are a family of friends
+                    united by our love for football and our commitment to community
+                    development. Founded in {settings.founded} in{" "}
+                    {settings.location.neighborhood}, we have grown to become a
+                    pillar of our community.
+                  </>
+                )}
               </p>
               <p className="mt-4 text-muted-foreground">
                 Our mission extends beyond the football pitch. Through various
@@ -127,8 +149,8 @@ export default async function HomePage() {
 
       {/* Featured Programs */}
       <FeatureGrid
-        title="Community Programs"
-        description="Beyond sports, we invest in our community through various programs that support members and their families."
+        title={pageContent.communityTitle || "Community Programs"}
+        description={pageContent.communityDescription || "Beyond sports, we invest in our community through various programs that support members and their families."}
         programs={programs}
       />
 
@@ -137,10 +159,10 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Capturing Our Moments
+              {pageContent.galleryTitle || "Capturing Our Moments"}
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              From match days to community events, browse through our memories.
+              {pageContent.galleryDescription || "From match days to community events, browse through our memories."}
             </p>
           </div>
 
@@ -179,8 +201,8 @@ export default async function HomePage() {
 
       {/* CTA */}
       <CTA
-        title="Join the ASAD Family"
-        description="Become part of a community that values sports, unity, and mutual support. Whether you're a football enthusiast or looking for a supportive community, ASAD welcomes you."
+        title={pageContent.ctaTitle || "Join the ASAD Family"}
+        description={pageContent.ctaDescription || "Become part of a community that values sports, unity, and mutual support. Whether you're a football enthusiast or looking for a supportive community, ASAD welcomes you."}
         primaryAction={{ label: "Become a Member", href: "/members" }}
         secondaryAction={{ label: "Contact Us", href: "/contact" }}
       />

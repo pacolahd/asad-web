@@ -27,7 +27,7 @@ export const Programs: CollectionConfig = {
   hooks: {
     afterChange: [
       createTranslationHook({
-        localizedFields: ['title', 'description'],
+        localizedFields: ['title', 'description', 'pageHeaderDescription'],
       }),
     ],
   },
@@ -66,6 +66,21 @@ export const Programs: CollectionConfig = {
       label: {
         en: 'Description',
         fr: 'Description',
+      },
+    },
+    {
+      name: 'pageHeaderDescription',
+      type: 'textarea',
+      localized: true,
+      label: {
+        en: 'Page Header Description',
+        fr: 'Description de l\'En-tête de Page',
+      },
+      admin: {
+        description: {
+          en: 'Longer description used in the PageHeader component on individual program pages',
+          fr: 'Description plus longue utilisée dans le composant PageHeader sur les pages de programme individuelles',
+        },
       },
     },
     {
