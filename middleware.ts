@@ -10,8 +10,8 @@ export const config = {
     // - /api routes
     // - /_next (Next.js internals)
     // - /_vercel (Vercel internals)
-    // - /images, /documents, /media (static files)
+    // - /images, /documents (static files)
     // - favicon.ico, sitemap.xml, robots.txt
-    '/((?!admin|api|_next|_vercel|images|documents|media|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/((?!admin|api|_next|_vercel|images|documents|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };

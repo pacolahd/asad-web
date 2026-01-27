@@ -109,5 +109,19 @@
     "english": "English",
     "french": "Français",
     "switchLanguage": "Switch Language"
+  },
+  "stats": {
+    "yearsOfExcellence": "Years of Excellence",
+    "communityPrograms": "Community Programs",
+    "yearsPlaying": "Years Playing",
+    "yearsOfPrograms": "Years of Programs",
+    "activePrograms": "Active Programs",
+    "activeMembers": "Active Members",
+    "competitionsPlayed": "Competitions Played",
+    "every": "Every",
+    "sundayWePlay": "Sunday We Play",
+    "activePlayers": "Active Players",
+    "familiesSupported": "Families Supported",
+    "childrenHelped": "Children Helped (Back to School)"
   }
 }

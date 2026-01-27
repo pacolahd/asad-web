@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/layout";
 import { TeamGrid } from "@/components/sections";
 import { leadershipTeam } from "@/data/leadership";
 import { siteConfig } from "@/data/site-config";
-import { getLeadership, getMediaUrl, getLeadershipPage } from "@/lib/data";
+import { getMediaUrl, getLeadershipPage } from "@/lib/data";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -24,24 +24,30 @@ export default async function LeadershipPage() {
     introContent?: string | null;
     electionNoteTitle?: string | null;
     electionNoteContent?: string | null;
+    teamMembers?: Array<{
+      name: string;
+      role: string;
+      bio?: string | null;
+      image?: { url?: string } | null;
+      since?: number | null;
+    }> | null;
   } = {};
 
   try {
-    const payloadLeadership = await getLeadership(locale);
-    if (payloadLeadership.length > 0) {
-      members = payloadLeadership.map((l) => ({
-        id: String(l.id),
-        name: l.name,
-        role: l.role,
-        bio: l.bio || undefined,
-        image: l.image ? getMediaUrl(l.image as { url?: string }) : undefined,
-        since: l.since || undefined,
-      }));
-    }
-
     const payloadPage = await getLeadershipPage(locale);
     if (payloadPage) {
       pageContent = payloadPage;
+      // Use embedded teamMembers from the page global
+      if (payloadPage.teamMembers && payloadPage.teamMembers.length > 0) {
+        members = payloadPage.teamMembers.map((l: { name: string; role: string; bio?: string | null; image?: { url?: string } | null; since?: number | null }, index: number) => ({
+          id: String(index),
+          name: l.name,
+          role: l.role,
+          bio: l.bio || undefined,
+          image: l.image ? getMediaUrl(l.image as { url?: string }) : undefined,
+          since: l.since || undefined,
+        }));
+      }
     }
   } catch (error) {
     console.log('Using static leadership data:', error instanceof Error ? error.message : 'CMS not available');

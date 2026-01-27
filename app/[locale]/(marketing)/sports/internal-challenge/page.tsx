@@ -10,13 +10,18 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getSportsPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "ASAD # ASAD Internal Challenge",
   description: `The ${siteConfig.name} internal challenge where members form teams and compete against each other in friendly rivalry.`,
 };
 
-const challengeRules = [
+export const revalidate = 300;
+
+const defaultChallengeRules = [
   {
     title: "Team Formation",
     description:
@@ -39,19 +44,68 @@ const challengeRules = [
   },
 ];
 
-const pastWinners = [
-  { year: "2024", team: "Team Alpha", captain: "Member Name" },
-  { year: "2023", team: "Team Bravo", captain: "Member Name" },
-  { year: "2022", team: "Team Alpha", captain: "Member Name" },
-  { year: "2021", team: "Team Charlie", captain: "Member Name" },
+const defaultPastWinners = [
+  { year: 2024, team: "Team Alpha", captain: "Member Name" },
+  { year: 2023, team: "Team Bravo", captain: "Member Name" },
+  { year: 2022, team: "Team Alpha", captain: "Member Name" },
+  { year: 2021, team: "Team Charlie", captain: "Member Name" },
 ];
 
-export default function InternalChallengePage() {
+export default async function InternalChallengePage() {
+  const locale = (await getLocale()) as Locale;
+
+  let pageContent: {
+    challengeTitle?: string | null;
+    challengeDescription?: string | null;
+    challengeConcept?: string | null;
+    challengeRules?: Array<{
+      title?: string | null;
+      description?: string | null;
+    }> | null;
+    hallOfChampions?: Array<{
+      year?: number | null;
+      team?: string | null;
+      captain?: string | null;
+    }> | null;
+  } = {};
+
+  try {
+    const payloadPage = await getSportsPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log(
+      "Using static internal challenge data:",
+      error instanceof Error ? error.message : "CMS not available"
+    );
+  }
+
+  const challengeRules =
+    pageContent.challengeRules && pageContent.challengeRules.length > 0
+      ? pageContent.challengeRules.map((r) => ({
+          title: r.title || "",
+          description: r.description || "",
+        }))
+      : defaultChallengeRules;
+
+  const pastWinners =
+    pageContent.hallOfChampions && pageContent.hallOfChampions.length > 0
+      ? pageContent.hallOfChampions.map((w) => ({
+          year: w.year || 0,
+          team: w.team || "",
+          captain: w.captain || "",
+        }))
+      : defaultPastWinners;
+
   return (
     <>
       <PageHeader
-        title="ASAD # ASAD Challenge"
-        description="Our internal competition where members form teams and compete in friendly rivalry. All the fun of competition, all within the ASAD family."
+        title={pageContent.challengeTitle || "ASAD # ASAD Challenge"}
+        description={
+          pageContent.challengeDescription ||
+          "Our internal competition where members form teams and compete in friendly rivalry. All the fun of competition, all within the ASAD family."
+        }
       />
 
       {/* Concept */}
@@ -61,10 +115,8 @@ export default function InternalChallengePage() {
             <Swords className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-6">The Ultimate Family Rivalry</h2>
             <p className="text-lg text-muted-foreground">
-              The ASAD # ASAD Challenge is our internal competition that brings
-              a unique excitement to our community. Members are divided into
-              teams and compete throughout the season. It&apos;s all the intensity
-              of competitive football, but everyone goes home as friends.
+              {pageContent.challengeConcept ||
+                "The ASAD # ASAD Challenge is our internal competition that brings a unique excitement to our community. Members are divided into teams and compete throughout the season. It's all the intensity of competitive football, but everyone goes home as friends."}
             </p>
           </div>
         </div>

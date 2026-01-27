@@ -9,40 +9,55 @@ import {
 } from "@/components/ui/card";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getCommunityPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Social Fund",
   description: `${siteConfig.name}'s Social Fund provides emergency financial assistance to members during difficult times, illness, or bereavement.`,
 };
 
-const coverageAreas = [
+export const revalidate = 300;
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  heart: Heart,
+  'hand-heart': HandHeart,
+  shield: Shield,
+  users: Users,
+};
+
+type CoverageArea = { icon: string; title: string; description: string };
+type ProcessStep = { title: string; description: string };
+
+const defaultCoverage: CoverageArea[] = [
   {
-    icon: Heart,
+    icon: "heart",
     title: "Health Emergencies",
     description:
       "Financial support for members and their immediate families facing unexpected medical expenses.",
   },
   {
-    icon: HandHeart,
+    icon: "hand-heart",
     title: "Bereavement Support",
     description:
       "Assistance during the loss of a family member, helping with funeral expenses and providing emotional support.",
   },
   {
-    icon: Shield,
+    icon: "shield",
     title: "Emergency Relief",
     description:
       "Support for members facing unexpected hardships such as accidents or natural disasters.",
   },
   {
-    icon: Users,
+    icon: "users",
     title: "Family Support",
     description:
       "Coverage extends to immediate family members, recognizing that our community includes entire families.",
   },
 ];
 
-const howItWorks = [
+const defaultProcess: ProcessStep[] = [
   {
     title: "Regular Contributions",
     description:
@@ -65,12 +80,63 @@ const howItWorks = [
   },
 ];
 
-export default function SocialFundPage() {
+const defaultEligible = [
+  { item: "Active members in good standing" },
+  { item: "Members current with their contributions" },
+  { item: "Immediate family members (spouse, children)" },
+  { item: "Members who have been active for the qualifying period" },
+];
+
+const defaultConditions = [
+  { item: "Must be an active member" },
+  { item: "Contributions must be current" },
+  { item: "Request must be submitted to the executive" },
+  { item: "Documentation may be required" },
+];
+
+export default async function SocialFundPage() {
+  const locale = await getLocale() as Locale;
+
+  let pageContent: Awaited<ReturnType<typeof getCommunityPage>> = null;
+
+  try {
+    pageContent = await getCommunityPage(locale);
+  } catch (error) {
+    console.log('Using static data:', error instanceof Error ? error.message : 'CMS not available');
+  }
+
+  const cmsCoverage = pageContent?.socialFundCoverage;
+  const coverage: CoverageArea[] = cmsCoverage && cmsCoverage.length > 0
+    ? cmsCoverage.map((c: { icon?: string | null; title?: string | null; description?: string | null }) => ({
+        icon: c.icon || 'heart',
+        title: c.title || '',
+        description: c.description || '',
+      }))
+    : defaultCoverage;
+
+  const cmsProcess = pageContent?.socialFundProcess;
+  const process: ProcessStep[] = cmsProcess && cmsProcess.length > 0
+    ? cmsProcess.map((p: { title?: string | null; description?: string | null }) => ({
+        title: p.title || '',
+        description: p.description || '',
+      }))
+    : defaultProcess;
+
+  const cmsEligible = pageContent?.socialFundEligible;
+  const eligible: string[] = cmsEligible && cmsEligible.length > 0
+    ? cmsEligible.map((e: { item?: string | null }) => e.item || '')
+    : defaultEligible.map((e) => e.item);
+
+  const cmsConditions = pageContent?.socialFundConditions;
+  const conditions: string[] = cmsConditions && cmsConditions.length > 0
+    ? cmsConditions.map((c: { item?: string | null }) => c.item || '')
+    : defaultConditions.map((c) => c.item);
+
   return (
     <>
       <PageHeader
-        title="Social Fund"
-        description="Our safety net for difficult times. The Social Fund provides financial assistance to members facing emergencies, illness, or bereavement."
+        title={pageContent?.socialFundTitle || "Social Fund"}
+        description={pageContent?.socialFundDescription || "Our safety net for difficult times. The Social Fund provides financial assistance to members facing emergencies, illness, or bereavement."}
       />
 
       {/* Introduction */}
@@ -80,11 +146,7 @@ export default function SocialFundPage() {
             <Heart className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-6">Standing Together</h2>
             <p className="text-lg text-muted-foreground">
-              Life can be unpredictable, but no ASAD member faces hardship alone.
-              Our Social Fund is a collective safety net that ensures members have
-              support during life&apos;s most challenging moments. Through small
-              regular contributions, we build a resource that can make a real
-              difference when it matters most.
+              {pageContent?.socialFundIntro || "Life can be unpredictable, but no ASAD member faces hardship alone. Our Social Fund is a collective safety net that ensures members have support during life's most challenging moments. Through small regular contributions, we build a resource that can make a real difference when it matters most."}
             </p>
           </div>
         </div>
@@ -95,23 +157,26 @@ export default function SocialFundPage() {
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">What We Cover</h2>
           <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-            {coverageAreas.map((area) => (
-              <Card key={area.title}>
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
-                      <area.icon className="h-6 w-6" />
+            {coverage.map((area) => {
+              const IconComponent = iconMap[area.icon] || Heart;
+              return (
+                <Card key={area.title}>
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+                        <IconComponent className="h-6 w-6" />
+                      </div>
+                      <CardTitle className="text-lg">{area.title}</CardTitle>
                     </div>
-                    <CardTitle className="text-lg">{area.title}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
-                    {area.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-base">
+                      {area.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -124,7 +189,7 @@ export default function SocialFundPage() {
               How It Works
             </h2>
             <div className="space-y-6">
-              {howItWorks.map((step, index) => (
+              {process.map((step, index) => (
                 <div key={index} className="flex gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
                     {index + 1}
@@ -153,10 +218,9 @@ export default function SocialFundPage() {
                   Eligible
                 </h3>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li>• Active members in good standing</li>
-                  <li>• Members current with their contributions</li>
-                  <li>• Immediate family members (spouse, children)</li>
-                  <li>• Members who have been active for the qualifying period</li>
+                  {eligible.map((item, index) => (
+                    <li key={index}>• {item}</li>
+                  ))}
                 </ul>
               </Card>
               <Card className="p-6">
@@ -164,10 +228,9 @@ export default function SocialFundPage() {
                   Conditions
                 </h3>
                 <ul className="space-y-2 text-muted-foreground">
-                  <li>• Must be an active member</li>
-                  <li>• Contributions must be current</li>
-                  <li>• Request must be submitted to the executive</li>
-                  <li>• Documentation may be required</li>
+                  {conditions.map((item, index) => (
+                    <li key={index}>• {item}</li>
+                  ))}
                 </ul>
               </Card>
             </div>

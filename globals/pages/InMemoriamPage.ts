@@ -25,6 +25,8 @@ export const InMemoriamPage: GlobalConfig = {
           'introContent',
           'closingQuote',
           'contactNote',
+          'departedMembers.*.role',
+          'departedMembers.*.tribute',
         ],
       }),
     ],
@@ -61,8 +63,8 @@ export const InMemoriamPage: GlobalConfig = {
         },
         {
           label: {
-            en: 'Content',
-            fr: 'Contenu',
+            en: 'Introduction',
+            fr: 'Introduction',
           },
           fields: [
             {
@@ -80,6 +82,113 @@ export const InMemoriamPage: GlobalConfig = {
                 },
               },
             },
+          ],
+        },
+        {
+          label: {
+            en: 'Departed Members',
+            fr: 'Membres Disparus',
+          },
+          fields: [
+            {
+              name: 'departedMembers',
+              type: 'array',
+              label: {
+                en: 'Departed Members',
+                fr: 'Membres Disparus',
+              },
+              labels: {
+                singular: {
+                  en: 'Member',
+                  fr: 'Membre',
+                },
+                plural: {
+                  en: 'Members',
+                  fr: 'Membres',
+                },
+              },
+              admin: {
+                description: {
+                  en: 'Add departed members to honor their memory',
+                  fr: 'Ajoutez les membres disparus pour honorer leur mémoire',
+                },
+              },
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  required: true,
+                  label: {
+                    en: 'Name',
+                    fr: 'Nom',
+                  },
+                },
+                {
+                  name: 'role',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Role/Title',
+                    fr: 'Rôle/Titre',
+                  },
+                  admin: {
+                    description: {
+                      en: 'Their role in ASAD (e.g., "Founding Member", "Former President")',
+                      fr: 'Leur rôle dans ASAD (ex: "Membre Fondateur", "Ancien Président")',
+                    },
+                  },
+                },
+                {
+                  name: 'birthYear',
+                  type: 'number',
+                  label: {
+                    en: 'Birth Year',
+                    fr: 'Année de Naissance',
+                  },
+                },
+                {
+                  name: 'deathYear',
+                  type: 'number',
+                  required: true,
+                  label: {
+                    en: 'Death Year',
+                    fr: 'Année de Décès',
+                  },
+                },
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: {
+                    en: 'Photo',
+                    fr: 'Photo',
+                  },
+                },
+                {
+                  name: 'tribute',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'Tribute',
+                    fr: 'Hommage',
+                  },
+                  admin: {
+                    description: {
+                      en: 'A tribute or memory of this member',
+                      fr: 'Un hommage ou souvenir de ce membre',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: {
+            en: 'Closing',
+            fr: 'Clôture',
+          },
+          fields: [
             {
               name: 'closingQuote',
               type: 'textarea',

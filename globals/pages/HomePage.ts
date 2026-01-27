@@ -64,6 +64,73 @@ export const HomePage: GlobalConfig = {
         },
         {
           label: {
+            en: 'Statistics',
+            fr: 'Statistiques',
+          },
+          fields: [
+            {
+              type: 'ui',
+              name: 'calculatedStats',
+              admin: {
+                components: {
+                  Field: {
+                    path: '@/components/admin/HomePageCalculatedStats',
+                  },
+                },
+              },
+            },
+            {
+              name: 'stats',
+              type: 'array',
+              label: {
+                en: 'Manual Statistics',
+                fr: 'Statistiques Manuelles',
+              },
+              maxRows: 4,
+              admin: {
+                description: {
+                  en: 'Add custom statistics like Active Members, Competitions Played, etc.',
+                  fr: 'Ajoutez des statistiques personnalisées comme Membres Actifs, Compétitions Jouées, etc.',
+                },
+              },
+              fields: [
+                {
+                  name: 'value',
+                  type: 'text',
+                  required: true,
+                  label: {
+                    en: 'Value',
+                    fr: 'Valeur',
+                  },
+                  admin: {
+                    description: {
+                      en: 'e.g., "100+", "50+", "Every"',
+                      fr: 'ex: "100+", "50+", "Chaque"',
+                    },
+                  },
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    en: 'Label',
+                    fr: 'Libellé',
+                  },
+                  admin: {
+                    description: {
+                      en: 'e.g., "Active Members", "Competitions Played"',
+                      fr: 'ex: "Membres Actifs", "Compétitions Jouées"',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: {
             en: 'What is ASAD',
             fr: 'Qu\'est-ce que ASAD',
           },

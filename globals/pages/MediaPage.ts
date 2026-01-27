@@ -159,6 +159,73 @@ export const MediaPage: GlobalConfig = {
         },
         {
           label: {
+            en: 'Statistics',
+            fr: 'Statistiques',
+          },
+          fields: [
+            {
+              type: 'ui',
+              name: 'calculatedStats',
+              admin: {
+                components: {
+                  Field: {
+                    path: '@/components/admin/MediaPageCalculatedStats',
+                  },
+                },
+              },
+            },
+            {
+              name: 'stats',
+              type: 'array',
+              label: {
+                en: 'Manual Statistics',
+                fr: 'Statistiques Manuelles',
+              },
+              maxRows: 4,
+              admin: {
+                description: {
+                  en: 'Add custom statistics (note: Photo count and Album count are calculated automatically)',
+                  fr: 'Ajoutez des statistiques personnalisées (note: le nombre de photos et d\'albums est calculé automatiquement)',
+                },
+              },
+              fields: [
+                {
+                  name: 'value',
+                  type: 'text',
+                  required: true,
+                  label: {
+                    en: 'Value',
+                    fr: 'Valeur',
+                  },
+                  admin: {
+                    description: {
+                      en: 'e.g., "12", "Coming"',
+                      fr: 'ex: "12", "Bientôt"',
+                    },
+                  },
+                },
+                {
+                  name: 'label',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    en: 'Label',
+                    fr: 'Libellé',
+                  },
+                  admin: {
+                    description: {
+                      en: 'e.g., "Months Planned", "Videos Coming"',
+                      fr: 'ex: "Mois Planifiés", "Vidéos à Venir"',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: {
             en: 'Featured Section',
             fr: 'Section Mise en Avant',
           },

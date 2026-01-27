@@ -109,5 +109,19 @@
     "english": "English",
     "french": "Français",
     "switchLanguage": "Changer de langue"
+  },
+  "stats": {
+    "yearsOfExcellence": "Années d'Excellence",
+    "communityPrograms": "Programmes Communautaires",
+    "yearsPlaying": "Années de Jeu",
+    "yearsOfPrograms": "Années de Programmes",
+    "activePrograms": "Programmes Actifs",
+    "activeMembers": "Membres Actifs",
+    "competitionsPlayed": "Compétitions Jouées",
+    "every": "Chaque",
+    "sundayWePlay": "Dimanche On Joue",
+    "activePlayers": "Joueurs Actifs",
+    "familiesSupported": "Familles Soutenues",
+    "childrenHelped": "Enfants Aidés (Rentrée Scolaire)"
   }
 }

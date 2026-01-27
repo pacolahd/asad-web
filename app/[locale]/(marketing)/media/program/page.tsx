@@ -10,15 +10,21 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getProgramOfYearPage, getMediaUrl } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Program of the Year",
   description: `${siteConfig.name}'s annual program and calendar of activities. Plan your participation in our events throughout the year.`,
 };
 
+export const revalidate = 300;
+
 const currentYear = new Date().getFullYear();
 
-const yearlyProgram = [
+// Default program data (fallback if CMS is not configured)
+const defaultYearlyProgram = [
   {
     month: "January",
     events: [
@@ -79,6 +85,13 @@ const yearlyProgram = [
   },
 ];
 
+const defaultNotes = [
+  "ASAD Sundays are held every week throughout the year unless otherwise announced.",
+  "Dates for major events are communicated in advance through our communication channels.",
+  "Special events may be added based on opportunities or member initiatives.",
+  "For the most up-to-date information, attend ASAD Sundays or contact the executive committee.",
+];
+
 const eventTypes = {
   regular: { color: "bg-blue-100 text-blue-800", label: "Regular" },
   sports: { color: "bg-green-100 text-green-800", label: "Sports" },
@@ -87,12 +100,61 @@ const eventTypes = {
   major: { color: "bg-red-100 text-red-800", label: "Major" },
 };
 
-export default function ProgramPage() {
+export default async function ProgramPage() {
+  const locale = await getLocale() as Locale;
+
+  let pageContent: {
+    headerTitle?: string | null;
+    headerDescription?: string | null;
+    downloadButtonText?: string | null;
+    programDocument?: { url?: string } | string | null;
+    programYear?: number | null;
+    periods?: Array<{
+      month?: string | null;
+      events?: Array<{
+        title?: string | null;
+        type?: string | null;
+        completed?: boolean | null;
+      }> | null;
+    }> | null;
+    notesTitle?: string | null;
+    notes?: Array<{ note?: string | null }> | null;
+  } = {};
+
+  try {
+    const payloadPage = await getProgramOfYearPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log('Using static program data:', error instanceof Error ? error.message : 'CMS not available');
+  }
+
+  // Build program from CMS or use defaults
+  const yearlyProgram = pageContent.periods && pageContent.periods.length > 0
+    ? pageContent.periods.map(period => ({
+        month: period.month || '',
+        events: (period.events || []).map(event => ({
+          title: event.title || '',
+          type: event.type || 'regular',
+          completed: event.completed || false,
+        })),
+      }))
+    : defaultYearlyProgram;
+
+  // Build notes from CMS or use defaults
+  const notes = pageContent.notes && pageContent.notes.length > 0
+    ? pageContent.notes.map(n => n.note || '')
+    : defaultNotes;
+
+  const programYear = pageContent.programYear || currentYear;
+  const documentUrl = pageContent.programDocument ? getMediaUrl(pageContent.programDocument) : null;
+
   return (
     <>
       <PageHeader
-        title="Program of the Year"
-        description={`ASAD's calendar of activities for ${currentYear}. Plan your participation and never miss an important event.`}
+        title={pageContent.headerTitle || "Program of the Year"}
+        description={pageContent.headerDescription || `ASAD's calendar of activities for ${programYear}. Plan your participation and never miss an important event.`}
       />
 
       {/* Download Section */}
@@ -101,12 +163,21 @@ export default function ProgramPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-primary" />
-              <span className="font-medium">ASAD Program {currentYear}</span>
+              <span className="font-medium">ASAD Program {programYear}</span>
             </div>
-            <Button variant="outline" disabled>
-              <Download className="mr-2 h-4 w-4" />
-              Download PDF (Coming Soon)
-            </Button>
+            {documentUrl ? (
+              <Button variant="outline" asChild>
+                <a href={documentUrl} target="_blank" rel="noopener noreferrer">
+                  <Download className="mr-2 h-4 w-4" />
+                  {pageContent.downloadButtonText || "Download PDF"}
+                </a>
+              </Button>
+            ) : (
+              <Button variant="outline" disabled>
+                <Download className="mr-2 h-4 w-4" />
+                {pageContent.downloadButtonText || "Download PDF (Coming Soon)"}
+              </Button>
+            )}
           </div>
         </div>
       </section>
@@ -172,37 +243,17 @@ export default function ProgramPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl">
-            <h2 className="text-2xl font-bold mb-6 text-center">Important Notes</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">
+              {pageContent.notesTitle || "Important Notes"}
+            </h2>
             <Card className="p-6">
               <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    ASAD Sundays are held every week throughout the year unless
-                    otherwise announced.
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    Dates for major events are communicated in advance through
-                    our communication channels.
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    Special events may be added based on opportunities or member
-                    initiatives.
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary">•</span>
-                  <span>
-                    For the most up-to-date information, attend ASAD Sundays or
-                    contact the executive committee.
-                  </span>
-                </li>
+                {notes.map((note, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <span className="text-primary">•</span>
+                    <span>{note}</span>
+                  </li>
+                ))}
               </ul>
             </Card>
           </div>

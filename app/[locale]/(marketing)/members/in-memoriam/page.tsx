@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Heart, Flower2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
-import { getInMemoriamPage, getMemorialMembers, getMediaUrl } from "@/lib/data";
+import { getInMemoriamPage, getMediaUrl } from "@/lib/data";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -57,6 +58,14 @@ export default async function InMemoriamPage() {
     introContent?: string | null;
     closingQuote?: string | null;
     contactNote?: string | null;
+    departedMembers?: Array<{
+      name: string;
+      role?: string | null;
+      birthYear?: number | null;
+      deathYear: number;
+      tribute?: string | null;
+      image?: { url?: string } | null;
+    }> | null;
   } = {};
   let rememberedMembers = defaultRememberedMembers;
 
@@ -64,18 +73,17 @@ export default async function InMemoriamPage() {
     const payloadPage = await getInMemoriamPage(locale);
     if (payloadPage) {
       pageContent = payloadPage;
-    }
-
-    const payloadMembers = await getMemorialMembers(locale);
-    if (payloadMembers.length > 0) {
-      rememberedMembers = payloadMembers.map((m) => ({
-        id: String(m.id),
-        name: m.name,
-        role: m.role || undefined,
-        years: m.birthYear && m.deathYear ? `${m.birthYear} - ${m.deathYear}` : '',
-        tribute: m.tribute || '',
-        image: m.image ? getMediaUrl(m.image as { url?: string }) : undefined,
-      }));
+      // Use embedded departedMembers from the page global
+      if (payloadPage.departedMembers && payloadPage.departedMembers.length > 0) {
+        rememberedMembers = payloadPage.departedMembers.map((m: { name: string; role?: string | null; birthYear?: number | null; deathYear: number; tribute?: string | null; image?: { url?: string } | null }, index: number) => ({
+          id: String(index),
+          name: m.name,
+          role: m.role || undefined,
+          years: m.birthYear && m.deathYear ? `${m.birthYear} - ${m.deathYear}` : m.deathYear ? `? - ${m.deathYear}` : '',
+          tribute: m.tribute || '',
+          image: m.image ? getMediaUrl(m.image as { url?: string }) : undefined,
+        }));
+      }
     }
   } catch (error) {
     console.log('Using static in-memoriam data:', error instanceof Error ? error.message : 'CMS not available');
@@ -107,12 +115,14 @@ export default async function InMemoriamPage() {
             {rememberedMembers.map((member) => (
               <Card key={member.id} className="overflow-hidden">
                 <div className="flex flex-col md:flex-row">
-                  <div className="w-full md:w-48 aspect-square md:aspect-auto bg-muted flex items-center justify-center">
+                  <div className={`w-full md:w-48 aspect-square md:aspect-auto bg-muted flex items-center justify-center ${member.image ? 'relative' : ''}`}>
                     {member.image ? (
-                      <img
+                      <Image
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 192px"
                       />
                     ) : (
                       <Flower2 className="h-16 w-16 text-muted-foreground/50" />

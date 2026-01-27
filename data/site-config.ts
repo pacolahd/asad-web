@@ -22,25 +22,3 @@ export const siteConfig: SiteConfig = {
     instagram: "https://instagram.com/asadbonaberi",
   },
 };
-
-export const stats = [
-  {
-    value: new Date().getFullYear() - 2004,
-    label: "Years of Excellence",
-    suffix: "+",
-  },
-  {
-    value: 100,
-    label: "Active Members",
-    suffix: "+",
-  },
-  {
-    value: 6,
-    label: "Community Programs",
-  },
-  {
-    value: 50,
-    label: "Competitions Played",
-    suffix: "+",
-  },
-];

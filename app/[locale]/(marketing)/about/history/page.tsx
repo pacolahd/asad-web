@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/layout";
 import { Timeline } from "@/components/sections";
 import { historyTimeline } from "@/data/leadership";
 import { siteConfig } from "@/data/site-config";
-import { getTimeline, getSiteSettings, getHistoryPage } from "@/lib/data";
+import { getSiteSettings, getHistoryPage } from "@/lib/data";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -25,18 +25,14 @@ export default async function HistoryPage() {
     introContent?: string | null;
     lookingForwardTitle?: string | null;
     lookingForwardContent?: string | null;
+    timelineEvents?: Array<{
+      year: number;
+      title: string;
+      description: string;
+    }> | null;
   } = {};
 
   try {
-    const payloadTimeline = await getTimeline(locale);
-    if (payloadTimeline.length > 0) {
-      timeline = payloadTimeline.map((t) => ({
-        year: t.year,
-        title: t.title,
-        description: t.description,
-      }));
-    }
-
     const payloadSettings = await getSiteSettings(locale);
     if (payloadSettings) {
       settings = {
@@ -49,6 +45,14 @@ export default async function HistoryPage() {
     const payloadPage = await getHistoryPage(locale);
     if (payloadPage) {
       pageContent = payloadPage;
+      // Use embedded timelineEvents from the page global
+      if (payloadPage.timelineEvents && payloadPage.timelineEvents.length > 0) {
+        timeline = payloadPage.timelineEvents.map((t: { year: number; title: string; description: string }) => ({
+          year: t.year,
+          title: t.title,
+          description: t.description,
+        }));
+      }
     }
   } catch (error) {
     console.log('Using static history data:', error instanceof Error ? error.message : 'CMS not available');

@@ -9,8 +9,8 @@ export const SiteSettings: GlobalConfig = {
   },
   admin: {
     group: {
-      en: 'Settings',
-      fr: 'Paramètres',
+      en: 'Site',
+      fr: 'Site',
     },
   },
   access: {

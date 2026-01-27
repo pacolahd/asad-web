@@ -25,6 +25,8 @@ export const LeadershipPage: GlobalConfig = {
           'introContent',
           'electionNoteTitle',
           'electionNoteContent',
+          'teamMembers.*.role',
+          'teamMembers.*.bio',
         ],
       }),
     ],
@@ -79,6 +81,91 @@ export const LeadershipPage: GlobalConfig = {
                   fr: 'Texte présentant l\'équipe de direction',
                 },
               },
+            },
+          ],
+        },
+        {
+          label: {
+            en: 'Team Members',
+            fr: 'Membres de l\'Équipe',
+          },
+          fields: [
+            {
+              name: 'teamMembers',
+              type: 'array',
+              label: {
+                en: 'Team Members',
+                fr: 'Membres de l\'Équipe',
+              },
+              labels: {
+                singular: {
+                  en: 'Member',
+                  fr: 'Membre',
+                },
+                plural: {
+                  en: 'Members',
+                  fr: 'Membres',
+                },
+              },
+              admin: {
+                description: {
+                  en: 'Add leadership team members in display order',
+                  fr: 'Ajoutez les membres de l\'équipe de direction dans l\'ordre d\'affichage',
+                },
+              },
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  required: true,
+                  label: {
+                    en: 'Name',
+                    fr: 'Nom',
+                  },
+                },
+                {
+                  name: 'role',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    en: 'Role',
+                    fr: 'Fonction',
+                  },
+                },
+                {
+                  name: 'bio',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'Biography',
+                    fr: 'Biographie',
+                  },
+                },
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  label: {
+                    en: 'Photo',
+                    fr: 'Photo',
+                  },
+                },
+                {
+                  name: 'since',
+                  type: 'number',
+                  label: {
+                    en: 'Since',
+                    fr: 'Depuis',
+                  },
+                  admin: {
+                    description: {
+                      en: 'Year they started in this role',
+                      fr: 'Année de début dans cette fonction',
+                    },
+                  },
+                },
+              ],
             },
           ],
         },

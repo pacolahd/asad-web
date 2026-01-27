@@ -9,34 +9,49 @@ import {
 } from "@/components/ui/card";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getCommunityPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Soap & Oil Thrift",
   description: `${siteConfig.name}'s Soap & Oil Thrift initiative promotes financial discipline through regular savings for household essentials.`,
 };
 
-const benefits = [
+export const revalidate = 300;
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  'piggy-bank': PiggyBank,
+  'shopping-bag': ShoppingBag,
+  'trending-up': TrendingUp,
+  calendar: Calendar,
+};
+
+type Benefit = { icon: string; title: string; description: string };
+type ProcessStep = { title: string; description: string };
+
+const defaultBenefits: Benefit[] = [
   {
-    icon: PiggyBank,
+    icon: "piggy-bank",
     title: "Financial Discipline",
     description:
       "Regular small contributions build the habit of saving and financial planning.",
   },
   {
-    icon: ShoppingBag,
+    icon: "shopping-bag",
     title: "Quality Products",
     description:
       "Bulk purchasing allows us to provide high-quality household essentials at better prices.",
   },
   {
-    icon: TrendingUp,
+    icon: "trending-up",
     title: "Economic Relief",
     description:
       "Having essentials covered reduces the burden of monthly household expenses.",
   },
 ];
 
-const howItWorks = [
+const defaultProcess: ProcessStep[] = [
   {
     title: "Weekly Contributions",
     description:
@@ -59,12 +74,39 @@ const howItWorks = [
   },
 ];
 
-export default function SoapOilThriftPage() {
+export default async function SoapOilThriftPage() {
+  const locale = await getLocale() as Locale;
+
+  let pageContent: Awaited<ReturnType<typeof getCommunityPage>> = null;
+
+  try {
+    pageContent = await getCommunityPage(locale);
+  } catch (error) {
+    console.log('Using static data:', error instanceof Error ? error.message : 'CMS not available');
+  }
+
+  const cmsBenefits = pageContent?.soapOilBenefits;
+  const benefits: Benefit[] = cmsBenefits && cmsBenefits.length > 0
+    ? cmsBenefits.map((b: { icon?: string | null; title?: string | null; description?: string | null }) => ({
+        icon: b.icon || 'piggy-bank',
+        title: b.title || '',
+        description: b.description || '',
+      }))
+    : defaultBenefits;
+
+  const cmsProcess = pageContent?.soapOilProcess;
+  const process: ProcessStep[] = cmsProcess && cmsProcess.length > 0
+    ? cmsProcess.map((p: { title?: string | null; description?: string | null }) => ({
+        title: p.title || '',
+        description: p.description || '',
+      }))
+    : defaultProcess;
+
   return (
     <>
       <PageHeader
-        title="Soap & Oil Thrift"
-        description="A unique savings initiative where small weekly contributions transform into household essentials. Building financial discipline, one contribution at a time."
+        title={pageContent?.soapOilTitle || "Soap & Oil Thrift"}
+        description={pageContent?.soapOilDescription || "A unique savings initiative where small weekly contributions transform into household essentials. Building financial discipline, one contribution at a time."}
       />
 
       {/* Introduction */}
@@ -74,11 +116,7 @@ export default function SoapOilThriftPage() {
             <PiggyBank className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-6">Small Savings, Big Impact</h2>
             <p className="text-lg text-muted-foreground">
-              The Soap & Oil Thrift is a practical savings scheme that helps
-              members build financial discipline while ensuring their homes are
-              stocked with essential items. By saving small amounts regularly,
-              members receive bulk quantities of soap, cooking oil, and other
-              household necessities—taking one expense off their monthly budget.
+              {pageContent?.soapOilIntro || "The Soap & Oil Thrift is a practical savings scheme that helps members build financial discipline while ensuring their homes are stocked with essential items. By saving small amounts regularly, members receive bulk quantities of soap, cooking oil, and other household necessities—taking one expense off their monthly budget."}
             </p>
           </div>
         </div>
@@ -89,21 +127,24 @@ export default function SoapOilThriftPage() {
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">Benefits</h2>
           <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
-            {benefits.map((benefit) => (
-              <Card key={benefit.title} className="text-center">
-                <CardHeader>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto mb-4">
-                    <benefit.icon className="h-7 w-7" />
-                  </div>
-                  <CardTitle>{benefit.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
-                    {benefit.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
+            {benefits.map((benefit) => {
+              const IconComponent = iconMap[benefit.icon] || PiggyBank;
+              return (
+                <Card key={benefit.title} className="text-center">
+                  <CardHeader>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto mb-4">
+                      <IconComponent className="h-7 w-7" />
+                    </div>
+                    <CardTitle>{benefit.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-base">
+                      {benefit.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -117,7 +158,7 @@ export default function SoapOilThriftPage() {
               <h2 className="text-2xl font-bold">How It Works</h2>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
-              {howItWorks.map((step, index) => (
+              {process.map((step, index) => (
                 <div key={index} className="flex gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground font-bold">
                     {index + 1}
@@ -141,10 +182,7 @@ export default function SoapOilThriftPage() {
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-bold mb-4">Join the Thrift</h2>
             <p className="text-muted-foreground">
-              Participation in the Soap & Oil Thrift is optional but encouraged
-              for all ASAD members. The contribution amount is affordable and
-              designed to be accessible to all members. Speak with the Treasurer
-              to join the next cycle.
+              {pageContent?.soapOilParticipation || "Participation in the Soap & Oil Thrift is optional but encouraged for all ASAD members. The contribution amount is affordable and designed to be accessible to all members. Speak with the Treasurer to join the next cycle."}
             </p>
           </div>
         </div>

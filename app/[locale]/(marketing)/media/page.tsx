@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getMediaPage } from "@/lib/data";
+import { getMediaStats, formatPhotoCount } from "@/lib/stats";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -27,39 +28,6 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   calendar: Calendar,
   video: Video,
 };
-
-const defaultMediaCategories = [
-  {
-    icon: Camera,
-    title: "Photo Gallery",
-    description:
-      "Browse through our collection of photos from competitions, community events, and celebrations.",
-    href: "/media/gallery",
-    count: "500+",
-    unit: "Photos",
-    disabled: false,
-  },
-  {
-    icon: Calendar,
-    title: "Program of the Year",
-    description:
-      "View our annual calendar of activities, events, and important dates for the ASAD community.",
-    href: "/media/program",
-    count: "12",
-    unit: "Months Planned",
-    disabled: false,
-  },
-  {
-    icon: Video,
-    title: "Videos",
-    description:
-      "Watch highlights from our matches, events, and special moments captured on video.",
-    href: "#",
-    count: "Coming",
-    unit: "Soon",
-    disabled: true,
-  },
-];
 
 export default async function MediaPage() {
   const locale = await getLocale() as Locale;
@@ -82,6 +50,14 @@ export default async function MediaPage() {
     submitDescription?: string | null;
   } = {};
 
+  // Fetch dynamic stats
+  const mediaStats = await getMediaStats();
+
+  // Format dynamic photo count
+  const photoCount = mediaStats.photoCount > 0
+    ? formatPhotoCount(mediaStats.photoCount)
+    : "500+"; // Fallback if no photos yet
+
   try {
     const payloadPage = await getMediaPage(locale);
     if (payloadPage) {
@@ -90,6 +66,40 @@ export default async function MediaPage() {
   } catch (error) {
     console.log('Using static media data:', error instanceof Error ? error.message : 'CMS not available');
   }
+
+  // Build categories with dynamic counts
+  const dynamicMediaCategories = [
+    {
+      icon: Camera,
+      title: "Photo Gallery",
+      description:
+        "Browse through our collection of photos from competitions, community events, and celebrations.",
+      href: "/media/gallery",
+      count: photoCount,
+      unit: "Photos",
+      disabled: false,
+    },
+    {
+      icon: Calendar,
+      title: "Program of the Year",
+      description:
+        "View our annual calendar of activities, events, and important dates for the ASAD community.",
+      href: "/media/program",
+      count: "12",
+      unit: "Months Planned",
+      disabled: false,
+    },
+    {
+      icon: Video,
+      title: "Videos",
+      description:
+        "Watch highlights from our matches, events, and special moments captured on video.",
+      href: "#",
+      count: "Coming",
+      unit: "Soon",
+      disabled: true,
+    },
+  ];
 
   const mediaCategories = pageContent.categories && pageContent.categories.length > 0
     ? pageContent.categories.map((c) => ({
@@ -101,7 +111,7 @@ export default async function MediaPage() {
         unit: c.unit || '',
         disabled: c.disabled || false,
       }))
-    : defaultMediaCategories;
+    : dynamicMediaCategories;
 
   return (
     <>

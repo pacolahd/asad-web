@@ -10,13 +10,18 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getSportsPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Jersey Collection",
   description: `Explore ${siteConfig.name}'s iconic jersey collection. Our green and blue colors represent our identity and unity.`,
 };
 
-const jerseyHistory = [
+export const revalidate = 300;
+
+const defaultJerseyHistory = [
   {
     era: "2004-2008",
     title: "The Original",
@@ -51,7 +56,7 @@ const jerseyHistory = [
   },
 ];
 
-const brandColors = [
+const defaultBrandColors = [
   {
     name: "ASAD Green",
     hex: "#1B5E20",
@@ -69,12 +74,67 @@ const brandColors = [
   },
 ];
 
-export default function JerseysPage() {
+export default async function JerseysPage() {
+  const locale = (await getLocale()) as Locale;
+
+  let pageContent: {
+    jerseysTitle?: string | null;
+    jerseysDescription?: string | null;
+    jerseysIntro?: string | null;
+    brandColors?: Array<{
+      name?: string | null;
+      hex?: string | null;
+      meaning?: string | null;
+    }> | null;
+    jerseyHistory?: Array<{
+      era?: string | null;
+      title?: string | null;
+      description?: string | null;
+      colors?: string | null;
+      status?: string | null;
+    }> | null;
+  } = {};
+
+  try {
+    const payloadPage = await getSportsPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log(
+      "Using static jerseys data:",
+      error instanceof Error ? error.message : "CMS not available"
+    );
+  }
+
+  const brandColors =
+    pageContent.brandColors && pageContent.brandColors.length > 0
+      ? pageContent.brandColors.map((c) => ({
+          name: c.name || "",
+          hex: c.hex || "#000000",
+          meaning: c.meaning || "",
+        }))
+      : defaultBrandColors;
+
+  const jerseyHistory =
+    pageContent.jerseyHistory && pageContent.jerseyHistory.length > 0
+      ? pageContent.jerseyHistory.map((j) => ({
+          era: j.era || "",
+          title: j.title || "",
+          description: j.description || "",
+          colors: j.colors ? j.colors.split(",").map((c) => c.trim()) : [],
+          status: j.status || "Historic",
+        }))
+      : defaultJerseyHistory;
+
   return (
     <>
       <PageHeader
-        title="Jersey Collection"
-        description="Our jerseys are more than sportswear—they're symbols of our identity, unity, and history. Explore the evolution of ASAD's iconic colors."
+        title={pageContent.jerseysTitle || "Jersey Collection"}
+        description={
+          pageContent.jerseysDescription ||
+          "Our jerseys are more than sportswear—they're symbols of our identity, unity, and history. Explore the evolution of ASAD's iconic colors."
+        }
       />
 
       {/* Brand Colors */}
@@ -84,8 +144,8 @@ export default function JerseysPage() {
             <Palette className="h-12 w-12 text-primary mx-auto mb-4" />
             <h2 className="text-2xl font-bold">Our Colors, Our Identity</h2>
             <p className="mt-4 text-muted-foreground">
-              Each color in the ASAD palette carries meaning and represents values
-              we hold dear.
+              {pageContent.jerseysIntro ||
+                "Each color in the ASAD palette carries meaning and represents values we hold dear."}
             </p>
           </div>
 

@@ -10,18 +10,19 @@ import {
 import { Hero, Stats, FeatureGrid, CTA } from "@/components/sections";
 import { communityPrograms } from "@/data/programs";
 import { siteConfig } from "@/data/site-config";
-import { getPrograms, getStats, getSiteSettings, getGalleryAlbums, getHomePage } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getSiteSettings, getGalleryAlbums, getHomePage, getCommunityPage } from "@/lib/data";
+import { getYearsOfExcellence } from "@/lib/stats";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const revalidate = 300; // Revalidate every 5 minutes
 
 export default async function HomePage() {
   const locale = await getLocale() as Locale;
+  const t = await getTranslations('stats');
 
   // Fetch from Payload with fallbacks
   let programs = communityPrograms;
-  let stats = undefined;
   let settings = siteConfig;
   let albums: { title: string }[] = [];
   let pageContent: {
@@ -33,29 +34,65 @@ export default async function HomePage() {
     galleryDescription?: string | null;
     ctaTitle?: string | null;
     ctaDescription?: string | null;
+    // Manual stats from CMS
+    stats?: Array<{ value?: string | null; label?: string | null }> | null;
   } = {};
+  let programCount = 6; // Default program count
 
   try {
-    const payloadPrograms = await getPrograms(locale, 'community');
-    if (payloadPrograms.length > 0) {
-      programs = payloadPrograms.map((p) => ({
-        id: p.slug,
-        title: p.title,
-        description: p.description,
-        icon: p.icon || undefined,
-        href: `/community/${p.slug}`,
-        image: undefined,
-      }));
-    }
+    // Get community programs from CommunityPage global
+    const communityPage = await getCommunityPage(locale);
+    if (communityPage) {
+      // Build programs list from embedded data
+      const programsFromCMS = [
+        {
+          id: 'asad-sundays',
+          title: communityPage.asadSundaysTitle || 'ASAD Sundays',
+          description: communityPage.asadSundaysDescription || 'Our weekly Sunday gatherings combine sports, socializing, and solidarity.',
+          icon: 'calendar',
+          href: '/community/asad-sundays',
+        },
+        {
+          id: 'baby-shower',
+          title: communityPage.babyShowerTitle || 'Baby Shower',
+          description: communityPage.babyShowerDescription || 'Celebrating new life with gifts and support for new parents.',
+          icon: 'gift',
+          href: '/community/baby-shower',
+        },
+        {
+          id: 'back-to-school',
+          title: communityPage.backToSchoolTitle || 'Back to School',
+          description: communityPage.backToSchoolDescription || 'Supporting education by helping with school supplies and fees.',
+          icon: 'graduation-cap',
+          href: '/community/back-to-school',
+        },
+        {
+          id: 'soap-oil-thrift',
+          title: communityPage.soapOilTitle || 'Soap & Oil Thrift',
+          description: communityPage.soapOilDescription || 'Group savings program for household essentials.',
+          icon: 'piggy-bank',
+          href: '/community/soap-oil-thrift',
+        },
+        {
+          id: 'ndjangi',
+          title: communityPage.ndjangiTitle || 'ASAD Ndjangi',
+          description: communityPage.ndjangiDescription || 'Traditional rotating savings and credit association.',
+          icon: 'users',
+          href: '/community/ndjangi',
+        },
+        {
+          id: 'social-fund',
+          title: communityPage.socialFundTitle || 'Social Fund',
+          description: communityPage.socialFundDescription || 'Emergency support fund for members in times of need.',
+          icon: 'heart',
+          href: '/community/social-fund',
+        },
+      ].filter(p => p.title); // Filter out any with missing titles
 
-    const payloadStats = await getStats(locale);
-    if (payloadStats.length > 0) {
-      stats = payloadStats.map((s) => ({
-        value: s.value,
-        label: s.label,
-        prefix: s.prefix || undefined,
-        suffix: s.suffix || undefined,
-      }));
+      if (programsFromCMS.length > 0) {
+        programs = programsFromCMS;
+        programCount = programsFromCMS.length;
+      }
     }
 
     const payloadSettings = await getSiteSettings(locale);
@@ -83,6 +120,33 @@ export default async function HomePage() {
     // CMS not configured, use static data
     console.log('Using static data:', error instanceof Error ? error.message : 'CMS not available');
   }
+
+  // Build stats: calculated stats (translated) + manual stats from CMS
+  const calculatedStats = [
+    {
+      value: getYearsOfExcellence(settings.founded),
+      label: t('yearsOfExcellence'),
+      suffix: "+",
+    },
+    {
+      value: programCount,
+      label: t('communityPrograms'),
+    },
+  ];
+
+  // Get manual stats from CMS (already localized) or use translated defaults
+  const manualStats = pageContent.stats && pageContent.stats.length > 0
+    ? pageContent.stats.map(s => ({
+        value: s.value || '',
+        label: s.label || '',
+      }))
+    : [
+        { value: "100+", label: t('activeMembers') },
+        { value: "50+", label: t('competitionsPlayed') },
+      ];
+
+  // Combine calculated and manual stats
+  const stats = [...calculatedStats, ...manualStats];
 
   return (
     <>

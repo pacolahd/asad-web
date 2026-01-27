@@ -1,4 +1,4 @@
-import { stats as defaultStats } from "@/data/site-config";
+import { getYearsOfExcellence } from "@/lib/stats";
 
 interface StatItem {
   value: number | string;
@@ -11,12 +11,38 @@ interface StatsProps {
   stats?: StatItem[];
 }
 
-export function Stats({ stats = defaultStats }: StatsProps) {
+// Generate default stats with calculated values
+function getDefaultStats(): StatItem[] {
+  return [
+    {
+      value: getYearsOfExcellence(),
+      label: "Years of Excellence",
+      suffix: "+",
+    },
+    {
+      value: 100,
+      label: "Active Members",
+      suffix: "+",
+    },
+    {
+      value: 6,
+      label: "Community Programs",
+    },
+    {
+      value: 50,
+      label: "Competitions Played",
+      suffix: "+",
+    },
+  ];
+}
+
+export function Stats({ stats }: StatsProps) {
+  const displayStats = stats || getDefaultStats();
   return (
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-          {stats.map((stat, index) => (
+          {displayStats.map((stat, index) => (
             <div key={index} className="text-center">
               <div className="text-4xl font-bold text-primary md:text-5xl">
                 {stat.prefix}

@@ -6,8 +6,8 @@ import { PageHeader } from "@/components/layout";
 import { FeatureGrid } from "@/components/sections";
 import { communityPrograms } from "@/data/programs";
 import { siteConfig } from "@/data/site-config";
-import { getPrograms, getCommunityPage } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getCommunityPage } from "@/lib/data";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -17,60 +17,95 @@ export const metadata: Metadata = {
 
 export const revalidate = 300;
 
+type ImpactStat = { value: string; label: string };
+
 export default async function CommunityPage() {
   const locale = await getLocale() as Locale;
+  const t = await getTranslations('stats');
 
-  let programs = communityPrograms;
-  let pageContent: {
-    headerTitle?: string | null;
-    headerDescription?: string | null;
-    introTitle?: string | null;
-    introContent?: string | null;
-    impactStats?: Array<{ value?: string | null; label?: string | null }> | null;
-    ctaTitle?: string | null;
-    ctaDescription?: string | null;
-  } = {};
+  let pageContent: Awaited<ReturnType<typeof getCommunityPage>> = null;
 
   try {
-    const payloadPrograms = await getPrograms(locale, 'community');
-    if (payloadPrograms.length > 0) {
-      programs = payloadPrograms.map((p) => ({
-        id: p.slug,
-        title: p.title,
-        description: p.description,
-        icon: p.icon || undefined,
-        href: `/community/${p.slug}`,
-        image: undefined,
-      }));
-    }
-
-    const payloadPage = await getCommunityPage(locale);
-    if (payloadPage) {
-      pageContent = payloadPage;
-    }
+    pageContent = await getCommunityPage(locale);
   } catch (error) {
     console.log('Using static community data:', error instanceof Error ? error.message : 'CMS not available');
   }
 
-  const defaultStats = [
-    { value: "100+", label: "Families Supported" },
-    { value: "Every", label: "Sunday Together" },
-    { value: "50+", label: "Children Helped (Back to School)" },
-    { value: `${new Date().getFullYear() - 2010}+`, label: "Years of Programs" },
+  // Build programs list from embedded page data or fallback to static data
+  const programs = [
+    {
+      id: 'asad-sundays',
+      title: pageContent?.asadSundaysTitle || communityPrograms[0].title,
+      description: pageContent?.asadSundaysDescription || communityPrograms[0].description,
+      icon: 'calendar',
+      href: '/community/asad-sundays',
+    },
+    {
+      id: 'baby-shower',
+      title: pageContent?.babyShowerTitle || communityPrograms[1].title,
+      description: pageContent?.babyShowerDescription || communityPrograms[1].description,
+      icon: 'gift',
+      href: '/community/baby-shower',
+    },
+    {
+      id: 'back-to-school',
+      title: pageContent?.backToSchoolTitle || communityPrograms[2].title,
+      description: pageContent?.backToSchoolDescription || communityPrograms[2].description,
+      icon: 'graduation-cap',
+      href: '/community/back-to-school',
+    },
+    {
+      id: 'soap-oil-thrift',
+      title: pageContent?.soapOilTitle || communityPrograms[3].title,
+      description: pageContent?.soapOilDescription || communityPrograms[3].description,
+      icon: 'piggy-bank',
+      href: '/community/soap-oil-thrift',
+    },
+    {
+      id: 'ndjangi',
+      title: pageContent?.ndjangiTitle || communityPrograms[4].title,
+      description: pageContent?.ndjangiDescription || communityPrograms[4].description,
+      icon: 'users',
+      href: '/community/ndjangi',
+    },
+    {
+      id: 'social-fund',
+      title: pageContent?.socialFundTitle || communityPrograms[5].title,
+      description: pageContent?.socialFundDescription || communityPrograms[5].description,
+      icon: 'heart',
+      href: '/community/social-fund',
+    },
   ];
 
-  const impactStats = pageContent.impactStats && pageContent.impactStats.length > 0
-    ? pageContent.impactStats.map((s) => ({
+  // Calculated stats (translated)
+  const calculatedStats: ImpactStat[] = [
+    { value: `${new Date().getFullYear() - 2010}+`, label: t('yearsOfPrograms') },
+    { value: String(programs.length), label: t('activePrograms') },
+  ];
+
+  // Default manual stats if none in CMS (translated)
+  const defaultManualStats: ImpactStat[] = [
+    { value: "100+", label: t('familiesSupported') },
+    { value: "50+", label: t('childrenHelped') },
+  ];
+
+  // Get manual stats from CMS (already localized) or use translated defaults
+  const cmsImpactStats = pageContent?.impactStats;
+  const manualStats: ImpactStat[] = cmsImpactStats && cmsImpactStats.length > 0
+    ? cmsImpactStats.map((s: { value?: string | null; label?: string | null }) => ({
         value: s.value || '',
         label: s.label || '',
       }))
-    : defaultStats;
+    : defaultManualStats;
+
+  // Combine calculated and manual stats
+  const impactStats: ImpactStat[] = [...calculatedStats, ...manualStats];
 
   return (
     <>
       <PageHeader
-        title={pageContent.headerTitle || "Community Programs"}
-        description={pageContent.headerDescription || "At ASAD, we believe in supporting our members beyond the football pitch. Our community programs provide financial, educational, and social support to members and their families."}
+        title={pageContent?.headerTitle || "Community Programs"}
+        description={pageContent?.headerDescription || "At ASAD, we believe in supporting our members beyond the football pitch. Our community programs provide financial, educational, and social support to members and their families."}
       />
 
       {/* Introduction */}
@@ -79,11 +114,11 @@ export default async function CommunityPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-                {pageContent.introTitle || "More Than Football"}
+                {pageContent?.introTitle || "More Than Football"}
               </h2>
               <div className="mt-6 space-y-4 text-muted-foreground">
-                {pageContent.introContent ? (
-                  <p>{pageContent.introContent}</p>
+                {pageContent?.introContent ? (
+                  <p>{pageContent?.introContent}</p>
                 ) : (
                   <>
                     <p>
@@ -149,10 +184,10 @@ export default async function CommunityPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-bold mb-4">
-              {pageContent.ctaTitle || "Be Part of the Community"}
+              {pageContent?.ctaTitle || "Be Part of the Community"}
             </h2>
             <p className="text-muted-foreground mb-6">
-              {pageContent.ctaDescription || "Our community programs are open to all ASAD members. Join us and become part of a family that supports each other through every stage of life."}
+              {pageContent?.ctaDescription || "Our community programs are open to all ASAD members. Join us and become part of a family that supports each other through every stage of life."}
             </p>
             <Button asChild>
               <Link href="/members">

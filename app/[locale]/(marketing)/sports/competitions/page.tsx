@@ -10,13 +10,18 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getSportsPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Competitions & Achievements",
   description: `Explore ${siteConfig.name}'s competitive journey and achievements in local and regional football tournaments.`,
 };
 
-const achievements = [
+export const revalidate = 300;
+
+const defaultAchievements = [
   {
     year: "2024",
     title: "Neighborhood Championship",
@@ -50,7 +55,7 @@ const achievements = [
   },
 ];
 
-const upcomingEvents = [
+const defaultUpcomingEvents = [
   {
     title: "Annual Neighborhood Cup",
     date: "Season 2025",
@@ -68,12 +73,65 @@ const upcomingEvents = [
   },
 ];
 
-export default function CompetitionsPage() {
+export default async function CompetitionsPage() {
+  const locale = (await getLocale()) as Locale;
+
+  let pageContent: {
+    competitionsTitle?: string | null;
+    competitionsDescription?: string | null;
+    competitionsPhilosophy?: string | null;
+    achievements?: Array<{
+      year?: string | null;
+      title?: string | null;
+      result?: string | null;
+      description?: string | null;
+    }> | null;
+    upcomingEvents?: Array<{
+      title?: string | null;
+      date?: string | null;
+      status?: string | null;
+    }> | null;
+  } = {};
+
+  try {
+    const payloadPage = await getSportsPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log(
+      "Using static competitions data:",
+      error instanceof Error ? error.message : "CMS not available"
+    );
+  }
+
+  const achievements =
+    pageContent.achievements && pageContent.achievements.length > 0
+      ? pageContent.achievements.map((a) => ({
+          year: a.year || "",
+          title: a.title || "",
+          result: a.result || "",
+          description: a.description || "",
+        }))
+      : defaultAchievements;
+
+  const upcomingEvents =
+    pageContent.upcomingEvents && pageContent.upcomingEvents.length > 0
+      ? pageContent.upcomingEvents.map((e) => ({
+          title: e.title || "",
+          date: e.date || "",
+          status: e.status || "",
+        }))
+      : defaultUpcomingEvents;
+
   return (
     <>
       <PageHeader
-        title="Competitions & Achievements"
-        description="Our competitive journey has been marked by dedication, teamwork, and memorable victories. Discover our tournament history and achievements."
+        title={pageContent.competitionsTitle || "Competitions & Achievements"}
+        description={
+          pageContent.competitionsDescription ||
+          "Our competitive journey has been marked by dedication, teamwork, and memorable victories. Discover our tournament history and achievements."
+        }
       />
 
       {/* Philosophy */}
@@ -83,10 +141,8 @@ export default function CompetitionsPage() {
             <Trophy className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-6">Competing with Honor</h2>
             <p className="text-lg text-muted-foreground">
-              At ASAD, competition is about more than winning trophies. It&apos;s about
-              representing our community with pride, demonstrating sportsmanship,
-              and pushing ourselves to be better. Every tournament we enter is an
-              opportunity to showcase the values that define us.
+              {pageContent.competitionsPhilosophy ||
+                "At ASAD, competition is about more than winning trophies. It's about representing our community with pride, demonstrating sportsmanship, and pushing ourselves to be better. Every tournament we enter is an opportunity to showcase the values that define us."}
             </p>
           </div>
         </div>

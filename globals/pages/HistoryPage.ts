@@ -25,6 +25,8 @@ export const HistoryPage: GlobalConfig = {
           'introContent',
           'lookingForwardTitle',
           'lookingForwardContent',
+          'timelineEvents.*.title',
+          'timelineEvents.*.description',
         ],
       }),
     ],
@@ -79,6 +81,69 @@ export const HistoryPage: GlobalConfig = {
                   fr: 'Paragraphe d\'ouverture sur l\'histoire d\'ASAD',
                 },
               },
+            },
+          ],
+        },
+        {
+          label: {
+            en: 'Timeline Events',
+            fr: 'Événements Chronologiques',
+          },
+          fields: [
+            {
+              name: 'timelineEvents',
+              type: 'array',
+              label: {
+                en: 'Timeline Events',
+                fr: 'Événements Chronologiques',
+              },
+              labels: {
+                singular: {
+                  en: 'Event',
+                  fr: 'Événement',
+                },
+                plural: {
+                  en: 'Events',
+                  fr: 'Événements',
+                },
+              },
+              admin: {
+                description: {
+                  en: 'Add key events and milestones in ASAD\'s history',
+                  fr: 'Ajoutez les événements et jalons clés de l\'histoire d\'ASAD',
+                },
+              },
+              fields: [
+                {
+                  name: 'year',
+                  type: 'number',
+                  required: true,
+                  label: {
+                    en: 'Year',
+                    fr: 'Année',
+                  },
+                },
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    en: 'Title',
+                    fr: 'Titre',
+                  },
+                },
+                {
+                  name: 'description',
+                  type: 'textarea',
+                  required: true,
+                  localized: true,
+                  label: {
+                    en: 'Description',
+                    fr: 'Description',
+                  },
+                },
+              ],
             },
           ],
         },

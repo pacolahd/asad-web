@@ -9,13 +9,24 @@ import {
 } from "@/components/ui/card";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
+import { getSportsPage } from "@/lib/data";
+import { getLocale } from "next-intl/server";
+import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   title: "Friendly Matches",
   description: `${siteConfig.name}'s friendly matches with local and external teams. Building relationships through the beautiful game.`,
 };
 
-const matchTypes = [
+export const revalidate = 300;
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  "map-pin": MapPin,
+  users: Users,
+  calendar: Calendar,
+};
+
+const defaultMatchTypes = [
   {
     icon: MapPin,
     title: "Local Matches",
@@ -39,7 +50,7 @@ const matchTypes = [
   },
 ];
 
-const recentMatches = [
+const defaultRecentMatches = [
   {
     opponent: "FC Quartier Nord",
     result: "3-2",
@@ -77,12 +88,69 @@ const recentMatches = [
   },
 ];
 
-export default function FriendlyMatchesPage() {
+export default async function FriendlyMatchesPage() {
+  const locale = (await getLocale()) as Locale;
+
+  let pageContent: {
+    friendlyMatchesTitle?: string | null;
+    friendlyMatchesDescription?: string | null;
+    friendlyMatchesPhilosophy?: string | null;
+    matchTypes?: Array<{
+      icon?: string | null;
+      title?: string | null;
+      description?: string | null;
+      frequency?: string | null;
+    }> | null;
+    recentMatches?: Array<{
+      opponent?: string | null;
+      result?: string | null;
+      outcome?: string | null;
+      date?: string | null;
+      location?: string | null;
+    }> | null;
+  } = {};
+
+  try {
+    const payloadPage = await getSportsPage(locale);
+    if (payloadPage) {
+      pageContent = payloadPage;
+    }
+  } catch (error) {
+    console.log(
+      "Using static friendly matches data:",
+      error instanceof Error ? error.message : "CMS not available"
+    );
+  }
+
+  const matchTypes =
+    pageContent.matchTypes && pageContent.matchTypes.length > 0
+      ? pageContent.matchTypes.map((m) => ({
+          icon: iconMap[m.icon || ""] || MapPin,
+          title: m.title || "",
+          description: m.description || "",
+          frequency: m.frequency || "",
+        }))
+      : defaultMatchTypes;
+
+  const recentMatches =
+    pageContent.recentMatches && pageContent.recentMatches.length > 0
+      ? pageContent.recentMatches.map((m) => ({
+          opponent: m.opponent || "",
+          result: m.result || "",
+          outcome: m.outcome || "draw",
+          date: m.date || "",
+          location: m.location || "",
+        }))
+      : defaultRecentMatches;
+
   return (
     <>
       <PageHeader
-        title="Friendly Matches"
-        description="Building bridges through football. Our friendly matches connect us with teams across Douala and beyond."
+        title={pageContent.friendlyMatchesTitle || "Friendly Matches"}
+        description={
+          pageContent.friendlyMatchesDescription ||
+          "Building bridges through football. Our friendly matches connect us with teams across Douala and beyond."
+        }
       />
 
       {/* Philosophy */}
@@ -92,10 +160,8 @@ export default function FriendlyMatchesPage() {
             <Handshake className="h-16 w-16 text-primary mx-auto mb-6" />
             <h2 className="text-2xl font-bold mb-6">Football as a Bridge</h2>
             <p className="text-lg text-muted-foreground">
-              Friendly matches are about more than the scoreline. They&apos;re
-              opportunities to build relationships, share experiences, and
-              strengthen the bonds between communities. Every match we play, win
-              or lose, contributes to our growth as a team and as individuals.
+              {pageContent.friendlyMatchesPhilosophy ||
+                "Friendly matches are about more than the scoreline. They're opportunities to build relationships, share experiences, and strengthen the bonds between communities. Every match we play, win or lose, contributes to our growth as a team and as individuals."}
             </p>
           </div>
         </div>
@@ -108,22 +174,25 @@ export default function FriendlyMatchesPage() {
             Types of Friendly Matches
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
-            {matchTypes.map((type) => (
-              <Card key={type.title} className="text-center">
-                <CardHeader>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto mb-4">
-                    <type.icon className="h-7 w-7" />
-                  </div>
-                  <CardTitle>{type.title}</CardTitle>
-                  <CardDescription className="text-primary font-medium">
-                    {type.frequency}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{type.description}</p>
-                </CardContent>
-              </Card>
-            ))}
+            {matchTypes.map((type, index) => {
+              const IconComponent = type.icon;
+              return (
+                <Card key={index} className="text-center">
+                  <CardHeader>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto mb-4">
+                      <IconComponent className="h-7 w-7" />
+                    </div>
+                    <CardTitle>{type.title}</CardTitle>
+                    <CardDescription className="text-primary font-medium">
+                      {type.frequency}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{type.description}</p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>

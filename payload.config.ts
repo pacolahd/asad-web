@@ -11,12 +11,7 @@ import { fileURLToPath } from 'url';
 // Collections
 import { Users } from '@/collections/Users';
 import { Media } from '@/collections/Media';
-import { Programs } from '@/collections/Programs';
-import { Leadership } from '@/collections/Leadership';
-import { Timeline } from '@/collections/Timeline';
 import { GalleryAlbums } from '@/collections/GalleryAlbums';
-import { Stats } from '@/collections/Stats';
-import { MemorialMembers } from '@/collections/MemorialMembers';
 import { Documents } from '@/collections/Documents';
 
 // Globals
@@ -32,6 +27,7 @@ import {
   MembersPage,
   InMemoriamPage,
   MediaPage,
+  ProgramOfYearPage,
   ContactPage,
 } from '@/globals/pages';
 
@@ -66,12 +62,7 @@ export default buildConfig({
   collections: [
     Users,
     Media,
-    Programs,
-    Leadership,
-    Timeline,
     GalleryAlbums,
-    Stats,
-    MemorialMembers,
     Documents,
   ],
   globals: [
@@ -88,6 +79,7 @@ export default buildConfig({
     MembersPage,
     InMemoriamPage,
     MediaPage,
+    ProgramOfYearPage,
     ContactPage,
   ],
   editor: lexicalEditor(),
