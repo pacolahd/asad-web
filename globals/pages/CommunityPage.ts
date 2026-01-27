@@ -53,6 +53,31 @@ export const CommunityPage: GlobalConfig = {
           'socialFundDescription',
           'socialFundIntro',
         ],
+        arrayFields: [
+          // ASAD Sundays
+          { name: 'asadSundaysActivities', localizedSubfields: ['title', 'description'] },
+          { name: 'asadSundaysSchedule', localizedSubfields: ['activity'] },
+          // Baby Shower
+          { name: 'babyShowerFeatures', localizedSubfields: ['title', 'description'] },
+          { name: 'babyShowerProcess', localizedSubfields: ['title', 'description'] },
+          // Back to School
+          { name: 'backToSchoolSupport', localizedSubfields: ['title', 'description'] },
+          { name: 'backToSchoolImpact', localizedSubfields: ['label'] },
+          { name: 'backToSchoolProcess', localizedSubfields: ['title', 'description'] },
+          // Soap & Oil
+          { name: 'soapOilBenefits', localizedSubfields: ['title', 'description'] },
+          { name: 'soapOilProcess', localizedSubfields: ['title', 'description'] },
+          // Ndjangi
+          { name: 'ndjangiFeatures', localizedSubfields: ['title', 'description'] },
+          { name: 'ndjangiProcess', localizedSubfields: ['title', 'description'] },
+          // Social Fund
+          { name: 'socialFundCoverage', localizedSubfields: ['title', 'description'] },
+          { name: 'socialFundProcess', localizedSubfields: ['title', 'description'] },
+          { name: 'socialFundEligible', localizedSubfields: ['item'] },
+          { name: 'socialFundConditions', localizedSubfields: ['item'] },
+          // Stats
+          { name: 'impactStats', localizedSubfields: ['label'] },
+        ],
       }),
     ],
   },

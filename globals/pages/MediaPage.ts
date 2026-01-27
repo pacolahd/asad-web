@@ -27,6 +27,10 @@ export const MediaPage: GlobalConfig = {
           'submitTitle',
           'submitDescription',
         ],
+        arrayFields: [
+          { name: 'categories', localizedSubfields: ['title', 'description', 'unit'] },
+          { name: 'stats', localizedSubfields: ['label'] },
+        ],
       }),
     ],
   },

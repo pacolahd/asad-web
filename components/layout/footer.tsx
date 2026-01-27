@@ -3,9 +3,13 @@ import { useTranslations } from "next-intl";
 import { Facebook, Instagram, Mail, MapPin, Phone } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
-import { siteConfig } from "@/data/site-config";
+import type { SiteConfig } from "@/types";
 
-export function Footer() {
+interface FooterProps {
+  settings: SiteConfig;
+}
+
+export function Footer({ settings }: FooterProps) {
   const t = useTranslations("footer");
   const tNav = useTranslations("nav");
   const currentYear = new Date().getFullYear();
@@ -34,22 +38,22 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <Image
                 src="/images/logo/asad-logo.png"
-                alt={siteConfig.name}
+                alt={settings.name}
                 width={40}
                 height={40}
                 className="h-10 w-10 object-contain"
               />
               <span className="font-bold text-xl text-primary">
-                {siteConfig.name}
+                {settings.name}
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
-              {siteConfig.description}
+              {settings.description}
             </p>
             <div className="flex gap-4">
-              {siteConfig.social.facebook && (
+              {settings.social.facebook && (
                 <a
-                  href={siteConfig.social.facebook}
+                  href={settings.social.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
@@ -58,9 +62,9 @@ export function Footer() {
                   <Facebook className="h-5 w-5" />
                 </a>
               )}
-              {siteConfig.social.instagram && (
+              {settings.social.instagram && (
                 <a
-                  href={siteConfig.social.instagram}
+                  href={settings.social.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
@@ -110,33 +114,33 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-4">{t("contactUs")}</h3>
             <ul className="space-y-3">
-              {siteConfig.contact.address && (
+              {settings.contact.address && (
                 <li className="flex items-start gap-2">
                   <MapPin className="h-5 w-5 text-muted-foreground shrink-0" />
                   <span className="text-sm text-muted-foreground">
-                    {siteConfig.contact.address}
+                    {settings.contact.address}
                   </span>
                 </li>
               )}
-              {siteConfig.contact.phone && (
+              {settings.contact.phone && (
                 <li className="flex items-center gap-2">
                   <Phone className="h-5 w-5 text-muted-foreground" />
                   <a
-                    href={`tel:${siteConfig.contact.phone}`}
+                    href={`tel:${settings.contact.phone}`}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {siteConfig.contact.phone}
+                    {settings.contact.phone}
                   </a>
                 </li>
               )}
-              {siteConfig.contact.email && (
+              {settings.contact.email && (
                 <li className="flex items-center gap-2">
                   <Mail className="h-5 w-5 text-muted-foreground" />
                   <a
-                    href={`mailto:${siteConfig.contact.email}`}
+                    href={`mailto:${settings.contact.email}`}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {siteConfig.contact.email}
+                    {settings.contact.email}
                   </a>
                 </li>
               )}
@@ -148,13 +152,13 @@ export function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} {siteConfig.fullName}. {t("allRightsReserved")}
+            &copy; {currentYear} {settings.fullName}. {t("allRightsReserved")}
           </p>
           <p className="text-sm text-muted-foreground">
             {t("foundedIn", {
-              year: siteConfig.founded,
-              neighborhood: siteConfig.location.neighborhood,
-              city: siteConfig.location.city,
+              year: settings.founded,
+              neighborhood: settings.location.neighborhood,
+              city: settings.location.city,
             })}
           </p>
         </div>

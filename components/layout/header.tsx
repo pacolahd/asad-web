@@ -8,9 +8,13 @@ import { DesktopNav } from "./desktop-nav";
 import { MobileNav } from "./mobile-nav";
 import { LanguageToggle } from "./language-toggle";
 import { Link } from "@/i18n/routing";
-import { siteConfig } from "@/data/site-config";
+import type { SiteConfig } from "@/types";
 
-export function Header() {
+interface HeaderProps {
+  settings: SiteConfig;
+}
+
+export function Header({ settings }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -20,14 +24,14 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/images/logo/asad-logo.png"
-            alt={siteConfig.name}
+            alt={settings.name}
             width={40}
             height={40}
             className="h-10 w-10 object-contain"
           />
           <div className="hidden sm:block">
             <span className="font-bold text-xl text-primary">
-              {siteConfig.name}
+              {settings.name}
             </span>
           </div>
         </Link>

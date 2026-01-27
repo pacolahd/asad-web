@@ -3,9 +3,88 @@ import { translateText } from '@/lib/deepl';
 
 type LocaleCode = 'en' | 'fr';
 
+interface ArrayFieldConfig {
+  name: string;
+  localizedSubfields: string[];
+  nestedArrays?: ArrayFieldConfig[];
+}
+
 interface TranslationConfig {
   localizedFields: string[];
+  arrayFields?: ArrayFieldConfig[];
   collectionSlug?: string;
+}
+
+/**
+ * Translates array fields with localized subfields
+ */
+async function translateArrayField(
+  sourceArray: unknown[],
+  targetArray: unknown[] | undefined,
+  config: ArrayFieldConfig,
+  sourceLocale: LocaleCode
+): Promise<{ translated: unknown[]; hasChanges: boolean }> {
+  if (!Array.isArray(sourceArray) || sourceArray.length === 0) {
+    return { translated: [], hasChanges: false };
+  }
+
+  let hasChanges = false;
+  const translated = await Promise.all(
+    sourceArray.map(async (item, index) => {
+      if (!item || typeof item !== 'object') return item;
+
+      const sourceItem = item as Record<string, unknown>;
+      const targetItem = (Array.isArray(targetArray) ? targetArray[index] : undefined) as
+        | Record<string, unknown>
+        | undefined;
+      const translatedItem: Record<string, unknown> = { ...sourceItem };
+
+      // Translate localized subfields
+      for (const subfield of config.localizedSubfields) {
+        const sourceValue = sourceItem[subfield];
+        const targetValue = targetItem?.[subfield];
+
+        if (sourceValue && typeof sourceValue === 'string') {
+          // Only translate if target is empty or same as source
+          if (!targetValue || targetValue === sourceValue) {
+            const translatedValue = await translateText(sourceValue, sourceLocale);
+            if (translatedValue && translatedValue !== sourceValue) {
+              translatedItem[subfield] = translatedValue;
+              hasChanges = true;
+              console.log(
+                `[Translation Hook] Array field "${config.name}[${index}].${subfield}" translated: "${sourceValue}" -> "${translatedValue}"`
+              );
+            }
+          }
+        }
+      }
+
+      // Handle nested arrays recursively
+      if (config.nestedArrays) {
+        for (const nestedConfig of config.nestedArrays) {
+          const nestedSourceArray = sourceItem[nestedConfig.name];
+          const nestedTargetArray = targetItem?.[nestedConfig.name];
+
+          if (Array.isArray(nestedSourceArray)) {
+            const nestedResult = await translateArrayField(
+              nestedSourceArray,
+              nestedTargetArray as unknown[] | undefined,
+              nestedConfig,
+              sourceLocale
+            );
+            if (nestedResult.hasChanges) {
+              translatedItem[nestedConfig.name] = nestedResult.translated;
+              hasChanges = true;
+            }
+          }
+        }
+      }
+
+      return translatedItem;
+    })
+  );
+
+  return { translated, hasChanges };
 }
 
 /**
@@ -64,6 +143,11 @@ export function createTranslationHook(config: TranslationConfig): CollectionAfte
 
     // For each localized field, translate and include in updates
     for (const field of config.localizedFields) {
+      // Skip dot notation fields
+      if (field.includes('.')) {
+        continue;
+      }
+
       const sourceValue = doc[field];
       console.log(`[Translation Hook] Field "${field}" = "${sourceValue}" (type: ${typeof sourceValue})`);
 
@@ -83,6 +167,28 @@ export function createTranslationHook(config: TranslationConfig): CollectionAfte
         updates[field] = translated || sourceValue;
         hasUpdates = true;
         console.log(`[Translation Hook] Field "${field}" translated: "${sourceValue}" -> "${updates[field]}"`);
+      }
+    }
+
+    // Translate array fields with localized subfields
+    if (config.arrayFields) {
+      for (const arrayConfig of config.arrayFields) {
+        const sourceArray = doc[arrayConfig.name];
+        const targetArray = targetDoc?.[arrayConfig.name];
+
+        if (Array.isArray(sourceArray) && sourceArray.length > 0) {
+          const result = await translateArrayField(
+            sourceArray,
+            targetArray as unknown[] | undefined,
+            arrayConfig,
+            currentLocale
+          );
+
+          if (result.hasChanges) {
+            updates[arrayConfig.name] = result.translated;
+            hasUpdates = true;
+          }
+        }
       }
     }
 
@@ -162,7 +268,13 @@ export function createGlobalTranslationHook(config: TranslationConfig): GlobalAf
       // Global might not have target locale data yet, that's okay
     }
 
+    // Translate simple string fields (filter out dot notation patterns like 'array.*.field')
     for (const field of config.localizedFields) {
+      // Skip dot notation fields (they're handled differently or for backwards compatibility)
+      if (field.includes('.')) {
+        continue;
+      }
+
       const sourceValue = doc[field];
 
       if (!sourceValue || typeof sourceValue !== 'string') {
@@ -178,6 +290,28 @@ export function createGlobalTranslationHook(config: TranslationConfig): GlobalAf
         updates[field] = translated || sourceValue;
         hasUpdates = true;
         console.log(`[Translation Hook - Global] Field "${field}" translated: "${sourceValue}" -> "${updates[field]}"`);
+      }
+    }
+
+    // Translate array fields with localized subfields
+    if (config.arrayFields) {
+      for (const arrayConfig of config.arrayFields) {
+        const sourceArray = doc[arrayConfig.name];
+        const targetArray = targetDoc?.[arrayConfig.name];
+
+        if (Array.isArray(sourceArray) && sourceArray.length > 0) {
+          const result = await translateArrayField(
+            sourceArray,
+            targetArray as unknown[] | undefined,
+            arrayConfig,
+            currentLocale
+          );
+
+          if (result.hasChanges) {
+            updates[arrayConfig.name] = result.translated;
+            hasUpdates = true;
+          }
+        }
       }
     }
 

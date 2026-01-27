@@ -29,6 +29,14 @@ export const ProgramOfYearPage: GlobalConfig = {
           'downloadButtonText',
           'notesTitle',
         ],
+        arrayFields: [
+          {
+            name: 'periods',
+            localizedSubfields: ['month'],
+            nestedArrays: [{ name: 'events', localizedSubfields: ['title'] }],
+          },
+          { name: 'notes', localizedSubfields: ['note'] },
+        ],
       }),
     ],
   },

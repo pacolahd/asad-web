@@ -27,6 +27,7 @@ export const StatutesPage: GlobalConfig = {
           'contactSectionTitle',
           'contactSectionContent',
         ],
+        arrayFields: [{ name: 'keyStatutes', localizedSubfields: ['title', 'content'] }],
       }),
     ],
   },

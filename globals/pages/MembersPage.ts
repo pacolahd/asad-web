@@ -27,6 +27,11 @@ export const MembersPage: GlobalConfig = {
           'ctaTitle',
           'ctaDescription',
         ],
+        arrayFields: [
+          { name: 'benefits', localizedSubfields: ['title', 'description'] },
+          { name: 'requirements', localizedSubfields: ['requirement'] },
+          { name: 'process', localizedSubfields: ['title', 'description'] },
+        ],
       }),
     ],
   },
