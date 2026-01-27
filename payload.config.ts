@@ -30,6 +30,19 @@ export default buildConfig({
     user: Users.slug,
     meta: {
       titleSuffix: '- ASAD Admin',
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png',
+          url: '/images/logo/asad-logo.png',
+        },
+      ],
+    },
+    components: {
+      graphics: {
+        Logo: '@/components/admin/Logo#default',
+        Icon: '@/components/admin/Icon#default',
+      },
     },
   },
   // Admin UI translations
