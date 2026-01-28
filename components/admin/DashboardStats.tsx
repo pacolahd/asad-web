@@ -108,10 +108,10 @@ export default function DashboardStats() {
     <div style={{ marginBottom: '24px' }}>
       <h3
         style={{
-          margin: '0 0 16px 0',
-          fontSize: '1.25rem',
+          margin: '0 0 14px 0',
+          fontSize: '1.15rem',
           fontWeight: 600,
-          color: 'var(--theme-elevation-800)',
+          color: 'var(--theme-elevation-1000)',
         }}
       >
         {t.title}
@@ -119,41 +119,33 @@ export default function DashboardStats() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: '16px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+          gap: '12px',
         }}
       >
         {statCards.map((card) => (
           <div
             key={card.label}
             style={{
-              padding: '20px',
+              padding: '16px',
               borderRadius: '10px',
               backgroundColor: 'var(--theme-elevation-0)',
               border: '1px solid var(--theme-elevation-100)',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = `0 4px 12px ${card.bgColor}`;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <div
                 style={{
-                  width: '44px',
-                  height: '44px',
+                  width: '40px',
+                  height: '40px',
                   borderRadius: '10px',
                   backgroundColor: card.bgColor,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '20px',
+                  fontSize: '18px',
+                  flexShrink: 0,
                 }}
               >
                 {card.icon}
@@ -161,7 +153,7 @@ export default function DashboardStats() {
               <div>
                 <div
                   style={{
-                    fontSize: '1.5rem',
+                    fontSize: '1.4rem',
                     fontWeight: 700,
                     color: card.color,
                     lineHeight: 1.2,
@@ -171,7 +163,7 @@ export default function DashboardStats() {
                 </div>
                 <div
                   style={{
-                    fontSize: '1rem',
+                    fontSize: '0.85rem',
                     color: 'var(--theme-elevation-500)',
                     marginTop: '2px',
                   }}

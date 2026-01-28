@@ -89,36 +89,25 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '12px',
-        padding: '14px 16px',
+        gap: '10px',
+        padding: '12px',
         backgroundColor: 'var(--theme-elevation-0)',
         border: '1px solid var(--theme-elevation-100)',
         borderRadius: '8px',
         textDecoration: 'none',
         transition: 'all 0.2s ease',
-        cursor: 'pointer',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = color;
-        e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = `0 4px 12px ${color}20`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'var(--theme-elevation-100)';
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
       }}
     >
       <div
         style={{
-          width: '44px',
-          height: '44px',
-          borderRadius: '10px',
+          width: '36px',
+          height: '36px',
+          borderRadius: '8px',
           backgroundColor: `${color}15`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '22px',
+          fontSize: '18px',
           flexShrink: 0,
         }}
       >
@@ -127,9 +116,9 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div
           style={{
-            fontSize: '1.05rem',
+            fontSize: '0.95rem',
             fontWeight: 600,
-            color: 'var(--theme-elevation-800)',
+            color: 'var(--theme-elevation-1000)',
           }}
         >
           {label}
@@ -137,9 +126,9 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
         {description && (
           <div
             style={{
-              fontSize: '0.9rem',
+              fontSize: '0.8rem',
               color: 'var(--theme-elevation-500)',
-              marginTop: '3px',
+              marginTop: '2px',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -149,12 +138,7 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
           </div>
         )}
       </div>
-      <div
-        style={{
-          color: 'var(--theme-elevation-400)',
-          fontSize: '14px',
-        }}
-      >
+      <div style={{ color: 'var(--theme-elevation-400)', fontSize: '14px' }}>
         →
       </div>
     </a>
@@ -171,32 +155,29 @@ interface SectionProps {
 
 function Section({ title, description, icon, color, children }: SectionProps) {
   return (
-    <div
-      style={{
-        marginBottom: '28px',
-      }}
-    >
+    <div style={{ marginBottom: '24px' }}>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
-          marginBottom: '16px',
-          paddingBottom: '12px',
+          marginBottom: '14px',
+          paddingBottom: '10px',
           borderBottom: `2px solid ${color}30`,
         }}
       >
         <div
           style={{
-            width: '44px',
-            height: '44px',
+            width: '40px',
+            height: '40px',
             borderRadius: '10px',
             background: `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '20px',
+            fontSize: '18px',
             boxShadow: `0 2px 8px ${color}40`,
+            flexShrink: 0,
           }}
         >
           {icon}
@@ -205,17 +186,17 @@ function Section({ title, description, icon, color, children }: SectionProps) {
           <h3
             style={{
               margin: 0,
-              fontSize: '1.35rem',
+              fontSize: '1.25rem',
               fontWeight: 700,
-              color: 'var(--theme-elevation-800)',
+              color: 'var(--theme-elevation-1000)',
             }}
           >
             {title}
           </h3>
           <p
             style={{
-              margin: '4px 0 0 0',
-              fontSize: '1rem',
+              margin: '2px 0 0 0',
+              fontSize: '0.9rem',
               color: 'var(--theme-elevation-500)',
             }}
           >
@@ -226,8 +207,8 @@ function Section({ title, description, icon, color, children }: SectionProps) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-          gap: '12px',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+          gap: '10px',
         }}
       >
         {children}
@@ -289,7 +270,7 @@ export default function DashboardSections() {
   }, []);
 
   return (
-    <div ref={containerRef} style={{ marginTop: '8px' }}>
+    <div ref={containerRef} className="asad-sections-container">
       {/* Content Management Section */}
       <Section
         title={t.contentManagement}
