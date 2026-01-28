@@ -58,6 +58,11 @@ export default async function InternalChallengePage() {
     challengeTitle?: string | null;
     challengeDescription?: string | null;
     challengeConcept?: string | null;
+    challengeConceptHeading?: string | null;
+    challengeRulesHeading?: string | null;
+    hallOfChampionsHeading?: string | null;
+    challengeJoinHeading?: string | null;
+    challengeJoinDescription?: string | null;
     challengeRules?: Array<{
       title?: string | null;
       description?: string | null;
@@ -113,7 +118,9 @@ export default async function InternalChallengePage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Swords className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">The Ultimate Family Rivalry</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              {pageContent?.challengeConceptHeading || "The Ultimate Family Rivalry"}
+            </h2>
             <p className="text-lg text-muted-foreground">
               {pageContent.challengeConcept ||
                 "The ASAD # ASAD Challenge is our internal competition that brings a unique excitement to our community. Members are divided into teams and compete throughout the season. It's all the intensity of competitive football, but everyone goes home as friends."}
@@ -125,7 +132,9 @@ export default async function InternalChallengePage() {
       {/* How It Works */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">How It Works</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">
+            {pageContent?.challengeRulesHeading || "How It Works"}
+          </h2>
           <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             {challengeRules.map((rule, index) => (
               <Card key={index}>
@@ -152,7 +161,7 @@ export default async function InternalChallengePage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            Hall of Champions
+            {pageContent?.hallOfChampionsHeading || "Hall of Champions"}
           </h2>
           <div className="max-w-2xl mx-auto">
             <div className="space-y-4">
@@ -194,12 +203,12 @@ export default async function InternalChallengePage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
             <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Join the Competition</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {pageContent?.challengeJoinHeading || "Join the Competition"}
+            </h2>
             <p className="text-muted-foreground">
-              The ASAD # ASAD Challenge is open to all active members. Whether
-              you&apos;re a seasoned player or just getting started, there&apos;s a place
-              for you on one of our teams. Ask about the next challenge at any
-              ASAD Sunday gathering.
+              {pageContent?.challengeJoinDescription ||
+                "The ASAD # ASAD Challenge is open to all active members. Whether you're a seasoned player or just getting started, there's a place for you on one of our teams. Ask about the next challenge at any ASAD Sunday gathering."}
             </p>
           </div>
         </div>

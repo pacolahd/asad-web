@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getSportsPage } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -76,11 +76,17 @@ const defaultBrandColors = [
 
 export default async function JerseysPage() {
   const locale = (await getLocale()) as Locale;
+  const t = await getTranslations('sports');
 
   let pageContent: {
     jerseysTitle?: string | null;
     jerseysDescription?: string | null;
     jerseysIntro?: string | null;
+    colorsHeading?: string | null;
+    jerseyEvolutionHeading?: string | null;
+    jerseyEvolutionDescription?: string | null;
+    getJerseyHeading?: string | null;
+    getJerseyDescription?: string | null;
     brandColors?: Array<{
       name?: string | null;
       hex?: string | null;
@@ -142,7 +148,9 @@ export default async function JerseysPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center mb-12">
             <Palette className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl font-bold">Our Colors, Our Identity</h2>
+            <h2 className="text-2xl font-bold">
+              {pageContent?.colorsHeading || "Our Colors, Our Identity"}
+            </h2>
             <p className="mt-4 text-muted-foreground">
               {pageContent.jerseysIntro ||
                 "Each color in the ASAD palette carries meaning and represents values we hold dear."}
@@ -178,10 +186,12 @@ export default async function JerseysPage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <History className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl font-bold">Jersey Evolution</h2>
+            <h2 className="text-2xl font-bold">
+              {pageContent?.jerseyEvolutionHeading || "Jersey Evolution"}
+            </h2>
             <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-              From our humble beginnings to today, our jerseys have evolved while
-              maintaining the core elements of our identity.
+              {pageContent?.jerseyEvolutionDescription ||
+                "From our humble beginnings to today, our jerseys have evolved while maintaining the core elements of our identity."}
             </p>
           </div>
 
@@ -198,7 +208,7 @@ export default async function JerseysPage() {
                         jersey.status === "Current" ? "default" : "secondary"
                       }
                     >
-                      {jersey.status}
+                      {t(`jerseyStatus.${jersey.status}`)}
                     </Badge>
                     <span className="text-sm text-muted-foreground">
                       {jersey.era}
@@ -232,12 +242,12 @@ export default async function JerseysPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
             <Sparkles className="h-12 w-12 text-accent mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Get Your Jersey</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {pageContent?.getJerseyHeading || "Get Your Jersey"}
+            </h2>
             <p className="text-muted-foreground">
-              Official ASAD jerseys are available to members. Wearing the jersey
-              is a privilege that comes with membership and represents your
-              commitment to our community. Contact any executive member to inquire
-              about availability.
+              {pageContent?.getJerseyDescription ||
+                "Official ASAD jerseys are available to members. Wearing the jersey is a privilege that comes with membership and represents your commitment to our community. Contact any executive member to inquire about availability."}
             </p>
           </div>
         </div>

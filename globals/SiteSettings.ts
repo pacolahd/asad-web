@@ -19,7 +19,7 @@ export const SiteSettings: GlobalConfig = {
   hooks: {
     afterChange: [
       createGlobalTranslationHook({
-        localizedFields: ['fullName', 'description', 'slogan'],
+        localizedFields: ['fullName', 'description', 'shortDescription', 'slogan'],
       }),
     ],
   },
@@ -61,6 +61,21 @@ export const SiteSettings: GlobalConfig = {
               label: {
                 en: 'Description',
                 fr: 'Description',
+              },
+            },
+            {
+              name: 'shortDescription',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Short Description',
+                fr: 'Description Courte',
+              },
+              admin: {
+                description: {
+                  en: 'A brief one-line description of ASAD',
+                  fr: "Une brève description en une ligne de l'ASAD",
+                },
               },
             },
             {

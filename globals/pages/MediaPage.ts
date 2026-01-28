@@ -29,6 +29,7 @@ export const MediaPage: GlobalConfig = {
         ],
         arrayFields: [
           { name: 'categories', localizedSubfields: ['title', 'description', 'unit'] },
+          { name: 'featuredCategories', localizedSubfields: ['title'] },
           { name: 'stats', localizedSubfields: ['label'] },
         ],
       }),
@@ -251,6 +252,33 @@ export const MediaPage: GlobalConfig = {
                 en: 'Featured Section Description',
                 fr: 'Description de la Section Mise en Avant',
               },
+            },
+            {
+              name: 'featuredCategories',
+              type: 'array',
+              label: {
+                en: 'Featured Categories',
+                fr: 'Catégories Mises en Avant',
+              },
+              maxRows: 6,
+              admin: {
+                description: {
+                  en: 'Category labels for the featured moments grid (e.g., Competitions, Community, Celebrations)',
+                  fr: 'Étiquettes de catégories pour la grille des moments mis en avant',
+                },
+              },
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    en: 'Category Title',
+                    fr: 'Titre de la Catégorie',
+                  },
+                },
+              ],
             },
           ],
         },

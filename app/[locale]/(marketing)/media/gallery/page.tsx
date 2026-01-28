@@ -13,8 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { galleryAlbums } from "@/data/gallery-albums";
 import { siteConfig } from "@/data/site-config";
-import { getGalleryAlbums, getMediaSizedUrl } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getGalleryAlbums, getGalleryPage, getMediaSizedUrl } from "@/lib/data";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -35,6 +35,13 @@ interface GalleryAlbumDisplay {
 
 export default async function GalleryPage() {
   const locale = await getLocale() as Locale;
+  const t = await getTranslations('media');
+
+  let galleryPageContent: {
+    headerTitle?: string | null;
+    headerDescription?: string | null;
+    shareNote?: string | null;
+  } = {};
 
   let albums: GalleryAlbumDisplay[] = galleryAlbums.map((a) => ({
     id: a.id,
@@ -46,7 +53,11 @@ export default async function GalleryPage() {
   }));
 
   try {
-    const payloadAlbums = await getGalleryAlbums(locale);
+    const [payloadAlbums, payloadPage] = await Promise.all([
+      getGalleryAlbums(locale),
+      getGalleryPage(locale),
+    ]);
+
     if (payloadAlbums.length > 0) {
       albums = payloadAlbums.map((a) => ({
         id: a.slug,
@@ -57,14 +68,18 @@ export default async function GalleryPage() {
         imageCount: (a.images as unknown[])?.length || 0,
       }));
     }
+
+    if (payloadPage) {
+      galleryPageContent = payloadPage;
+    }
   } catch (error) {
     console.log('Using static gallery data:', error instanceof Error ? error.message : 'CMS not available');
   }
   return (
     <>
       <PageHeader
-        title="Photo Gallery"
-        description="Browse through our collection of memories captured over the years. From match days to community celebrations, relive the moments that define ASAD."
+        title={galleryPageContent.headerTitle || "Photo Gallery"}
+        description={galleryPageContent.headerDescription || "Browse through our collection of memories captured over the years. From match days to community celebrations, relive the moments that define ASAD."}
       />
 
       {/* Albums Grid */}
@@ -86,7 +101,7 @@ export default async function GalleryPage() {
                       <Camera className="h-12 w-12 text-muted-foreground/50" />
                     )}
                     <Badge className="absolute top-2 right-2">
-                      {album.imageCount} photos
+                      {album.imageCount} {t('photos')}
                     </Badge>
                   </div>
                   <CardHeader>
@@ -114,8 +129,8 @@ export default async function GalleryPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-muted-foreground">
-              More photos are being added regularly. If you have photos from
-              ASAD events to share, please contact the media coordinator.
+              {galleryPageContent.shareNote ||
+                "More photos are being added regularly. If you have photos from ASAD events to share, please contact the media coordinator."}
             </p>
           </div>
         </div>

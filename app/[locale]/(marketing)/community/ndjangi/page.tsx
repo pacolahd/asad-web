@@ -127,7 +127,7 @@ export default async function NdjangiPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Users className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">What is Ndjangi?</h2>
+            <h2 className="text-2xl font-bold mb-6">{pageContent?.ndjangiSectionTitle || "What is Ndjangi?"}</h2>
             <p className="text-lg text-muted-foreground">
               {pageContent?.ndjangiIntro || "Ndjangi is a traditional Cameroonian practice of rotating savings and credit. A group of people contribute a fixed amount regularly, and the total collection goes to one member at a time. This continues until every member has received the pot. It's a time-tested system that leverages community trust to help members access funds they might not be able to save on their own."}
             </p>
@@ -138,7 +138,7 @@ export default async function NdjangiPage() {
       {/* Features */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">How It Benefits Members</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">{pageContent?.ndjangiBenefitsTitle || "How It Benefits Members"}</h2>
           <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             {features.map((feature) => {
               const IconComponent = iconMap[feature.icon] || Users;
@@ -169,7 +169,7 @@ export default async function NdjangiPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              How ASAD Ndjangi Works
+              {pageContent?.ndjangiHowItWorks || "How ASAD Ndjangi Works"}
             </h2>
             <div className="space-y-6">
               {process.map((item, index) => (
@@ -189,7 +189,7 @@ export default async function NdjangiPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl">
-            <h2 className="text-2xl font-bold mb-6 text-center">Example</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center">{pageContent?.ndjangiExampleTitle || "Example"}</h2>
             <Card className="p-6">
               <div className="text-center">
                 <p className="text-muted-foreground">
@@ -213,12 +213,9 @@ export default async function NdjangiPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Interested in Joining?</h2>
+            <h2 className="text-2xl font-bold mb-4">{pageContent?.ndjangiCtaTitle || "Interested in Joining?"}</h2>
             <p className="text-muted-foreground">
-              The ASAD Ndjangi is open to active members in good standing.
-              Different cycles may have different contribution amounts to
-              accommodate various budgets. Contact the Treasurer to learn about
-              current or upcoming cycles.
+              {pageContent?.ndjangiCtaDescription || "The ASAD Ndjangi is open to active members in good standing. Different cycles may have different contribution amounts to accommodate various budgets. Contact the Treasurer to learn about current or upcoming cycles."}
             </p>
           </div>
         </div>

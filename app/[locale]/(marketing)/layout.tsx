@@ -22,6 +22,7 @@ export default async function MarketingLayout({
         name: cmsSettings.name || siteConfig.name,
         fullName: cmsSettings.fullName || siteConfig.fullName,
         description: cmsSettings.description || siteConfig.description,
+        shortDescription: cmsSettings.shortDescription || siteConfig.shortDescription,
         slogan: cmsSettings.slogan || siteConfig.slogan,
         founded: cmsSettings.founded || siteConfig.founded,
         location: cmsSettings.location || siteConfig.location,

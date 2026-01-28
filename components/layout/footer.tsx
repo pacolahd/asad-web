@@ -48,7 +48,7 @@ export function Footer({ settings }: FooterProps) {
               </span>
             </div>
             <p className="text-sm text-muted-foreground mb-4">
-              {settings.description}
+              {settings.shortDescription || settings.description}
             </p>
             <div className="flex gap-4">
               {settings.social.facebook && (

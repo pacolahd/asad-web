@@ -9,9 +9,15 @@ interface ArrayFieldConfig {
   nestedArrays?: ArrayFieldConfig[];
 }
 
+interface GroupFieldConfig {
+  name: string;
+  localizedSubfields: string[];
+}
+
 interface TranslationConfig {
   localizedFields: string[];
   arrayFields?: ArrayFieldConfig[];
+  groupFields?: GroupFieldConfig[];
   collectionSlug?: string;
 }
 
@@ -48,7 +54,9 @@ async function translateArrayField(
           // Only translate if target is empty or same as source
           if (!targetValue || targetValue === sourceValue) {
             const translatedValue = await translateText(sourceValue, sourceLocale);
-            if (translatedValue && translatedValue !== sourceValue) {
+            // Always set the translated value if we have one, even if identical to source
+            // This ensures the target locale gets the value for required fields
+            if (translatedValue) {
               translatedItem[subfield] = translatedValue;
               hasChanges = true;
               console.log(
@@ -83,6 +91,44 @@ async function translateArrayField(
       return translatedItem;
     })
   );
+
+  return { translated, hasChanges };
+}
+
+/**
+ * Translates group fields with localized subfields
+ */
+async function translateGroupField(
+  sourceGroup: Record<string, unknown>,
+  targetGroup: Record<string, unknown> | undefined,
+  config: GroupFieldConfig,
+  sourceLocale: LocaleCode
+): Promise<{ translated: Record<string, unknown>; hasChanges: boolean }> {
+  if (!sourceGroup || typeof sourceGroup !== 'object') {
+    return { translated: {}, hasChanges: false };
+  }
+
+  let hasChanges = false;
+  const translated: Record<string, unknown> = { ...sourceGroup };
+
+  for (const subfield of config.localizedSubfields) {
+    const sourceValue = sourceGroup[subfield];
+    const targetValue = targetGroup?.[subfield];
+
+    if (sourceValue && typeof sourceValue === 'string') {
+      // Only translate if target is empty or same as source
+      if (!targetValue || targetValue === sourceValue) {
+        const translatedValue = await translateText(sourceValue, sourceLocale);
+        if (translatedValue) {
+          translated[subfield] = translatedValue;
+          hasChanges = true;
+          console.log(
+            `[Translation Hook] Group field "${config.name}.${subfield}" translated: "${sourceValue}" -> "${translatedValue}"`
+          );
+        }
+      }
+    }
+  }
 
   return { translated, hasChanges };
 }
@@ -192,6 +238,28 @@ export function createTranslationHook(config: TranslationConfig): CollectionAfte
       }
     }
 
+    // Translate group fields with localized subfields
+    if (config.groupFields) {
+      for (const groupConfig of config.groupFields) {
+        const sourceGroup = doc[groupConfig.name];
+        const targetGroup = targetDoc?.[groupConfig.name];
+
+        if (sourceGroup && typeof sourceGroup === 'object' && !Array.isArray(sourceGroup)) {
+          const result = await translateGroupField(
+            sourceGroup as Record<string, unknown>,
+            targetGroup as Record<string, unknown> | undefined,
+            groupConfig,
+            currentLocale
+          );
+
+          if (result.hasChanges) {
+            updates[groupConfig.name] = result.translated;
+            hasUpdates = true;
+          }
+        }
+      }
+    }
+
     // If we have updates, save them to the target locale
     if (hasUpdates) {
       console.log(`[Translation Hook] Saving translations to ${targetLocale}:`, updates);
@@ -294,12 +362,16 @@ export function createGlobalTranslationHook(config: TranslationConfig): GlobalAf
     }
 
     // Translate array fields with localized subfields
+    console.log(`[Translation Hook - Global] arrayFields config: ${config.arrayFields?.length ?? 0} arrays defined`);
     if (config.arrayFields) {
       for (const arrayConfig of config.arrayFields) {
         const sourceArray = doc[arrayConfig.name];
         const targetArray = targetDoc?.[arrayConfig.name];
 
+        console.log(`[Translation Hook - Global] Checking array "${arrayConfig.name}": exists=${sourceArray !== undefined}, isArray=${Array.isArray(sourceArray)}, length=${Array.isArray(sourceArray) ? sourceArray.length : 'N/A'}`);
+
         if (Array.isArray(sourceArray) && sourceArray.length > 0) {
+          console.log(`[Translation Hook - Global] Processing array "${arrayConfig.name}" with ${sourceArray.length} items, subfields: ${arrayConfig.localizedSubfields.join(', ')}`);
           const result = await translateArrayField(
             sourceArray,
             targetArray as unknown[] | undefined,
@@ -310,6 +382,37 @@ export function createGlobalTranslationHook(config: TranslationConfig): GlobalAf
           if (result.hasChanges) {
             updates[arrayConfig.name] = result.translated;
             hasUpdates = true;
+            console.log(`[Translation Hook - Global] Array "${arrayConfig.name}" has translation changes`);
+          } else {
+            console.log(`[Translation Hook - Global] Array "${arrayConfig.name}" no changes needed`);
+          }
+        }
+      }
+    } else {
+      console.log(`[Translation Hook - Global] No arrayFields configured for this global`);
+    }
+
+    // Translate group fields with localized subfields
+    if (config.groupFields) {
+      for (const groupConfig of config.groupFields) {
+        const sourceGroup = doc[groupConfig.name];
+        const targetGroup = targetDoc?.[groupConfig.name];
+
+        if (sourceGroup && typeof sourceGroup === 'object' && !Array.isArray(sourceGroup)) {
+          console.log(`[Translation Hook - Global] Processing group "${groupConfig.name}" with subfields: ${groupConfig.localizedSubfields.join(', ')}`);
+          const result = await translateGroupField(
+            sourceGroup as Record<string, unknown>,
+            targetGroup as Record<string, unknown> | undefined,
+            groupConfig,
+            currentLocale
+          );
+
+          if (result.hasChanges) {
+            updates[groupConfig.name] = result.translated;
+            hasUpdates = true;
+            console.log(`[Translation Hook - Global] Group "${groupConfig.name}" has translation changes`);
+          } else {
+            console.log(`[Translation Hook - Global] Group "${groupConfig.name}" no changes needed`);
           }
         }
       }

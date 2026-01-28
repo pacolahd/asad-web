@@ -10,7 +10,7 @@ import {
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getSportsPage } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -90,11 +90,17 @@ const defaultRecentMatches = [
 
 export default async function FriendlyMatchesPage() {
   const locale = (await getLocale()) as Locale;
+  const t = await getTranslations('sports');
 
   let pageContent: {
     friendlyMatchesTitle?: string | null;
     friendlyMatchesDescription?: string | null;
     friendlyMatchesPhilosophy?: string | null;
+    friendlyMatchesPhilosophyHeading?: string | null;
+    matchTypesHeading?: string | null;
+    recentMatchesHeading?: string | null;
+    friendlyCtaHeading?: string | null;
+    friendlyCtaDescription?: string | null;
     matchTypes?: Array<{
       icon?: string | null;
       title?: string | null;
@@ -158,7 +164,9 @@ export default async function FriendlyMatchesPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Handshake className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">Football as a Bridge</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              {pageContent?.friendlyMatchesPhilosophyHeading || "Football as a Bridge"}
+            </h2>
             <p className="text-lg text-muted-foreground">
               {pageContent.friendlyMatchesPhilosophy ||
                 "Friendly matches are about more than the scoreline. They're opportunities to build relationships, share experiences, and strengthen the bonds between communities. Every match we play, win or lose, contributes to our growth as a team and as individuals."}
@@ -171,7 +179,7 @@ export default async function FriendlyMatchesPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            Types of Friendly Matches
+            {pageContent?.matchTypesHeading || "Types of Friendly Matches"}
           </h2>
           <div className="grid gap-6 md:grid-cols-3">
             {matchTypes.map((type, index) => {
@@ -201,7 +209,7 @@ export default async function FriendlyMatchesPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            Recent Friendly Matches
+            {pageContent?.recentMatchesHeading || "Recent Friendly Matches"}
           </h2>
           <div className="max-w-2xl mx-auto">
             <div className="space-y-4">
@@ -223,14 +231,14 @@ export default async function FriendlyMatchesPage() {
                     <div>
                       <div className="font-medium">vs {match.opponent}</div>
                       <div className="text-sm text-muted-foreground">
-                        {match.date} • {match.location}
+                        {match.date} • {t(`location.${match.location}`)}
                       </div>
                     </div>
                   </div>
                   <div className="text-right">
                     <div className="text-xl font-bold">{match.result}</div>
                     <div
-                      className={`text-sm font-medium capitalize ${
+                      className={`text-sm font-medium ${
                         match.outcome === "win"
                           ? "text-green-600"
                           : match.outcome === "draw"
@@ -238,7 +246,7 @@ export default async function FriendlyMatchesPage() {
                           : "text-red-600"
                       }`}
                     >
-                      {match.outcome}
+                      {t(`outcome.${match.outcome}`)}
                     </div>
                   </div>
                 </div>
@@ -252,11 +260,12 @@ export default async function FriendlyMatchesPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Want to Play Us?</h2>
+            <h2 className="text-2xl font-bold mb-4">
+              {pageContent?.friendlyCtaHeading || "Want to Play Us?"}
+            </h2>
             <p className="text-muted-foreground mb-6">
-              We&apos;re always open to friendly matches with other community teams.
-              If your team would like to arrange a match with ASAD, reach out to
-              us through our contact page.
+              {pageContent?.friendlyCtaDescription ||
+                "We're always open to friendly matches with other community teams. If your team would like to arrange a match with ASAD, reach out to us through our contact page."}
             </p>
           </div>
         </div>

@@ -32,6 +32,21 @@ export const AboutPage: GlobalConfig = {
           'valuesDescription',
           'commitmentTitle',
           'commitmentDescription',
+          // Section titles
+          'acronymTitle',
+          'acronymTranslation',
+          'acronymTranslationLabel',
+          'valuesIntroTitle',
+          'valuesIntroDescription',
+          'learnMoreTitle',
+          'historyCardTitle',
+          'historyCardDescription',
+          'leadershipCardTitle',
+          'leadershipCardDescription',
+          'statutesCardTitle',
+          'statutesCardDescription',
+          'yearsLabel',
+          'sinceLabel',
         ],
       }),
     ],
@@ -96,6 +111,66 @@ export const AboutPage: GlobalConfig = {
                 },
               },
             },
+            {
+              name: 'yearsLabel',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Years Label',
+                fr: 'Libellé Années',
+              },
+              admin: {
+                placeholder: 'e.g., Years of Excellence',
+              },
+            },
+            {
+              name: 'sinceLabel',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Since Label',
+                fr: 'Libellé Depuis',
+              },
+              admin: {
+                placeholder: 'e.g., Since',
+              },
+            },
+            {
+              name: 'acronymTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Acronym Section Title',
+                fr: 'Titre de la Section Acronyme',
+              },
+              admin: {
+                placeholder: 'e.g., What Does ASAD Mean?',
+              },
+            },
+            {
+              name: 'acronymTranslation',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Acronym Translation',
+                fr: 'Traduction de l\'Acronyme',
+              },
+              admin: {
+                placeholder: 'e.g., Sports Association of Friends of Development',
+              },
+            },
+            {
+              name: 'acronymTranslationLabel',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Translation Label',
+                fr: 'Libellé de Traduction',
+              },
+              admin: {
+                placeholder: 'e.g., Translated from French:',
+              },
+            },
           ],
         },
         {
@@ -149,6 +224,30 @@ export const AboutPage: GlobalConfig = {
           },
           fields: [
             {
+              name: 'valuesIntroTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Values Intro Title',
+                fr: 'Titre Introduction Valeurs',
+              },
+              admin: {
+                placeholder: 'e.g., What We Stand For',
+              },
+            },
+            {
+              name: 'valuesIntroDescription',
+              type: 'textarea',
+              localized: true,
+              label: {
+                en: 'Values Intro Description',
+                fr: 'Description Introduction Valeurs',
+              },
+              admin: {
+                placeholder: 'e.g., Our core values guide everything we do at ASAD.',
+              },
+            },
+            {
               name: 'valuesTitle',
               type: 'text',
               localized: true,
@@ -182,6 +281,98 @@ export const AboutPage: GlobalConfig = {
               label: {
                 en: 'Commitment Description',
                 fr: 'Description de l\'Engagement',
+              },
+            },
+          ],
+        },
+        {
+          label: {
+            en: 'Learn More',
+            fr: 'En Savoir Plus',
+          },
+          fields: [
+            {
+              name: 'learnMoreTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Learn More Title',
+                fr: 'Titre En Savoir Plus',
+              },
+              admin: {
+                placeholder: 'e.g., Learn More About Us',
+              },
+            },
+            {
+              name: 'historyCardTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'History Card Title',
+                fr: 'Titre Carte Histoire',
+              },
+              admin: {
+                placeholder: 'e.g., Our History',
+              },
+            },
+            {
+              name: 'historyCardDescription',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'History Card Description',
+                fr: 'Description Carte Histoire',
+              },
+              admin: {
+                placeholder: 'e.g., Follow our journey from 2004 to today',
+              },
+            },
+            {
+              name: 'leadershipCardTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Leadership Card Title',
+                fr: 'Titre Carte Leadership',
+              },
+              admin: {
+                placeholder: 'e.g., Leadership Team',
+              },
+            },
+            {
+              name: 'leadershipCardDescription',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Leadership Card Description',
+                fr: 'Description Carte Leadership',
+              },
+              admin: {
+                placeholder: 'e.g., Meet the dedicated team leading ASAD',
+              },
+            },
+            {
+              name: 'statutesCardTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Statutes Card Title',
+                fr: 'Titre Carte Statuts',
+              },
+              admin: {
+                placeholder: 'e.g., Our Statutes',
+              },
+            },
+            {
+              name: 'statutesCardDescription',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Statutes Card Description',
+                fr: 'Description Carte Statuts',
+              },
+              admin: {
+                placeholder: 'e.g., Read our governing documents and bylaws',
               },
             },
           ],

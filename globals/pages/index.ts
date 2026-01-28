@@ -8,5 +8,6 @@ export { SportsPage } from './SportsPage';
 export { MembersPage } from './MembersPage';
 export { InMemoriamPage } from './InMemoriamPage';
 export { MediaPage } from './MediaPage';
+export { GalleryPage } from './GalleryPage';
 export { ProgramOfYearPage } from './ProgramOfYearPage';
 export { ContactPage } from './ContactPage';

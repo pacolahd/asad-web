@@ -144,7 +144,7 @@ export default async function SocialFundPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Heart className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">Standing Together</h2>
+            <h2 className="text-2xl font-bold mb-6">{pageContent?.socialFundSectionTitle || "Standing Together"}</h2>
             <p className="text-lg text-muted-foreground">
               {pageContent?.socialFundIntro || "Life can be unpredictable, but no ASAD member faces hardship alone. Our Social Fund is a collective safety net that ensures members have support during life's most challenging moments. Through small regular contributions, we build a resource that can make a real difference when it matters most."}
             </p>
@@ -155,7 +155,7 @@ export default async function SocialFundPage() {
       {/* Coverage Areas */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">What We Cover</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">{pageContent?.socialFundCoverageTitle || "What We Cover"}</h2>
           <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             {coverage.map((area) => {
               const IconComponent = iconMap[area.icon] || Heart;
@@ -186,7 +186,7 @@ export default async function SocialFundPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              How It Works
+              {pageContent?.socialFundHowItWorks || "How It Works"}
             </h2>
             <div className="space-y-6">
               {process.map((step, index) => (
@@ -211,11 +211,11 @@ export default async function SocialFundPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 text-center">Eligibility</h2>
+            <h2 className="text-2xl font-bold mb-8 text-center">{pageContent?.socialFundEligibilityTitle || "Eligibility"}</h2>
             <div className="grid gap-6 md:grid-cols-2">
               <Card className="p-6">
                 <h3 className="font-semibold text-lg mb-2 text-green-600">
-                  Eligible
+                  {pageContent?.socialFundEligibleLabel || "Eligible"}
                 </h3>
                 <ul className="space-y-2 text-muted-foreground">
                   {eligible.map((item, index) => (
@@ -225,7 +225,7 @@ export default async function SocialFundPage() {
               </Card>
               <Card className="p-6">
                 <h3 className="font-semibold text-lg mb-2 text-amber-600">
-                  Conditions
+                  {pageContent?.socialFundConditionsLabel || "Conditions"}
                 </h3>
                 <ul className="space-y-2 text-muted-foreground">
                   {conditions.map((item, index) => (
@@ -242,12 +242,9 @@ export default async function SocialFundPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Building Security Together</h2>
+            <h2 className="text-2xl font-bold mb-4">{pageContent?.socialFundCtaTitle || "Building Security Together"}</h2>
             <p className="text-muted-foreground">
-              The Social Fund represents the heart of ASAD&apos;s community spirit.
-              Every contribution, no matter how small, helps build a safety net
-              that protects all of us. When we support one member, we strengthen
-              the entire community.
+              {pageContent?.socialFundCtaDescription || "The Social Fund represents the heart of ASAD's community spirit. Every contribution, no matter how small, helps build a safety net that protects all of us. When we support one member, we strengthen the entire community."}
             </p>
           </div>
         </div>

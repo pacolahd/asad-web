@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getSportsPage } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -75,11 +75,15 @@ const defaultUpcomingEvents = [
 
 export default async function CompetitionsPage() {
   const locale = (await getLocale()) as Locale;
+  const t = await getTranslations('sports');
 
   let pageContent: {
     competitionsTitle?: string | null;
     competitionsDescription?: string | null;
     competitionsPhilosophy?: string | null;
+    competitionsPhilosophyHeading?: string | null;
+    achievementsHeading?: string | null;
+    upcomingHeading?: string | null;
     achievements?: Array<{
       year?: string | null;
       title?: string | null;
@@ -139,7 +143,9 @@ export default async function CompetitionsPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Trophy className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">Competing with Honor</h2>
+            <h2 className="text-2xl font-bold mb-6">
+              {pageContent?.competitionsPhilosophyHeading || "Competing with Honor"}
+            </h2>
             <p className="text-lg text-muted-foreground">
               {pageContent.competitionsPhilosophy ||
                 "At ASAD, competition is about more than winning trophies. It's about representing our community with pride, demonstrating sportsmanship, and pushing ourselves to be better. Every tournament we enter is an opportunity to showcase the values that define us."}
@@ -152,7 +158,7 @@ export default async function CompetitionsPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            Notable Achievements
+            {pageContent?.achievementsHeading || "Notable Achievements"}
           </h2>
           <div className="max-w-3xl mx-auto space-y-4">
             {achievements.map((achievement, index) => (
@@ -179,7 +185,7 @@ export default async function CompetitionsPage() {
                             : "secondary"
                         }
                       >
-                        {achievement.result}
+                        {t(`results.${achievement.result}`)}
                       </Badge>
                     </div>
                     <CardDescription>{achievement.year}</CardDescription>
@@ -200,7 +206,7 @@ export default async function CompetitionsPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            Current & Upcoming
+            {pageContent?.upcomingHeading || "Current & Upcoming"}
           </h2>
           <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
             {upcomingEvents.map((event, index) => (
@@ -208,7 +214,7 @@ export default async function CompetitionsPage() {
                 <CardHeader>
                   <div className="flex items-center gap-2 mb-2">
                     <Award className="h-5 w-5 text-primary" />
-                    <Badge variant="outline">{event.status}</Badge>
+                    <Badge variant="outline">{t(`status.${event.status}`)}</Badge>
                   </div>
                   <CardTitle className="text-lg">{event.title}</CardTitle>
                   <CardDescription>{event.date}</CardDescription>

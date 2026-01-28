@@ -43,12 +43,16 @@ export default async function SportsPage() {
     // Activities data
     competitionsTitle?: string | null;
     competitionsDescription?: string | null;
+    competitionsHighlights?: Array<{ text?: string | null }> | null;
     friendlyMatchesTitle?: string | null;
     friendlyMatchesDescription?: string | null;
+    friendlyMatchesHighlights?: Array<{ text?: string | null }> | null;
     challengeTitle?: string | null;
     challengeDescription?: string | null;
+    challengeHighlights?: Array<{ text?: string | null }> | null;
     jerseysTitle?: string | null;
     jerseysDescription?: string | null;
+    jerseysHighlights?: Array<{ text?: string | null }> | null;
   } = {};
 
   // Fetch page data and site settings in parallel
@@ -73,6 +77,17 @@ export default async function SportsPage() {
     );
   }
 
+  // Helper to get highlights from CMS or use defaults
+  const getHighlights = (
+    cmsHighlights: Array<{ text?: string | null }> | null | undefined,
+    defaults: string[]
+  ): string[] => {
+    if (cmsHighlights && cmsHighlights.length > 0) {
+      return cmsHighlights.map(h => h.text || '').filter(Boolean);
+    }
+    return defaults;
+  };
+
   // Build activities from CMS data or use defaults
   const sportsActivities: SportsActivity[] = [
     {
@@ -82,7 +97,7 @@ export default async function SportsPage() {
         pageContent?.competitionsDescription ||
         "We participate in local and regional tournaments, representing ASAD with pride and sportsmanship. Our competitive spirit drives us to excellence.",
       href: "/sports/competitions",
-      highlights: ["Local tournaments", "Regional championships", "Trophy wins"],
+      highlights: getHighlights(pageContent?.competitionsHighlights, ["Local tournaments", "Regional championships", "Trophy wins"]),
     },
     {
       icon: Users,
@@ -91,7 +106,7 @@ export default async function SportsPage() {
         pageContent?.friendlyMatchesDescription ||
         "Building relationships through friendly games with other community teams. These matches foster camaraderie and expand our network.",
       href: "/sports/friendly-matches",
-      highlights: ["Local teams", "Inter-neighborhood games", "Community bonding"],
+      highlights: getHighlights(pageContent?.friendlyMatchesHighlights, ["Local teams", "Inter-neighborhood games", "Community bonding"]),
     },
     {
       icon: Swords,
@@ -100,7 +115,7 @@ export default async function SportsPage() {
         pageContent?.challengeDescription ||
         "The ASAD # ASAD challenge brings members together in friendly competition. Teams are formed and compete for bragging rights.",
       href: "/sports/internal-challenge",
-      highlights: ["Member teams", "Internal league", "Fun competition"],
+      highlights: getHighlights(pageContent?.challengeHighlights, ["Member teams", "Internal league", "Fun competition"]),
     },
     {
       icon: Shirt,
@@ -109,7 +124,7 @@ export default async function SportsPage() {
         pageContent?.jerseysDescription ||
         "Our iconic green and blue jerseys have evolved over the years. Each design represents a chapter in our history.",
       href: "/sports/jerseys",
-      highlights: ["Historic jerseys", "Current design", "Team colors"],
+      highlights: getHighlights(pageContent?.jerseysHighlights, ["Historic jerseys", "Current design", "Team colors"]),
     },
   ];
 

@@ -11,7 +11,7 @@ import {
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getStatutesPage, getDocuments, getMediaUrl } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -78,10 +78,12 @@ const defaultKeyStatutes = [
 
 export default async function StatutesPage() {
   const locale = await getLocale() as Locale;
+  const t = await getTranslations('common');
 
   let pageContent: {
     headerTitle?: string | null;
     headerDescription?: string | null;
+    highlightsTitle?: string | null;
     keyStatutes?: Array<{ title?: string | null; content?: string | null }> | null;
     documentsTitle?: string | null;
     documentsDescription?: string | null;
@@ -129,7 +131,7 @@ export default async function StatutesPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              Key Statute Highlights
+              {pageContent.highlightsTitle || "Key Statute Highlights"}
             </h2>
             <div className="space-y-6">
               {keyStatutes.map((statute, index) => (
@@ -173,12 +175,12 @@ export default async function StatutesPage() {
                       <Button asChild className="w-full">
                         <a href={doc.href} download>
                           <Download className="mr-2 h-4 w-4" />
-                          Download PDF
+                          {t('download')} PDF
                         </a>
                       </Button>
                     ) : (
                       <Button variant="outline" className="w-full" disabled>
-                        Coming Soon
+                        {t('comingSoon')}
                       </Button>
                     )}
                   </div>

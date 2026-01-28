@@ -13,7 +13,7 @@ import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getMediaPage } from "@/lib/data";
 import { getMediaStats, formatPhotoCount } from "@/lib/stats";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -31,6 +31,8 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 
 export default async function MediaPage() {
   const locale = await getLocale() as Locale;
+  const tCommon = await getTranslations('common');
+  const tMedia = await getTranslations('media');
 
   let pageContent: {
     headerTitle?: string | null;
@@ -46,6 +48,9 @@ export default async function MediaPage() {
     }> | null;
     featuredTitle?: string | null;
     featuredDescription?: string | null;
+    featuredCategories?: Array<{
+      title?: string | null;
+    }> | null;
     submitTitle?: string | null;
     submitDescription?: string | null;
   } = {};
@@ -154,12 +159,12 @@ export default async function MediaPage() {
                   <div className="mt-6">
                     {category.disabled ? (
                       <Button variant="outline" className="w-full" disabled>
-                        Coming Soon
+                        {tCommon('comingSoon')}
                       </Button>
                     ) : (
                       <Button asChild className="w-full">
                         <Link href={category.href}>
-                          Explore <ArrowRight className="ml-2 h-4 w-4" />
+                          {tMedia('explore')} <ArrowRight className="ml-2 h-4 w-4" />
                         </Link>
                       </Button>
                     )}
@@ -184,7 +189,10 @@ export default async function MediaPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
-            {["Competitions", "Community", "Celebrations"].map((title) => (
+            {(pageContent.featuredCategories && pageContent.featuredCategories.length > 0
+              ? pageContent.featuredCategories.map(c => c.title || '')
+              : ["Competitions", "Community", "Celebrations"]
+            ).map((title) => (
               <div
                 key={title}
                 className="aspect-video rounded-lg bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center"
@@ -200,7 +208,7 @@ export default async function MediaPage() {
           <div className="mt-8 text-center">
             <Button variant="outline" asChild>
               <Link href="/media/gallery">
-                View Full Gallery <ArrowRight className="ml-2 h-4 w-4" />
+                {tMedia('viewFullGallery')} <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>

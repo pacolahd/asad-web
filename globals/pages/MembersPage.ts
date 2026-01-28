@@ -26,6 +26,10 @@ export const MembersPage: GlobalConfig = {
           'duesContent',
           'ctaTitle',
           'ctaDescription',
+          // Section titles
+          'benefitsTitle',
+          'requirementsTitle',
+          'processTitle',
         ],
         arrayFields: [
           { name: 'benefits', localizedSubfields: ['title', 'description'] },
@@ -71,6 +75,18 @@ export const MembersPage: GlobalConfig = {
             fr: 'Avantages',
           },
           fields: [
+            {
+              name: 'benefitsTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Benefits Section Title',
+                fr: 'Titre de la Section Avantages',
+              },
+              admin: {
+                placeholder: 'e.g., Membership Benefits',
+              },
+            },
             {
               name: 'benefits',
               type: 'array',
@@ -124,6 +140,18 @@ export const MembersPage: GlobalConfig = {
           },
           fields: [
             {
+              name: 'requirementsTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Requirements Section Title',
+                fr: 'Titre de la Section Conditions',
+              },
+              admin: {
+                placeholder: 'e.g., Membership Requirements',
+              },
+            },
+            {
               name: 'requirements',
               type: 'array',
               label: {
@@ -151,6 +179,18 @@ export const MembersPage: GlobalConfig = {
             fr: 'Processus',
           },
           fields: [
+            {
+              name: 'processTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Process Section Title',
+                fr: 'Titre de la Section Processus',
+              },
+              admin: {
+                placeholder: 'e.g., How to Join',
+              },
+            },
             {
               name: 'process',
               type: 'array',

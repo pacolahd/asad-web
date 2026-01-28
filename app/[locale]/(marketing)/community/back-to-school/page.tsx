@@ -129,7 +129,7 @@ export default async function BackToSchoolPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <GraduationCap className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">Investing in Tomorrow</h2>
+            <h2 className="text-2xl font-bold mb-6">{pageContent?.backToSchoolSectionTitle || "Investing in Tomorrow"}</h2>
             <p className="text-lg text-muted-foreground">
               {pageContent?.backToSchoolIntro || "Education is the foundation of a better future. Every September, ASAD mobilizes to ensure that children in our community have what they need to succeed in school. From basic supplies to financial assistance, we make sure no child is left behind as the school year begins."}
             </p>
@@ -141,7 +141,7 @@ export default async function BackToSchoolPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            How We Support
+            {pageContent?.backToSchoolHowWeSupport || "How We Support"}
           </h2>
           <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
             {support.map((item) => {
@@ -169,7 +169,7 @@ export default async function BackToSchoolPage() {
       {/* Impact */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">Our Impact</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">{pageContent?.backToSchoolOurImpact || "Our Impact"}</h2>
           <div className="grid gap-8 md:grid-cols-3 max-w-3xl mx-auto text-center">
             {impact.map((stat, index) => (
               <div key={index}>
@@ -188,7 +188,7 @@ export default async function BackToSchoolPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              How the Program Works
+              {pageContent?.backToSchoolHowItWorks || "How the Program Works"}
             </h2>
             <div className="space-y-6">
               {process.map((item, index) => (
@@ -208,11 +208,9 @@ export default async function BackToSchoolPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Support Education</h2>
+            <h2 className="text-2xl font-bold mb-4">{pageContent?.backToSchoolCta || "Support Education"}</h2>
             <p className="text-muted-foreground">
-              Every contribution, no matter how small, makes a difference in a
-              child&apos;s educational journey. As an ASAD member, you automatically
-              participate in this program through your regular contributions.
+              {pageContent?.backToSchoolCtaDescription || "Every contribution, no matter how small, makes a difference in a child's educational journey. As an ASAD member, you automatically participate in this program through your regular contributions."}
             </p>
           </div>
         </div>

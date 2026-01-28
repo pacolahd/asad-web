@@ -22,6 +22,7 @@ export const StatutesPage: GlobalConfig = {
         localizedFields: [
           'headerTitle',
           'headerDescription',
+          'highlightsTitle',
           'documentsTitle',
           'documentsDescription',
           'contactSectionTitle',
@@ -67,6 +68,18 @@ export const StatutesPage: GlobalConfig = {
             fr: 'Statuts Clés',
           },
           fields: [
+            {
+              name: 'highlightsTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Highlights Section Title',
+                fr: 'Titre de la Section Points Clés',
+              },
+              admin: {
+                placeholder: 'e.g., Key Statute Highlights',
+              },
+            },
             {
               name: 'keyStatutes',
               type: 'array',

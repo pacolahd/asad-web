@@ -70,6 +70,21 @@ export default async function AboutPage() {
     valuesDescription?: string | null;
     commitmentTitle?: string | null;
     commitmentDescription?: string | null;
+    // Section titles
+    acronymTitle?: string | null;
+    acronymTranslation?: string | null;
+    acronymTranslationLabel?: string | null;
+    valuesIntroTitle?: string | null;
+    valuesIntroDescription?: string | null;
+    learnMoreTitle?: string | null;
+    historyCardTitle?: string | null;
+    historyCardDescription?: string | null;
+    leadershipCardTitle?: string | null;
+    leadershipCardDescription?: string | null;
+    statutesCardTitle?: string | null;
+    statutesCardDescription?: string | null;
+    yearsLabel?: string | null;
+    sinceLabel?: string | null;
   } = {};
 
   try {
@@ -125,7 +140,13 @@ export default async function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              What Does <span className="text-primary">ASAD</span> Mean?
+              {pageContent.acronymTitle ? (
+                pageContent.acronymTitle.split('ASAD').map((part: string, i: number, arr: string[]) =>
+                  i < arr.length - 1 ? <span key={i}>{part}<span className="text-primary">ASAD</span></span> : part
+                )
+              ) : (
+                <>What Does <span className="text-primary">ASAD</span> Mean?</>
+              )}
             </h2>
             <div className="mt-8 space-y-4">
               <div className="text-2xl md:text-3xl font-medium">
@@ -135,7 +156,7 @@ export default async function AboutPage() {
                 <span className="text-primary font-bold">D</span>eveloppement
               </div>
               <p className="text-lg text-muted-foreground">
-                Translated from French: <em>&quot;Sports Association of Friends of Development&quot;</em>
+                {pageContent.acronymTranslationLabel || "Translated from French:"} <em>&quot;{pageContent.acronymTranslation || "Sports Association of Friends of Development"}&quot;</em>
               </p>
             </div>
           </div>
@@ -190,9 +211,9 @@ export default async function AboutPage() {
                   <div className="text-6xl md:text-8xl font-bold text-primary">
                     {new Date().getFullYear() - settings.founded}+
                   </div>
-                  <p className="text-xl font-medium mt-4">Years of Excellence</p>
+                  <p className="text-xl font-medium mt-4">{pageContent.yearsLabel || "Years of Excellence"}</p>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Since {settings.founded}
+                    {pageContent.sinceLabel || "Since"} {settings.founded}
                   </p>
                 </div>
               </div>
@@ -206,10 +227,10 @@ export default async function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              What We Stand For
+              {pageContent.valuesIntroTitle || "What We Stand For"}
             </h2>
             <p className="mt-4 text-lg text-muted-foreground">
-              Our core values guide everything we do at ASAD.
+              {pageContent.valuesIntroDescription || "Our core values guide everything we do at ASAD."}
             </p>
           </div>
 
@@ -238,7 +259,7 @@ export default async function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-              Learn More About Us
+              {pageContent.learnMoreTitle || "Learn More About Us"}
             </h2>
           </div>
 
@@ -246,9 +267,9 @@ export default async function AboutPage() {
             <Link href="/about/history">
               <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all cursor-pointer">
                 <CardHeader>
-                  <CardTitle>Our History</CardTitle>
+                  <CardTitle>{pageContent.historyCardTitle || "Our History"}</CardTitle>
                   <CardDescription>
-                    Follow our journey from {settings.founded} to today
+                    {pageContent.historyCardDescription || `Follow our journey from ${settings.founded} to today`}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -256,9 +277,9 @@ export default async function AboutPage() {
             <Link href="/about/leadership">
               <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all cursor-pointer">
                 <CardHeader>
-                  <CardTitle>Leadership Team</CardTitle>
+                  <CardTitle>{pageContent.leadershipCardTitle || "Leadership Team"}</CardTitle>
                   <CardDescription>
-                    Meet the dedicated team leading ASAD
+                    {pageContent.leadershipCardDescription || "Meet the dedicated team leading ASAD"}
                   </CardDescription>
                 </CardHeader>
               </Card>
@@ -266,9 +287,9 @@ export default async function AboutPage() {
             <Link href="/about/statutes">
               <Card className="h-full hover:shadow-lg hover:border-primary/50 transition-all cursor-pointer">
                 <CardHeader>
-                  <CardTitle>Our Statutes</CardTitle>
+                  <CardTitle>{pageContent.statutesCardTitle || "Our Statutes"}</CardTitle>
                   <CardDescription>
-                    Read our governing documents and bylaws
+                    {pageContent.statutesCardDescription || "Read our governing documents and bylaws"}
                   </CardDescription>
                 </CardHeader>
               </Card>

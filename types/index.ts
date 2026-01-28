@@ -9,6 +9,7 @@ export interface SiteConfig {
   name: string;
   fullName: string;
   description: string;
+  shortDescription?: string;
   slogan: string;
   founded: number;
   location: {

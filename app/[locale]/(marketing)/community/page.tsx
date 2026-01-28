@@ -21,7 +21,9 @@ type ImpactStat = { value: string; label: string };
 
 export default async function CommunityPage() {
   const locale = await getLocale() as Locale;
-  const t = await getTranslations('stats');
+  const tStats = await getTranslations('stats');
+  const tCommunity = await getTranslations('community');
+  const tCommon = await getTranslations('common');
 
   let pageContent: Awaited<ReturnType<typeof getCommunityPage>> = null;
 
@@ -79,14 +81,14 @@ export default async function CommunityPage() {
 
   // Calculated stats (translated)
   const calculatedStats: ImpactStat[] = [
-    { value: `${new Date().getFullYear() - 2010}+`, label: t('yearsOfPrograms') },
-    { value: String(programs.length), label: t('activePrograms') },
+    { value: `${new Date().getFullYear() - 2010}+`, label: tStats('yearsOfPrograms') },
+    { value: String(programs.length), label: tStats('activePrograms') },
   ];
 
   // Default manual stats if none in CMS (translated)
   const defaultManualStats: ImpactStat[] = [
-    { value: "100+", label: t('familiesSupported') },
-    { value: "50+", label: t('childrenHelped') },
+    { value: "100+", label: tStats('familiesSupported') },
+    { value: "50+", label: tStats('childrenHelped') },
   ];
 
   // Get manual stats from CMS (already localized) or use translated defaults
@@ -147,9 +149,9 @@ export default async function CommunityPage() {
                   <div className="text-6xl md:text-8xl font-bold text-primary">
                     {programs.length}
                   </div>
-                  <p className="text-xl font-medium mt-4">Active Programs</p>
+                  <p className="text-xl font-medium mt-4">{tCommunity('activePrograms')}</p>
                   <p className="text-sm text-muted-foreground mt-2">
-                    Supporting our community
+                    {tCommunity('supportingCommunity')}
                   </p>
                 </div>
               </div>
@@ -160,8 +162,8 @@ export default async function CommunityPage() {
 
       {/* Programs Grid */}
       <FeatureGrid
-        title="Our Programs"
-        description="Each program addresses a specific need in our community, creating a comprehensive support system for all members."
+        title={pageContent?.programsTitle || "Our Programs"}
+        description={pageContent?.programsDescription || "Each program addresses a specific need in our community, creating a comprehensive support system for all members."}
         programs={programs}
       />
 
@@ -191,7 +193,7 @@ export default async function CommunityPage() {
             </p>
             <Button asChild>
               <Link href="/members">
-                Become a Member <ArrowRight className="ml-2 h-4 w-4" />
+                {tCommon('becomeMember')} <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>

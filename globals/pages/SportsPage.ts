@@ -28,18 +28,36 @@ export const SportsPage: GlobalConfig = {
           'competitionsTitle',
           'competitionsDescription',
           'competitionsPhilosophy',
+          'competitionsPhilosophyHeading',
+          'achievementsHeading',
+          'upcomingHeading',
           // Friendly Matches
           'friendlyMatchesTitle',
           'friendlyMatchesDescription',
           'friendlyMatchesPhilosophy',
+          'friendlyMatchesPhilosophyHeading',
+          'matchTypesHeading',
+          'recentMatchesHeading',
+          'friendlyCtaHeading',
+          'friendlyCtaDescription',
           // Internal Challenge
           'challengeTitle',
           'challengeDescription',
           'challengeConcept',
+          'challengeConceptHeading',
+          'challengeRulesHeading',
+          'hallOfChampionsHeading',
+          'challengeJoinHeading',
+          'challengeJoinDescription',
           // Jerseys
           'jerseysTitle',
           'jerseysDescription',
           'jerseysIntro',
+          'colorsHeading',
+          'jerseyEvolutionHeading',
+          'jerseyEvolutionDescription',
+          'getJerseyHeading',
+          'getJerseyDescription',
         ],
         arrayFields: [
           { name: 'achievements', localizedSubfields: ['title', 'description'] },
@@ -49,6 +67,11 @@ export const SportsPage: GlobalConfig = {
           { name: 'brandColors', localizedSubfields: ['meaning'] },
           { name: 'jerseyHistory', localizedSubfields: ['title', 'description'] },
           { name: 'stats', localizedSubfields: ['label'] },
+          // Highlight arrays
+          { name: 'competitionsHighlights', localizedSubfields: ['text'] },
+          { name: 'friendlyMatchesHighlights', localizedSubfields: ['text'] },
+          { name: 'challengeHighlights', localizedSubfields: ['text'] },
+          { name: 'jerseysHighlights', localizedSubfields: ['text'] },
         ],
       }),
     ],
@@ -168,6 +191,42 @@ export const SportsPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'competitionsPhilosophyHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Philosophy Section Heading',
+                    fr: 'Titre de la Section Philosophie',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Competing with Honor',
+                  },
+                },
+                {
+                  name: 'achievementsHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Achievements Section Heading',
+                    fr: 'Titre de la Section Réalisations',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Notable Achievements',
+                  },
+                },
+                {
+                  name: 'upcomingHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Upcoming Events Heading',
+                    fr: 'Titre des Événements à Venir',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Current & Upcoming',
+                  },
+                },
+                {
                   name: 'achievements',
                   type: 'array',
                   label: {
@@ -275,6 +334,36 @@ export const SportsPage: GlobalConfig = {
                     },
                   ],
                 },
+                {
+                  name: 'competitionsHighlights',
+                  type: 'array',
+                  label: {
+                    en: 'Card Highlights',
+                    fr: 'Points Forts de la Carte',
+                  },
+                  maxRows: 4,
+                  admin: {
+                    description: {
+                      en: 'Short tags displayed on the sports overview card',
+                      fr: 'Courtes étiquettes affichées sur la carte de présentation sportive',
+                    },
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'text',
+                      localized: true,
+                      required: true,
+                      label: {
+                        en: 'Highlight Text',
+                        fr: 'Texte du Point Fort',
+                      },
+                      admin: {
+                        placeholder: 'e.g., Local tournaments',
+                      },
+                    },
+                  ],
+                },
               ],
             },
 
@@ -316,6 +405,66 @@ export const SportsPage: GlobalConfig = {
                   label: {
                     en: 'Philosophy Text',
                     fr: 'Texte de Philosophie',
+                  },
+                },
+                {
+                  name: 'friendlyMatchesPhilosophyHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Philosophy Section Heading',
+                    fr: 'Titre de la Section Philosophie',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Football as a Bridge',
+                  },
+                },
+                {
+                  name: 'matchTypesHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Match Types Section Heading',
+                    fr: 'Titre de la Section Types de Matchs',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Types of Friendly Matches',
+                  },
+                },
+                {
+                  name: 'recentMatchesHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Recent Matches Section Heading',
+                    fr: 'Titre de la Section Matchs Récents',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Recent Friendly Matches',
+                  },
+                },
+                {
+                  name: 'friendlyCtaHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'CTA Section Heading',
+                    fr: 'Titre de la Section CTA',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Want to Play Us?',
+                  },
+                },
+                {
+                  name: 'friendlyCtaDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'CTA Description',
+                    fr: 'Description du CTA',
+                  },
+                  admin: {
+                    placeholder: 'e.g., We are always open to friendly matches...',
                   },
                 },
                 {
@@ -449,6 +598,36 @@ export const SportsPage: GlobalConfig = {
                     },
                   ],
                 },
+                {
+                  name: 'friendlyMatchesHighlights',
+                  type: 'array',
+                  label: {
+                    en: 'Card Highlights',
+                    fr: 'Points Forts de la Carte',
+                  },
+                  maxRows: 4,
+                  admin: {
+                    description: {
+                      en: 'Short tags displayed on the sports overview card',
+                      fr: 'Courtes étiquettes affichées sur la carte de présentation sportive',
+                    },
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'text',
+                      localized: true,
+                      required: true,
+                      label: {
+                        en: 'Highlight Text',
+                        fr: 'Texte du Point Fort',
+                      },
+                      admin: {
+                        placeholder: 'e.g., Local teams',
+                      },
+                    },
+                  ],
+                },
               ],
             },
 
@@ -496,6 +675,66 @@ export const SportsPage: GlobalConfig = {
                       en: 'Introduction explaining the internal challenge concept',
                       fr: 'Introduction expliquant le concept du défi interne',
                     },
+                  },
+                },
+                {
+                  name: 'challengeConceptHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Concept Section Heading',
+                    fr: 'Titre de la Section Concept',
+                  },
+                  admin: {
+                    placeholder: 'e.g., The Ultimate Family Rivalry',
+                  },
+                },
+                {
+                  name: 'challengeRulesHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Rules Section Heading',
+                    fr: 'Titre de la Section Règles',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How It Works',
+                  },
+                },
+                {
+                  name: 'hallOfChampionsHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Hall of Champions Heading',
+                    fr: 'Titre du Temple des Champions',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Hall of Champions',
+                  },
+                },
+                {
+                  name: 'challengeJoinHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Join Section Heading',
+                    fr: 'Titre de la Section Rejoindre',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Join the Competition',
+                  },
+                },
+                {
+                  name: 'challengeJoinDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'Join Section Description',
+                    fr: 'Description de la Section Rejoindre',
+                  },
+                  admin: {
+                    placeholder: 'e.g., The ASAD # ASAD Challenge is open to all...',
                   },
                 },
                 {
@@ -571,6 +810,36 @@ export const SportsPage: GlobalConfig = {
                     },
                   ],
                 },
+                {
+                  name: 'challengeHighlights',
+                  type: 'array',
+                  label: {
+                    en: 'Card Highlights',
+                    fr: 'Points Forts de la Carte',
+                  },
+                  maxRows: 4,
+                  admin: {
+                    description: {
+                      en: 'Short tags displayed on the sports overview card',
+                      fr: 'Courtes étiquettes affichées sur la carte de présentation sportive',
+                    },
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'text',
+                      localized: true,
+                      required: true,
+                      label: {
+                        en: 'Highlight Text',
+                        fr: 'Texte du Point Fort',
+                      },
+                      admin: {
+                        placeholder: 'e.g., Member teams',
+                      },
+                    },
+                  ],
+                },
               ],
             },
 
@@ -612,6 +881,66 @@ export const SportsPage: GlobalConfig = {
                   label: {
                     en: 'Introduction Text',
                     fr: 'Texte d\'Introduction',
+                  },
+                },
+                {
+                  name: 'colorsHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Colors Section Heading',
+                    fr: 'Titre de la Section Couleurs',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Our Colors, Our Identity',
+                  },
+                },
+                {
+                  name: 'jerseyEvolutionHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Jersey Evolution Heading',
+                    fr: 'Titre de l\'Évolution des Maillots',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Jersey Evolution',
+                  },
+                },
+                {
+                  name: 'jerseyEvolutionDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'Jersey Evolution Description',
+                    fr: 'Description de l\'Évolution des Maillots',
+                  },
+                  admin: {
+                    placeholder: 'e.g., From our humble beginnings to today...',
+                  },
+                },
+                {
+                  name: 'getJerseyHeading',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Get Jersey Section Heading',
+                    fr: 'Titre de la Section Obtenir un Maillot',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Get Your Jersey',
+                  },
+                },
+                {
+                  name: 'getJerseyDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'Get Jersey Description',
+                    fr: 'Description Obtenir un Maillot',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Official ASAD jerseys are available to members...',
                   },
                 },
                 {
@@ -737,6 +1066,36 @@ export const SportsPage: GlobalConfig = {
                       label: {
                         en: 'Jersey Image',
                         fr: 'Image du Maillot',
+                      },
+                    },
+                  ],
+                },
+                {
+                  name: 'jerseysHighlights',
+                  type: 'array',
+                  label: {
+                    en: 'Card Highlights',
+                    fr: 'Points Forts de la Carte',
+                  },
+                  maxRows: 4,
+                  admin: {
+                    description: {
+                      en: 'Short tags displayed on the sports overview card',
+                      fr: 'Courtes étiquettes affichées sur la carte de présentation sportive',
+                    },
+                  },
+                  fields: [
+                    {
+                      name: 'text',
+                      type: 'text',
+                      localized: true,
+                      required: true,
+                      label: {
+                        en: 'Highlight Text',
+                        fr: 'Texte du Point Fort',
+                      },
+                      admin: {
+                        placeholder: 'e.g., Historic jerseys',
                       },
                     },
                   ],

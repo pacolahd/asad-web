@@ -112,6 +112,10 @@ export default async function MembersPage() {
     duesContent?: string | null;
     ctaTitle?: string | null;
     ctaDescription?: string | null;
+    // Section titles
+    benefitsTitle?: string | null;
+    requirementsTitle?: string | null;
+    processTitle?: string | null;
   } = {};
 
   try {
@@ -154,7 +158,7 @@ export default async function MembersPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            Membership Benefits
+            {pageContent.benefitsTitle || "Membership Benefits"}
           </h2>
           <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             {membershipBenefits.map((benefit) => (
@@ -183,7 +187,7 @@ export default async function MembersPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-8 text-center">
-              Membership Requirements
+              {pageContent.requirementsTitle || "Membership Requirements"}
             </h2>
             <Card className="p-6">
               <ul className="space-y-4">
@@ -203,7 +207,7 @@ export default async function MembersPage() {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            How to Join
+            {pageContent.processTitle || "How to Join"}
           </h2>
           <div className="max-w-3xl mx-auto">
             <div className="space-y-6">

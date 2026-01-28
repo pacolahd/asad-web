@@ -123,5 +123,42 @@
     "activePlayers": "Joueurs Actifs",
     "familiesSupported": "Familles Soutenues",
     "childrenHelped": "Enfants Aidés (Rentrée Scolaire)"
+  },
+  "sports": {
+    "results": {
+      "Champion": "Champion",
+      "Finalist": "Finaliste",
+      "Semi-Finalist": "Demi-finaliste",
+      "Participant": "Participant"
+    },
+    "status": {
+      "Upcoming": "À venir",
+      "Preparing": "En préparation",
+      "Active": "Actif",
+      "Ongoing": "En cours"
+    },
+    "outcome": {
+      "win": "Victoire",
+      "draw": "Match nul",
+      "loss": "Défaite"
+    },
+    "location": {
+      "Home": "Domicile",
+      "Away": "Extérieur"
+    },
+    "jerseyStatus": {
+      "Current": "Actuel",
+      "Historic": "Historique",
+      "Collector": "Collection"
+    }
+  },
+  "community": {
+    "activePrograms": "Programmes actifs",
+    "supportingCommunity": "Soutien à notre communauté"
+  },
+  "media": {
+    "explore": "Explorer",
+    "viewFullGallery": "Voir toute la galerie",
+    "photos": "photos"
   }
 }

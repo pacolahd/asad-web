@@ -108,7 +108,7 @@ export default async function ASADSundaysPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Calendar className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">The Heartbeat of ASAD</h2>
+            <h2 className="text-2xl font-bold mb-6">{pageContent?.asadSundaysSectionTitle || "The Heartbeat of ASAD"}</h2>
             <p className="text-lg text-muted-foreground">
               {pageContent?.asadSundaysIntro || "ASAD Sundays have been our cornerstone since the organization's founding. Rain or shine, members gather every Sunday to play football, catch up with each other, and strengthen the bonds that make us a family. It's where new members are welcomed, where friendships are forged, and where the ASAD spirit truly shines."}
             </p>
@@ -120,7 +120,7 @@ export default async function ASADSundaysPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            What Happens on ASAD Sundays
+            {pageContent?.asadSundaysWhatHappens || "What Happens on ASAD Sundays"}
           </h2>
           <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
             {activities.map((activity) => {
@@ -151,7 +151,7 @@ export default async function ASADSundaysPage() {
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
               <Clock className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h2 className="text-2xl font-bold">Typical Sunday Schedule</h2>
+              <h2 className="text-2xl font-bold">{pageContent?.asadSundaysScheduleTitle || "Typical Sunday Schedule"}</h2>
             </div>
             <div className="space-y-4">
               {schedule.map((item, index) => (
@@ -177,28 +177,22 @@ export default async function ASADSundaysPage() {
             <Card>
               <CardHeader>
                 <MapPin className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Where We Meet</CardTitle>
+                <CardTitle>{pageContent?.asadSundaysLocationTitle || "Where We Meet"}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  We gather at our regular pitch in {siteConfig.location.neighborhood},{" "}
-                  {siteConfig.location.city}. The exact location is shared with
-                  members. Visitors are welcome to join us—just reach out through
-                  our contact page!
+                  {pageContent?.asadSundaysLocationDescription || `We gather at our regular pitch in ${siteConfig.location.neighborhood}, ${siteConfig.location.city}. The exact location is shared with members. Visitors are welcome to join us—just reach out through our contact page!`}
                 </p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
                 <Users className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Join Us</CardTitle>
+                <CardTitle>{pageContent?.asadSundaysJoinTitle || "Join Us"}</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  ASAD Sundays are open to all members and prospective members.
-                  If you&apos;re interested in joining ASAD, attending a Sunday
-                  gathering is the perfect way to meet the community and see what
-                  we&apos;re all about.
+                  {pageContent?.asadSundaysJoinDescription || "ASAD Sundays are open to all members and prospective members. If you're interested in joining ASAD, attending a Sunday gathering is the perfect way to meet the community and see what we're all about."}
                 </p>
               </CardContent>
             </Card>

@@ -56,6 +56,39 @@ export const homePageData = {
 };
 
 // ============================================
+// ABOUT PAGE
+// ============================================
+export const aboutPageData = {
+  headerTitle: 'About ASAD',
+  headerDescription: 'Learn about our story, mission, and the values that drive the Association Sportive des Amis du Developpement.',
+  storyTitle: 'Our Story',
+  storyContent: 'ASAD was born in 2004 when a group of friends in Bonaberi, Douala, decided to formalize their Sunday football gatherings. What started as casual games among neighbors quickly grew into something much bigger—a community organization dedicated to promoting sports, unity, and mutual support. Over two decades, we have evolved from a simple sports club into a comprehensive community organization that touches the lives of hundreds of families in Bonaberi and beyond.',
+  missionTitle: 'Our Mission',
+  missionDescription: 'To promote sports, particularly football, as a means of bringing our community together. We believe that through sports, we build character, foster friendships, and create opportunities for personal and collective growth. Beyond the pitch, we support our members through life\'s challenges and celebrations, creating a true extended family.',
+  visionTitle: 'Our Vision',
+  visionDescription: 'We envision ASAD as a model community organization that demonstrates how sports can be a catalyst for positive social change. We strive to be a pillar of our community, nurturing the next generation of leaders, athletes, and engaged citizens while preserving the bonds of friendship and solidarity that define us.',
+  valuesTitle: 'Our Values',
+  valuesDescription: 'Unity, sportsmanship, solidarity, integrity, and community development form the foundation of everything we do. We believe in fair play both on and off the field, in supporting one another through good times and bad, and in giving back to the community that has embraced us.',
+  commitmentTitle: 'Our Commitment',
+  commitmentDescription: 'We are committed to maintaining the spirit of brotherhood that has defined ASAD since its founding. Every member is part of our family, and we stand together through all of life\'s moments—from celebrating new births to supporting each other in times of loss, from cheering victories on the field to helping members achieve their personal goals.',
+  // Section titles
+  acronymTitle: 'What Does ASAD Mean?',
+  acronymTranslation: 'Sports Association of Friends of Development',
+  acronymTranslationLabel: 'Translated from French:',
+  valuesIntroTitle: 'What We Stand For',
+  valuesIntroDescription: 'Our core values guide everything we do at ASAD.',
+  learnMoreTitle: 'Learn More About Us',
+  historyCardTitle: 'Our History',
+  historyCardDescription: 'Follow our journey from 2004 to today',
+  leadershipCardTitle: 'Leadership Team',
+  leadershipCardDescription: 'Meet the dedicated team leading ASAD',
+  statutesCardTitle: 'Our Statutes',
+  statutesCardDescription: 'Read our governing documents and bylaws',
+  yearsLabel: 'Years of Excellence',
+  sinceLabel: 'Since',
+};
+
+// ============================================
 // HISTORY PAGE
 // ============================================
 export const historyPageData = {
@@ -148,6 +181,7 @@ export const leadershipPageData = {
 export const statutesPageData = {
   headerTitle: 'Statutes & Documents',
   headerDescription: 'Access our official governing documents that guide how ASAD operates with transparency and accountability.',
+  highlightsTitle: 'Key Statute Highlights',
   keyStatutes: [
     {
       title: 'Article 1: Name and Purpose',
@@ -185,10 +219,22 @@ export const communityPageData = {
   introTitle: 'More Than Football',
   introContent: 'While football brought us together, our vision extends far beyond the pitch. ASAD has developed a comprehensive network of community programs designed to support members through life\'s various stages and challenges. From celebrating new life to supporting education, from promoting financial discipline to providing emergency assistance, our programs reflect the true meaning of community.',
 
+  // Programs Section (hub page)
+  programsTitle: 'Our Programs',
+  programsDescription: 'Each program addresses a specific need in our community, creating a comprehensive support system for all members.',
+
   // ASAD Sundays
   asadSundaysTitle: 'ASAD Sundays',
   asadSundaysDescription: 'Our signature weekly gathering where members come together every Sunday for football, fellowship, and community building.',
   asadSundaysIntro: 'Every Sunday, ASAD members gather for our weekly tradition that combines sports, socializing, and solidarity. It\'s more than just football—it\'s a time for fellowship, business discussions, and strengthening community bonds.',
+  // ASAD Sundays section titles
+  asadSundaysSectionTitle: 'The Heartbeat of ASAD',
+  asadSundaysWhatHappens: 'What Happens on ASAD Sundays',
+  asadSundaysScheduleTitle: 'Typical Sunday Schedule',
+  asadSundaysLocationTitle: 'Where We Meet',
+  asadSundaysLocationDescription: 'We gather at our regular pitch in Bonaberi, Douala. The exact location is shared with members. Visitors are welcome to join us—just reach out through our contact page!',
+  asadSundaysJoinTitle: 'Join Us',
+  asadSundaysJoinDescription: 'ASAD Sundays are open to all members and prospective members. If you\'re interested in joining ASAD, attending a Sunday gathering is the perfect way to meet the community and see what we\'re all about.',
   asadSundaysActivities: [
     { icon: 'trophy', title: 'Football Matches', description: 'Friendly games that bring out our competitive spirit while keeping fitness fun.' },
     { icon: 'coffee', title: 'Fellowship', description: 'Socializing, catching up, and building relationships over drinks.' },
@@ -205,6 +251,11 @@ export const communityPageData = {
   babyShowerTitle: 'Baby Shower Program',
   babyShowerDescription: 'Celebrating new life in our community. We support expecting and new parents with gifts and community celebration.',
   babyShowerIntro: 'When a member welcomes a new child, the entire ASAD family celebrates. Our baby shower program ensures every new parent receives support and love from the community.',
+  // Baby Shower section titles
+  babyShowerSectionTitle: 'Welcoming New Life',
+  babyShowerWhatWeProvide: 'What We Provide',
+  babyShowerHowItWorks: 'How It Works',
+  babyShowerEligibilityTitle: 'Who Is Eligible?',
   babyShowerFeatures: [
     { icon: 'gift', title: 'Gift Packages', description: 'Essential items for newborns collected from the community.' },
     { icon: 'party-popper', title: 'Celebration Event', description: 'A joyful gathering to welcome the new addition to our extended family.' },
@@ -221,6 +272,13 @@ export const communityPageData = {
   backToSchoolTitle: 'Back to School Scheme',
   backToSchoolDescription: 'Annual initiative providing school supplies and support to children of members and the broader community.',
   backToSchoolIntro: 'Education is a priority for ASAD. Each year, we help ease the financial burden of the school season by providing supplies and support to children in our community.',
+  // Back to School section titles
+  backToSchoolSectionTitle: 'Investing in Tomorrow',
+  backToSchoolHowWeSupport: 'How We Support',
+  backToSchoolOurImpact: 'Our Impact',
+  backToSchoolHowItWorks: 'How the Program Works',
+  backToSchoolCta: 'Support Education',
+  backToSchoolCtaDescription: 'Every contribution, no matter how small, makes a difference in a child\'s educational journey. As an ASAD member, you automatically participate in this program through your regular contributions.',
   backToSchoolSupport: [
     { icon: 'graduation-cap', title: 'School Supplies', description: 'Notebooks, pens, bags, and other essential school materials.' },
     { icon: 'book-open', title: 'Educational Support', description: 'Guidance and mentorship for students.' },
@@ -240,6 +298,12 @@ export const communityPageData = {
   soapOilTitle: 'Soap & Oil Thrift',
   soapOilDescription: 'A unique savings initiative where members contribute to receive household essentials, promoting financial discipline.',
   soapOilIntro: 'The Soap & Oil Thrift is a practical savings scheme that helps members plan for household essentials. By contributing regularly, members receive quality products at the end of the year.',
+  // Soap & Oil section titles
+  soapOilSectionTitle: 'Small Savings, Big Impact',
+  soapOilBenefitsTitle: 'Benefits',
+  soapOilHowItWorks: 'How It Works',
+  soapOilCtaTitle: 'Join the Thrift',
+  soapOilCtaDescription: 'Participation in the Soap & Oil Thrift is optional but encouraged for all ASAD members. The contribution amount is affordable and designed to be accessible to all members. Speak with the Treasurer to join the next cycle.',
   soapOilBenefits: [
     { icon: 'piggy-bank', title: 'Forced Savings', description: 'Regular contributions help build financial discipline.' },
     { icon: 'shopping-bag', title: 'Quality Products', description: 'Bulk purchasing ensures quality items at good prices.' },
@@ -257,6 +321,13 @@ export const communityPageData = {
   ndjangiTitle: 'ASAD Ndjangi',
   ndjangiDescription: 'Traditional rotating savings and credit system adapted for our community, helping members achieve financial goals.',
   ndjangiIntro: 'Ndjangi is a traditional Cameroonian rotating savings system. ASAD\'s Ndjangi helps members access larger sums of money than they could save individually, fostering financial growth and mutual support.',
+  // Ndjangi section titles
+  ndjangiSectionTitle: 'What is Ndjangi?',
+  ndjangiBenefitsTitle: 'How It Benefits Members',
+  ndjangiHowItWorks: 'How ASAD Ndjangi Works',
+  ndjangiExampleTitle: 'Example',
+  ndjangiCtaTitle: 'Interested in Joining?',
+  ndjangiCtaDescription: 'The ASAD Ndjangi is open to active members in good standing. Different cycles may have different contribution amounts to accommodate various budgets. Contact the Treasurer to learn about current or upcoming cycles.',
   ndjangiFeatures: [
     { icon: 'users', title: 'Community Trust', description: 'Built on mutual trust and accountability among members.' },
     { icon: 'repeat', title: 'Rotating Benefits', description: 'Each member takes turns receiving the pool.' },
@@ -280,6 +351,15 @@ export const communityPageData = {
   socialFundTitle: 'Social Fund',
   socialFundDescription: 'Emergency support system providing financial assistance to members during difficult times, illness, or bereavement.',
   socialFundIntro: 'Life brings unexpected challenges. ASAD\'s Social Fund provides a safety net for members facing hardships, ensuring no one faces difficulties alone.',
+  // Social Fund section titles
+  socialFundSectionTitle: 'Standing Together',
+  socialFundCoverageTitle: 'What We Cover',
+  socialFundHowItWorks: 'How It Works',
+  socialFundEligibilityTitle: 'Eligibility',
+  socialFundEligibleLabel: 'Eligible',
+  socialFundConditionsLabel: 'Conditions',
+  socialFundCtaTitle: 'Building Security Together',
+  socialFundCtaDescription: 'The Social Fund represents the heart of ASAD\'s community spirit. Every contribution, no matter how small, helps build a safety net that protects all of us. When we support one member, we strengthen the entire community.',
   socialFundCoverage: [
     { icon: 'heart', title: 'Health Emergencies', description: 'Support during illness or medical emergencies.' },
     { icon: 'hand-heart', title: 'Bereavement', description: 'Assistance and solidarity during loss of loved ones.' },
@@ -323,6 +403,9 @@ export const sportsPageData = {
   competitionsTitle: 'Competitions',
   competitionsDescription: 'We participate in local and regional tournaments, representing ASAD with pride and sportsmanship. Our competitive spirit drives us to excellence.',
   competitionsPhilosophy: 'Competition brings out the best in us. Whether we win or lose, we represent ASAD with integrity, sportsmanship, and pride.',
+  competitionsPhilosophyHeading: 'Competing with Honor',
+  achievementsHeading: 'Notable Achievements',
+  upcomingHeading: 'Current & Upcoming',
   achievements: [
     { year: '2023', title: 'Bonaberi Championship', result: 'Champion', description: 'Won the local neighborhood championship.' },
     { year: '2022', title: 'Inter-Association Cup', result: 'Finalist', description: 'Reached the finals in a regional competition.' },
@@ -331,11 +414,21 @@ export const sportsPageData = {
     { title: 'Season Tournament', date: 'Ongoing', status: 'Active' },
     { title: 'End of Year Cup', date: 'December 2025', status: 'Upcoming' },
   ],
+  competitionsHighlights: [
+    { text: 'Local tournaments' },
+    { text: 'Regional championships' },
+    { text: 'Trophy wins' },
+  ],
 
   // Friendly Matches
   friendlyMatchesTitle: 'Friendly Matches',
   friendlyMatchesDescription: 'Building relationships through friendly games with other community teams. These matches foster camaraderie and expand our network.',
   friendlyMatchesPhilosophy: 'Friendly matches are about building bridges. They\'re opportunities to meet new people, forge alliances, and enjoy the beautiful game without the pressure of competition.',
+  friendlyMatchesPhilosophyHeading: 'Football as a Bridge',
+  matchTypesHeading: 'Types of Friendly Matches',
+  recentMatchesHeading: 'Recent Friendly Matches',
+  friendlyCtaHeading: 'Want to Play Us?',
+  friendlyCtaDescription: 'We\'re always open to friendly matches with other community teams. If your team would like to arrange a match with ASAD, reach out to us through our contact page.',
   matchTypes: [
     { icon: 'users', title: 'Inter-Neighborhood Games', description: 'Matches against teams from neighboring communities.', frequency: 'Monthly' },
     { icon: 'map-pin', title: 'Home Games', description: 'Welcoming visiting teams to our pitch.', frequency: 'Bi-weekly' },
@@ -345,11 +438,21 @@ export const sportsPageData = {
     { opponent: 'FC Bonassama', result: '3-2', outcome: 'win', date: 'January 2025', location: 'Home' },
     { opponent: 'AS Nylon', result: '1-1', outcome: 'draw', date: 'December 2024', location: 'Away' },
   ],
+  friendlyMatchesHighlights: [
+    { text: 'Local teams' },
+    { text: 'Inter-neighborhood games' },
+    { text: 'Community bonding' },
+  ],
 
   // Internal Challenge
   challengeTitle: 'ASAD # ASAD Challenge',
   challengeDescription: 'The ASAD # ASAD challenge brings members together in friendly competition. Teams are formed and compete for bragging rights.',
   challengeConcept: 'The Internal Challenge is our way of keeping competition alive within the family. Members form teams and compete against each other, creating memorable moments and friendly rivalries.',
+  challengeConceptHeading: 'The Ultimate Family Rivalry',
+  challengeRulesHeading: 'How It Works',
+  hallOfChampionsHeading: 'Hall of Champions',
+  challengeJoinHeading: 'Join the Competition',
+  challengeJoinDescription: 'The ASAD # ASAD Challenge is open to all active members. Whether you\'re a seasoned player or just getting started, there\'s a place for you on one of our teams. Ask about the next challenge at any ASAD Sunday gathering.',
   challengeRules: [
     { title: 'Team Formation', description: 'Teams are formed through a draft or random selection.' },
     { title: 'Round Robin', description: 'All teams play each other once in the group stage.' },
@@ -360,11 +463,21 @@ export const sportsPageData = {
     { year: 2023, team: 'Team Alpha', captain: 'Captain A' },
     { year: 2022, team: 'Team Omega', captain: 'Captain B' },
   ],
+  challengeHighlights: [
+    { text: 'Member teams' },
+    { text: 'Internal league' },
+    { text: 'Fun competition' },
+  ],
 
   // Jerseys
   jerseysTitle: 'Jersey Collection',
   jerseysDescription: 'Our iconic green and blue jerseys have evolved over the years. Each design represents a chapter in our history.',
   jerseysIntro: 'ASAD\'s colors are more than just a uniform—they represent our identity, our history, and our unity. Each jersey tells a story of the era it represents.',
+  colorsHeading: 'Our Colors, Our Identity',
+  jerseyEvolutionHeading: 'Jersey Evolution',
+  jerseyEvolutionDescription: 'From our humble beginnings to today, our jerseys have evolved while maintaining the core elements of our identity.',
+  getJerseyHeading: 'Get Your Jersey',
+  getJerseyDescription: 'Official ASAD jerseys are available to members. Wearing the jersey is a privilege that comes with membership and represents your commitment to our community. Contact any executive member to inquire about availability.',
   brandColors: [
     { name: 'ASAD Green', hex: '#1a5f2a', meaning: 'Represents growth, nature, and the vibrancy of our community.' },
     { name: 'ASAD Blue', hex: '#1e40af', meaning: 'Symbolizes unity, trust, and the depth of our bonds.' },
@@ -374,6 +487,11 @@ export const sportsPageData = {
     { era: '2004-2008', title: 'The Original', description: 'Our first jerseys, simple but meaningful.', colors: 'Green, White', status: 'Historic' },
     { era: '2009-2015', title: 'The Classic', description: 'Introduced our signature color combination.', colors: 'Green, Blue, White', status: 'Historic' },
     { era: '2016-Present', title: 'The Modern', description: 'Current design with refined aesthetics.', colors: 'Green, Blue, White', status: 'Current' },
+  ],
+  jerseysHighlights: [
+    { text: 'Historic jerseys' },
+    { text: 'Current design' },
+    { text: 'Team colors' },
   ],
 
   // Stats
@@ -390,6 +508,10 @@ export const sportsPageData = {
 export const membersPageData = {
   headerTitle: 'Join ASAD',
   headerDescription: 'Become part of a community that values sports, unity, and mutual support. ASAD membership opens doors to fellowship, programs, and a family that stands together.',
+  // Section titles
+  benefitsTitle: 'Membership Benefits',
+  requirementsTitle: 'Membership Requirements',
+  processTitle: 'How to Join',
   benefits: [
     {
       icon: 'users',
@@ -515,8 +637,22 @@ export const mediaPageData = {
   ],
   featuredTitle: 'Featured Moments',
   featuredDescription: 'Some of our most memorable captures from recent events.',
+  featuredCategories: [
+    { title: 'Competitions' },
+    { title: 'Community' },
+    { title: 'Celebrations' },
+  ],
   submitTitle: 'Have Photos to Share?',
   submitDescription: 'If you have photos from ASAD events that you\'d like to add to our gallery, please share them with the media coordinator at any ASAD Sunday gathering or through our contact page.',
+};
+
+// ============================================
+// GALLERY PAGE
+// ============================================
+export const galleryPageData = {
+  headerTitle: 'Photo Gallery',
+  headerDescription: 'Browse through our collection of memories captured over the years. From match days to community celebrations, relive the moments that define ASAD.',
+  shareNote: 'More photos are being added regularly. If you have photos from ASAD events to share, please contact the media coordinator.',
 };
 
 // ============================================
@@ -614,12 +750,13 @@ export const contactPageData = {
 // ============================================
 // SEED FUNCTION
 // ============================================
-export async function seedAllContent(payload: Payload) {
+export async function seedAllContent(payload: Payload, only?: string) {
   console.log('🌱 Starting database seeding...\n');
 
-  const globals = [
+  const allGlobals = [
     { slug: 'site-settings', data: siteSettingsData, name: 'Site Settings' },
     { slug: 'home-page', data: homePageData, name: 'Home Page' },
+    { slug: 'about-page', data: aboutPageData, name: 'About Page' },
     { slug: 'history-page', data: historyPageData, name: 'History Page' },
     { slug: 'leadership-page', data: leadershipPageData, name: 'Leadership Page' },
     { slug: 'statutes-page', data: statutesPageData, name: 'Statutes Page' },
@@ -628,9 +765,20 @@ export async function seedAllContent(payload: Payload) {
     { slug: 'members-page', data: membersPageData, name: 'Members Page' },
     { slug: 'in-memoriam-page', data: inMemoriamPageData, name: 'In Memoriam Page' },
     { slug: 'media-page', data: mediaPageData, name: 'Media Page' },
+    { slug: 'gallery-page', data: galleryPageData, name: 'Gallery Page' },
     { slug: 'program-of-year-page', data: programOfYearPageData, name: 'Program of Year Page' },
     { slug: 'contact-page', data: contactPageData, name: 'Contact Page' },
   ];
+
+  // Filter to specific global if requested
+  const globals = only
+    ? allGlobals.filter((g) => g.slug === only)
+    : allGlobals;
+
+  if (only && globals.length === 0) {
+    console.log(`❌ No global found with slug: ${only}`);
+    return { success: false, message: `Global "${only}" not found` };
+  }
 
   for (const global of globals) {
     try {
@@ -649,5 +797,6 @@ export async function seedAllContent(payload: Payload) {
   console.log('\n⏳ Waiting for translations to complete...');
   console.log('   (DeepL translation hooks run asynchronously after each save)');
 
-  return { success: true, message: 'Seeding complete! Check admin panel for content.' };
+  const seededNames = globals.map((g) => g.name).join(', ');
+  return { success: true, message: `Seeding complete! Seeded: ${seededNames}` };
 }

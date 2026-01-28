@@ -5,6 +5,7 @@ export const siteConfig: SiteConfig = {
   fullName: "Association Sportive des Amis du Developpement",
   description:
     "ASAD is a community sports organization dedicated to promoting sports, unity, and development in Bonaberi, Douala, Cameroon since 2004.",
+  shortDescription: "Community sports organization promoting unity and development since 2004.",
   slogan: "Unity Through Sport, Strength Through Community",
   founded: 2004,
   location: {

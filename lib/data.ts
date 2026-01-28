@@ -287,6 +287,22 @@ export async function getMediaPage(locale: LocaleParam = 'en') {
   }
 }
 
+export async function getGalleryPage(locale: LocaleParam = 'en') {
+  const payload = await safeGetPayload();
+  if (!payload) return null;
+
+  try {
+    return await payload.findGlobal({
+      slug: 'gallery-page',
+      locale,
+      depth: 0,
+    });
+  } catch (error) {
+    console.log('Error fetching gallery page:', error instanceof Error ? error.message : 'Unknown error');
+    return null;
+  }
+}
+
 export async function getProgramOfYearPage(locale: LocaleParam = 'en') {
   const payload = await safeGetPayload();
   if (!payload) return null;

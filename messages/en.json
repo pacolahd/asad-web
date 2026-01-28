@@ -123,5 +123,42 @@
     "activePlayers": "Active Players",
     "familiesSupported": "Families Supported",
     "childrenHelped": "Children Helped (Back to School)"
+  },
+  "sports": {
+    "results": {
+      "Champion": "Champion",
+      "Finalist": "Finalist",
+      "Semi-Finalist": "Semi-Finalist",
+      "Participant": "Participant"
+    },
+    "status": {
+      "Upcoming": "Upcoming",
+      "Preparing": "Preparing",
+      "Active": "Active",
+      "Ongoing": "Ongoing"
+    },
+    "outcome": {
+      "win": "Win",
+      "draw": "Draw",
+      "loss": "Loss"
+    },
+    "location": {
+      "Home": "Home",
+      "Away": "Away"
+    },
+    "jerseyStatus": {
+      "Current": "Current",
+      "Historic": "Historic",
+      "Collector": "Collector"
+    }
+  },
+  "community": {
+    "activePrograms": "Active Programs",
+    "supportingCommunity": "Supporting our community"
+  },
+  "media": {
+    "explore": "Explore",
+    "viewFullGallery": "View Full Gallery",
+    "photos": "photos"
   }
 }

@@ -27,6 +27,7 @@ import {
   MembersPage,
   InMemoriamPage,
   MediaPage,
+  GalleryPage,
   ProgramOfYearPage,
   ContactPage,
 } from '@/globals/pages';
@@ -79,6 +80,7 @@ export default buildConfig({
     MembersPage,
     InMemoriamPage,
     MediaPage,
+    GalleryPage,
     ProgramOfYearPage,
     ContactPage,
   ],

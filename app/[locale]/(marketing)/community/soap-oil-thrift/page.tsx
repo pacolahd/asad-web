@@ -114,7 +114,7 @@ export default async function SoapOilThriftPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <PiggyBank className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">Small Savings, Big Impact</h2>
+            <h2 className="text-2xl font-bold mb-6">{pageContent?.soapOilSectionTitle || "Small Savings, Big Impact"}</h2>
             <p className="text-lg text-muted-foreground">
               {pageContent?.soapOilIntro || "The Soap & Oil Thrift is a practical savings scheme that helps members build financial discipline while ensuring their homes are stocked with essential items. By saving small amounts regularly, members receive bulk quantities of soap, cooking oil, and other household necessities—taking one expense off their monthly budget."}
             </p>
@@ -125,7 +125,7 @@ export default async function SoapOilThriftPage() {
       {/* Benefits */}
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">Benefits</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">{pageContent?.soapOilBenefitsTitle || "Benefits"}</h2>
           <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
             {benefits.map((benefit) => {
               const IconComponent = iconMap[benefit.icon] || PiggyBank;
@@ -155,7 +155,7 @@ export default async function SoapOilThriftPage() {
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
               <Calendar className="h-12 w-12 text-primary mx-auto mb-4" />
-              <h2 className="text-2xl font-bold">How It Works</h2>
+              <h2 className="text-2xl font-bold">{pageContent?.soapOilHowItWorks || "How It Works"}</h2>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
               {process.map((step, index) => (
@@ -180,9 +180,9 @@ export default async function SoapOilThriftPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-bold mb-4">Join the Thrift</h2>
+            <h2 className="text-2xl font-bold mb-4">{pageContent?.soapOilCtaTitle || "Join the Thrift"}</h2>
             <p className="text-muted-foreground">
-              {pageContent?.soapOilParticipation || "Participation in the Soap & Oil Thrift is optional but encouraged for all ASAD members. The contribution amount is affordable and designed to be accessible to all members. Speak with the Treasurer to join the next cycle."}
+              {pageContent?.soapOilCtaDescription || pageContent?.soapOilParticipation || "Participation in the Soap & Oil Thrift is optional but encouraged for all ASAD members. The contribution amount is affordable and designed to be accessible to all members. Speak with the Treasurer to join the next cycle."}
             </p>
           </div>
         </div>

@@ -114,7 +114,7 @@ export default async function BabyShowerPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <Gift className="h-16 w-16 text-primary mx-auto mb-6" />
-            <h2 className="text-2xl font-bold mb-6">Welcoming New Life</h2>
+            <h2 className="text-2xl font-bold mb-6">{pageContent?.babyShowerSectionTitle || "Welcoming New Life"}</h2>
             <p className="text-lg text-muted-foreground">
               {pageContent?.babyShowerIntro || "At ASAD, every new child is a blessing to our entire community. Our baby shower program ensures that expecting and new parents feel the love and support of the ASAD family during this special time. It's our way of saying \"welcome\" to the newest members of our extended family."}
             </p>
@@ -126,7 +126,7 @@ export default async function BabyShowerPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl font-bold mb-8 text-center">
-            What We Provide
+            {pageContent?.babyShowerWhatWeProvide || "What We Provide"}
           </h2>
           <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
             {features.map((feature) => {
@@ -154,7 +154,7 @@ export default async function BabyShowerPage() {
       {/* How It Works */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold mb-8 text-center">How It Works</h2>
+          <h2 className="text-2xl font-bold mb-8 text-center">{pageContent?.babyShowerHowItWorks || "How It Works"}</h2>
           <div className="max-w-3xl mx-auto">
             <div className="space-y-6">
               {process.map((item, index) => (
@@ -180,7 +180,7 @@ export default async function BabyShowerPage() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center">
             <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-4">Who Is Eligible?</h2>
+            <h2 className="text-2xl font-bold mb-4">{pageContent?.babyShowerEligibilityTitle || "Who Is Eligible?"}</h2>
             <p className="text-muted-foreground">
               {pageContent?.babyShowerEligibility || "The baby shower program is available to all active ASAD members in good standing. Both the member and their spouse are covered by this program, regardless of whether both are ASAD members."}
             </p>

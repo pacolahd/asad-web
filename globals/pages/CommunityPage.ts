@@ -26,32 +26,71 @@ export const CommunityPage: GlobalConfig = {
           'introContent',
           'ctaTitle',
           'ctaDescription',
+          // Community Hub page
+          'programsTitle',
+          'programsDescription',
           // ASAD Sundays
           'asadSundaysTitle',
           'asadSundaysDescription',
           'asadSundaysIntro',
+          'asadSundaysSectionTitle',
+          'asadSundaysWhatHappens',
+          'asadSundaysScheduleTitle',
+          'asadSundaysLocationTitle',
+          'asadSundaysLocationDescription',
+          'asadSundaysJoinTitle',
+          'asadSundaysJoinDescription',
           // Baby Shower
           'babyShowerTitle',
           'babyShowerDescription',
           'babyShowerIntro',
           'babyShowerEligibility',
+          'babyShowerSectionTitle',
+          'babyShowerWhatWeProvide',
+          'babyShowerHowItWorks',
+          'babyShowerEligibilityTitle',
           // Back to School
           'backToSchoolTitle',
           'backToSchoolDescription',
           'backToSchoolIntro',
+          'backToSchoolSectionTitle',
+          'backToSchoolHowWeSupport',
+          'backToSchoolOurImpact',
+          'backToSchoolHowItWorks',
+          'backToSchoolCta',
+          'backToSchoolCtaDescription',
           // Soap & Oil
           'soapOilTitle',
           'soapOilDescription',
           'soapOilIntro',
           'soapOilParticipation',
+          'soapOilSectionTitle',
+          'soapOilBenefitsTitle',
+          'soapOilHowItWorks',
+          'soapOilCtaTitle',
+          'soapOilCtaDescription',
           // Ndjangi
           'ndjangiTitle',
           'ndjangiDescription',
           'ndjangiIntro',
+          'ndjangiSectionTitle',
+          'ndjangiBenefitsTitle',
+          'ndjangiHowItWorks',
+          'ndjangiExampleTitle',
+          'ndjangiCtaTitle',
+          'ndjangiCtaDescription',
           // Social Fund
           'socialFundTitle',
           'socialFundDescription',
           'socialFundIntro',
+          'socialFundSectionTitle',
+          'socialFundCoverageTitle',
+          'socialFundHowItWorks',
+          'socialFundEligibilityTitle',
+          'socialFundEligibleLabel',
+          'socialFundConditionsLabel',
+          'socialFundCtaTitle',
+          'socialFundCtaDescription',
         ],
         arrayFields: [
           // ASAD Sundays
@@ -77,6 +116,10 @@ export const CommunityPage: GlobalConfig = {
           { name: 'socialFundConditions', localizedSubfields: ['item'] },
           // Stats
           { name: 'impactStats', localizedSubfields: ['label'] },
+        ],
+        groupFields: [
+          // Ndjangi example group
+          { name: 'ndjangiExample', localizedSubfields: ['description'] },
         ],
       }),
     ],
@@ -141,6 +184,36 @@ export const CommunityPage: GlobalConfig = {
                 },
               },
             },
+            {
+              name: 'programsTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Programs Section Title',
+                fr: 'Titre de la Section Programmes',
+              },
+              admin: {
+                description: {
+                  en: 'Title for the programs grid section (e.g., "Our Programs")',
+                  fr: 'Titre de la section grille de programmes (ex: "Nos Programmes")',
+                },
+              },
+            },
+            {
+              name: 'programsDescription',
+              type: 'textarea',
+              localized: true,
+              label: {
+                en: 'Programs Section Description',
+                fr: 'Description de la Section Programmes',
+              },
+              admin: {
+                description: {
+                  en: 'Description text below the programs title',
+                  fr: 'Texte de description sous le titre des programmes',
+                },
+              },
+            },
           ],
         },
         {
@@ -187,6 +260,18 @@ export const CommunityPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'asadSundaysSectionTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Main Section Title',
+                    fr: 'Titre de Section Principal',
+                  },
+                  admin: {
+                    placeholder: 'e.g., The Heartbeat of ASAD',
+                  },
+                },
+                {
                   name: 'asadSundaysIntro',
                   type: 'textarea',
                   localized: true,
@@ -199,6 +284,18 @@ export const CommunityPage: GlobalConfig = {
                       en: 'Longer text for the ASAD Sundays detail page',
                       fr: 'Texte plus long pour la page de détail des Dimanches ASAD',
                     },
+                  },
+                },
+                {
+                  name: 'asadSundaysWhatHappens',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Activities Section Title',
+                    fr: 'Titre de la Section Activités',
+                  },
+                  admin: {
+                    placeholder: 'e.g., What Happens on ASAD Sundays',
                   },
                 },
                 {
@@ -253,6 +350,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'asadSundaysScheduleTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Schedule Section Title',
+                    fr: 'Titre de la Section Horaire',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Typical Sunday Schedule',
+                  },
+                },
+                {
                   name: 'asadSundaysSchedule',
                   type: 'array',
                   label: {
@@ -291,6 +400,48 @@ export const CommunityPage: GlobalConfig = {
                     },
                   ],
                 },
+                {
+                  name: 'asadSundaysLocationTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Location Card Title',
+                    fr: 'Titre de la Carte Lieu',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Where We Meet',
+                  },
+                },
+                {
+                  name: 'asadSundaysLocationDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'Location Card Description',
+                    fr: 'Description de la Carte Lieu',
+                  },
+                },
+                {
+                  name: 'asadSundaysJoinTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Join Us Card Title',
+                    fr: 'Titre de la Carte Rejoignez-nous',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Join Us',
+                  },
+                },
+                {
+                  name: 'asadSundaysJoinDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'Join Us Card Description',
+                    fr: 'Description de la Carte Rejoignez-nous',
+                  },
+                },
               ],
             },
 
@@ -326,12 +477,36 @@ export const CommunityPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'babyShowerSectionTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Main Section Title',
+                    fr: 'Titre de Section Principal',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Welcoming New Life',
+                  },
+                },
+                {
                   name: 'babyShowerIntro',
                   type: 'textarea',
                   localized: true,
                   label: {
                     en: 'Introduction Text',
                     fr: 'Texte d\'Introduction',
+                  },
+                },
+                {
+                  name: 'babyShowerWhatWeProvide',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Features Section Title',
+                    fr: 'Titre de la Section Caractéristiques',
+                  },
+                  admin: {
+                    placeholder: 'e.g., What We Provide',
                   },
                 },
                 {
@@ -380,6 +555,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'babyShowerHowItWorks',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Process Section Title',
+                    fr: 'Titre de la Section Processus',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How It Works',
+                  },
+                },
+                {
                   name: 'babyShowerProcess',
                   type: 'array',
                   label: {
@@ -409,6 +596,18 @@ export const CommunityPage: GlobalConfig = {
                       },
                     },
                   ],
+                },
+                {
+                  name: 'babyShowerEligibilityTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Eligibility Section Title',
+                    fr: 'Titre de la Section Éligibilité',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Who Is Eligible?',
+                  },
                 },
                 {
                   name: 'babyShowerEligibility',
@@ -454,12 +653,36 @@ export const CommunityPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'backToSchoolSectionTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Main Section Title',
+                    fr: 'Titre de Section Principal',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Investing in Tomorrow',
+                  },
+                },
+                {
                   name: 'backToSchoolIntro',
                   type: 'textarea',
                   localized: true,
                   label: {
                     en: 'Introduction Text',
                     fr: 'Texte d\'Introduction',
+                  },
+                },
+                {
+                  name: 'backToSchoolHowWeSupport',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Support Section Title',
+                    fr: 'Titre de la Section Soutien',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How We Support',
                   },
                 },
                 {
@@ -508,6 +731,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'backToSchoolOurImpact',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Impact Section Title',
+                    fr: 'Titre de la Section Impact',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Our Impact',
+                  },
+                },
+                {
                   name: 'backToSchoolImpact',
                   type: 'array',
                   label: {
@@ -541,6 +776,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'backToSchoolHowItWorks',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Process Section Title',
+                    fr: 'Titre de la Section Processus',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How the Program Works',
+                  },
+                },
+                {
                   name: 'backToSchoolProcess',
                   type: 'array',
                   label: {
@@ -570,6 +817,27 @@ export const CommunityPage: GlobalConfig = {
                       },
                     },
                   ],
+                },
+                {
+                  name: 'backToSchoolCta',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'CTA Title',
+                    fr: 'Titre CTA',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Support Education',
+                  },
+                },
+                {
+                  name: 'backToSchoolCtaDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'CTA Description',
+                    fr: 'Description CTA',
+                  },
                 },
               ],
             },
@@ -606,12 +874,36 @@ export const CommunityPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'soapOilSectionTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Main Section Title',
+                    fr: 'Titre de Section Principal',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Small Savings, Big Impact',
+                  },
+                },
+                {
                   name: 'soapOilIntro',
                   type: 'textarea',
                   localized: true,
                   label: {
                     en: 'Introduction Text',
                     fr: 'Texte d\'Introduction',
+                  },
+                },
+                {
+                  name: 'soapOilBenefitsTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Benefits Section Title',
+                    fr: 'Titre de la Section Avantages',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Benefits',
                   },
                 },
                 {
@@ -660,6 +952,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'soapOilHowItWorks',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Process Section Title',
+                    fr: 'Titre de la Section Processus',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How It Works',
+                  },
+                },
+                {
                   name: 'soapOilProcess',
                   type: 'array',
                   label: {
@@ -699,6 +1003,27 @@ export const CommunityPage: GlobalConfig = {
                     fr: 'Note de Participation',
                   },
                 },
+                {
+                  name: 'soapOilCtaTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'CTA Title',
+                    fr: 'Titre CTA',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Join the Thrift',
+                  },
+                },
+                {
+                  name: 'soapOilCtaDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'CTA Description',
+                    fr: 'Description CTA',
+                  },
+                },
               ],
             },
 
@@ -734,12 +1059,36 @@ export const CommunityPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'ndjangiSectionTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Main Section Title',
+                    fr: 'Titre de Section Principal',
+                  },
+                  admin: {
+                    placeholder: 'e.g., What is Ndjangi?',
+                  },
+                },
+                {
                   name: 'ndjangiIntro',
                   type: 'textarea',
                   localized: true,
                   label: {
                     en: 'Introduction Text',
                     fr: 'Texte d\'Introduction',
+                  },
+                },
+                {
+                  name: 'ndjangiBenefitsTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Benefits Section Title',
+                    fr: 'Titre de la Section Avantages',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How It Benefits Members',
                   },
                 },
                 {
@@ -788,6 +1137,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'ndjangiHowItWorks',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Process Section Title',
+                    fr: 'Titre de la Section Processus',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How ASAD Ndjangi Works',
+                  },
+                },
+                {
                   name: 'ndjangiProcess',
                   type: 'array',
                   label: {
@@ -817,6 +1178,18 @@ export const CommunityPage: GlobalConfig = {
                       },
                     },
                   ],
+                },
+                {
+                  name: 'ndjangiExampleTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Example Section Title',
+                    fr: 'Titre de la Section Exemple',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Example',
+                  },
                 },
                 {
                   name: 'ndjangiExample',
@@ -870,6 +1243,27 @@ export const CommunityPage: GlobalConfig = {
                     },
                   ],
                 },
+                {
+                  name: 'ndjangiCtaTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'CTA Title',
+                    fr: 'Titre CTA',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Interested in Joining?',
+                  },
+                },
+                {
+                  name: 'ndjangiCtaDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'CTA Description',
+                    fr: 'Description CTA',
+                  },
+                },
               ],
             },
 
@@ -905,12 +1299,36 @@ export const CommunityPage: GlobalConfig = {
                   },
                 },
                 {
+                  name: 'socialFundSectionTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Main Section Title',
+                    fr: 'Titre de Section Principal',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Standing Together',
+                  },
+                },
+                {
                   name: 'socialFundIntro',
                   type: 'textarea',
                   localized: true,
                   label: {
                     en: 'Introduction Text',
                     fr: 'Texte d\'Introduction',
+                  },
+                },
+                {
+                  name: 'socialFundCoverageTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Coverage Section Title',
+                    fr: 'Titre de la Section Couverture',
+                  },
+                  admin: {
+                    placeholder: 'e.g., What We Cover',
                   },
                 },
                 {
@@ -959,6 +1377,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'socialFundHowItWorks',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Process Section Title',
+                    fr: 'Titre de la Section Processus',
+                  },
+                  admin: {
+                    placeholder: 'e.g., How It Works',
+                  },
+                },
+                {
                   name: 'socialFundProcess',
                   type: 'array',
                   label: {
@@ -990,6 +1420,30 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'socialFundEligibilityTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Eligibility Section Title',
+                    fr: 'Titre de la Section Éligibilité',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Eligibility',
+                  },
+                },
+                {
+                  name: 'socialFundEligibleLabel',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Eligible Label',
+                    fr: 'Libellé Éligible',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Eligible',
+                  },
+                },
+                {
                   name: 'socialFundEligible',
                   type: 'array',
                   label: {
@@ -1010,6 +1464,18 @@ export const CommunityPage: GlobalConfig = {
                   ],
                 },
                 {
+                  name: 'socialFundConditionsLabel',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'Conditions Label',
+                    fr: 'Libellé Conditions',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Conditions',
+                  },
+                },
+                {
                   name: 'socialFundConditions',
                   type: 'array',
                   label: {
@@ -1028,6 +1494,27 @@ export const CommunityPage: GlobalConfig = {
                       },
                     },
                   ],
+                },
+                {
+                  name: 'socialFundCtaTitle',
+                  type: 'text',
+                  localized: true,
+                  label: {
+                    en: 'CTA Title',
+                    fr: 'Titre CTA',
+                  },
+                  admin: {
+                    placeholder: 'e.g., Building Security Together',
+                  },
+                },
+                {
+                  name: 'socialFundCtaDescription',
+                  type: 'textarea',
+                  localized: true,
+                  label: {
+                    en: 'CTA Description',
+                    fr: 'Description CTA',
+                  },
                 },
               ],
             },
