@@ -29,6 +29,7 @@ export const MediaPage: GlobalConfig = {
         ],
         arrayFields: [
           { name: 'categories', localizedSubfields: ['title', 'description', 'unit'] },
+          { name: 'featuredMoments', localizedSubfields: ['title'] },
           { name: 'featuredCategories', localizedSubfields: ['title'] },
           { name: 'stats', localizedSubfields: ['label'] },
         ],
@@ -252,6 +253,43 @@ export const MediaPage: GlobalConfig = {
                 en: 'Featured Section Description',
                 fr: 'Description de la Section Mise en Avant',
               },
+            },
+            {
+              name: 'featuredMoments',
+              type: 'array',
+              maxRows: 3,
+              label: {
+                en: 'Featured Moments',
+                fr: 'Moments en Vedette',
+              },
+              admin: {
+                description: {
+                  en: 'Featured images displayed in the media page grid',
+                  fr: 'Images en vedette affichées dans la grille de la page média',
+                },
+              },
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: {
+                    en: 'Title',
+                    fr: 'Titre',
+                  },
+                },
+                {
+                  name: 'image',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: true,
+                  label: {
+                    en: 'Image',
+                    fr: 'Image',
+                  },
+                },
+              ],
             },
             {
               name: 'featuredCategories',

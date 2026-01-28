@@ -23,6 +23,7 @@ export const HomePage: GlobalConfig = {
           'heroDescription',
           'whatIsAsadTitle',
           'whatIsAsadContent',
+          'aboutSectionImageCaption',
           'storyTitle',
           'storyContent',
           'communityTitle',
@@ -157,6 +158,52 @@ export const HomePage: GlobalConfig = {
                   en: 'Main text describing what ASAD is',
                   fr: 'Texte principal décrivant ce qu\'est ASAD',
                 },
+              },
+            },
+            {
+              name: 'aboutSectionImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: {
+                en: 'About Section Image',
+                fr: 'Image Section À Propos',
+              },
+              admin: {
+                description: {
+                  en: 'Image for the "What is ASAD" section',
+                  fr: 'Image pour la section "Qu\'est-ce que ASAD"',
+                },
+              },
+            },
+            {
+              name: 'showAboutSectionImageCaption',
+              type: 'checkbox',
+              defaultValue: false,
+              label: {
+                en: 'Show Image Caption',
+                fr: 'Afficher la Légende de l\'Image',
+              },
+              admin: {
+                description: {
+                  en: 'Enable to display a caption overlay on the image',
+                  fr: 'Activer pour afficher une légende sur l\'image',
+                },
+              },
+            },
+            {
+              name: 'aboutSectionImageCaption',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Image Caption (Optional Override)',
+                fr: 'Légende de l\'Image (Remplacement Optionnel)',
+              },
+              admin: {
+                description: {
+                  en: 'Leave empty to use the image\'s default caption, or enter text to override it',
+                  fr: 'Laisser vide pour utiliser la légende par défaut de l\'image, ou entrer du texte pour la remplacer',
+                },
+                condition: (data) => data?.showAboutSectionImageCaption === true,
               },
             },
           ],

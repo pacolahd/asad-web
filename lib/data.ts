@@ -135,7 +135,7 @@ export async function getHomePage(locale: LocaleParam = 'en') {
     return await payload.findGlobal({
       slug: 'home-page',
       locale,
-      depth: 0,
+      depth: 1, // For aboutSectionImage
     });
   } catch (error) {
     console.log('Error fetching home page:', error instanceof Error ? error.message : 'Unknown error');
@@ -151,7 +151,7 @@ export async function getAboutPage(locale: LocaleParam = 'en') {
     return await payload.findGlobal({
       slug: 'about-page',
       locale,
-      depth: 0,
+      depth: 1, // For storyImage
     });
   } catch (error) {
     console.log('Error fetching about page:', error instanceof Error ? error.message : 'Unknown error');
@@ -279,7 +279,7 @@ export async function getMediaPage(locale: LocaleParam = 'en') {
     return await payload.findGlobal({
       slug: 'media-page',
       locale,
-      depth: 0,
+      depth: 1, // For featuredMoments[].image
     });
   } catch (error) {
     console.log('Error fetching media page:', error instanceof Error ? error.message : 'Unknown error');

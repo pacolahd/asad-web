@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Shirt, Palette, History, Sparkles } from "lucide-react";
 import {
   Card,
@@ -10,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
-import { getSportsPage } from "@/lib/data";
+import { getSportsPage, getMediaSizedUrl } from "@/lib/data";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -98,6 +99,7 @@ export default async function JerseysPage() {
       description?: string | null;
       colors?: string | null;
       status?: string | null;
+      image?: { url?: string; sizes?: Record<string, { url?: string }>; caption?: string | null } | null;
     }> | null;
   } = {};
 
@@ -130,8 +132,9 @@ export default async function JerseysPage() {
           description: j.description || "",
           colors: j.colors ? j.colors.split(",").map((c) => c.trim()) : [],
           status: j.status || "Historic",
+          image: j.image ? getMediaSizedUrl(j.image, 'card') : undefined,
         }))
-      : defaultJerseyHistory;
+      : defaultJerseyHistory.map((j) => ({ ...j, image: undefined }));
 
   return (
     <>
@@ -198,8 +201,17 @@ export default async function JerseysPage() {
           <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
             {jerseyHistory.map((jersey) => (
               <Card key={jersey.era} className="overflow-hidden">
-                <div className="aspect-video bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
-                  <Shirt className="h-24 w-24 text-primary/50" />
+                <div className="aspect-video bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center relative overflow-hidden">
+                  {jersey.image ? (
+                    <Image
+                      src={jersey.image}
+                      alt={jersey.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <Shirt className="h-24 w-24 text-primary/50" />
+                  )}
                 </div>
                 <CardHeader>
                   <div className="flex items-center justify-between">

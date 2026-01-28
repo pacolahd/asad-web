@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/routing";
+import Image from "next/image";
 import { ArrowRight, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +11,7 @@ import {
 import { Hero, Stats, FeatureGrid, CTA } from "@/components/sections";
 import { communityPrograms } from "@/data/programs";
 import { siteConfig } from "@/data/site-config";
-import { getSiteSettings, getGalleryAlbums, getHomePage, getCommunityPage } from "@/lib/data";
+import { getSiteSettings, getGalleryAlbums, getHomePage, getCommunityPage, getMediaSizedUrl } from "@/lib/data";
 import { getYearsOfExcellence } from "@/lib/stats";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
@@ -26,7 +27,7 @@ export default async function HomePage() {
   // Fetch from Payload with fallbacks
   let programs = communityPrograms;
   let settings = siteConfig;
-  let albums: { title: string }[] = [];
+  let albums: { title: string; coverImage?: string }[] = [];
   let pageContent: {
     heroDescription?: string | null;
     whatIsAsadTitle?: string | null;
@@ -40,6 +41,10 @@ export default async function HomePage() {
     ctaDescription?: string | null;
     // Manual stats from CMS
     stats?: Array<{ value?: string | null; label?: string | null }> | null;
+    // Image for about section
+    aboutSectionImage?: { url?: string; sizes?: Record<string, { url?: string }>; caption?: string | null } | null;
+    showAboutSectionImageCaption?: boolean | null;
+    aboutSectionImageCaption?: string | null;
   } = {};
   let programCount = 6; // Default program count
 
@@ -114,7 +119,10 @@ export default async function HomePage() {
     }
 
     const payloadAlbums = await getGalleryAlbums(locale);
-    albums = payloadAlbums.slice(0, 3).map((a) => ({ title: a.title }));
+    albums = payloadAlbums.slice(0, 3).map((a) => ({
+      title: a.title,
+      coverImage: a.coverImage ? getMediaSizedUrl(a.coverImage as { url?: string; sizes?: Record<string, { url?: string }> }, 'card') : undefined,
+    }));
 
     const payloadPageContent = await getHomePage(locale);
     if (payloadPageContent) {
@@ -204,17 +212,36 @@ export default async function HomePage() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-video rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="flex h-20 w-20 mx-auto items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
-                    <span className="text-4xl font-bold">A</span>
-                  </div>
-                  <p className="text-lg font-medium">{tHome('since', { year: settings.founded })}</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {settings.location.neighborhood}, {settings.location.city}
-                  </p>
+              {pageContent.aboutSectionImage ? (
+                <div className="aspect-video rounded-2xl overflow-hidden relative">
+                  <Image
+                    src={getMediaSizedUrl(pageContent.aboutSectionImage, 'large')}
+                    alt="ASAD Community"
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Caption overlay - only shown if enabled, uses page caption or falls back to image caption */}
+                  {pageContent.showAboutSectionImageCaption && (pageContent.aboutSectionImageCaption || pageContent.aboutSectionImage.caption) && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                      <p className="text-white text-sm">
+                        {pageContent.aboutSectionImageCaption || pageContent.aboutSectionImage.caption}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                <div className="aspect-video rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="flex h-20 w-20 mx-auto items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
+                      <span className="text-4xl font-bold">A</span>
+                    </div>
+                    <p className="text-lg font-medium">{tHome('since', { year: settings.founded })}</p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {settings.location.neighborhood}, {settings.location.city}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -247,8 +274,17 @@ export default async function HomePage() {
                   key={album.title}
                   className="group overflow-hidden cursor-pointer hover:shadow-lg transition-all"
                 >
-                  <div className="aspect-video bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center relative">
-                    <Camera className="h-12 w-12 text-muted-foreground/50" />
+                  <div className="aspect-video bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center relative overflow-hidden">
+                    {album.coverImage ? (
+                      <Image
+                        src={album.coverImage}
+                        alt={album.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform"
+                      />
+                    ) : (
+                      <Camera className="h-12 w-12 text-muted-foreground/50" />
+                    )}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                   </div>
                   <CardHeader>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/routing";
+import Image from "next/image";
 import { Camera, Calendar, Video, ArrowRight } from "lucide-react";
 import {
   Card,
@@ -11,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
-import { getMediaPage } from "@/lib/data";
+import { getMediaPage, getMediaSizedUrl } from "@/lib/data";
 import { getMediaStats, formatPhotoCount } from "@/lib/stats";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
@@ -48,6 +49,10 @@ export default async function MediaPage() {
     }> | null;
     featuredTitle?: string | null;
     featuredDescription?: string | null;
+    featuredMoments?: Array<{
+      title?: string | null;
+      image?: { url?: string; sizes?: Record<string, { url?: string }> } | null;
+    }> | null;
     featuredCategories?: Array<{
       title?: string | null;
     }> | null;
@@ -189,20 +194,46 @@ export default async function MediaPage() {
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
-            {(pageContent.featuredCategories && pageContent.featuredCategories.length > 0
-              ? pageContent.featuredCategories.map(c => c.title || '')
-              : ["Competitions", "Community", "Celebrations"]
-            ).map((title) => (
-              <div
-                key={title}
-                className="aspect-video rounded-lg bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center"
-              >
-                <div className="text-center">
-                  <Camera className="h-12 w-12 text-muted-foreground/50 mx-auto mb-2" />
-                  <p className="text-muted-foreground">{title}</p>
-                </div>
-              </div>
-            ))}
+            {pageContent.featuredMoments && pageContent.featuredMoments.length > 0
+              ? pageContent.featuredMoments.map((moment) => (
+                  <div
+                    key={moment.title}
+                    className="aspect-video rounded-lg bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center relative overflow-hidden"
+                  >
+                    {moment.image ? (
+                      <>
+                        <Image
+                          src={getMediaSizedUrl(moment.image, 'card')}
+                          alt={moment.title || ''}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/30 flex items-end">
+                          <p className="text-white font-medium p-4">{moment.title}</p>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-center">
+                        <Camera className="h-12 w-12 text-muted-foreground/50 mx-auto mb-2" />
+                        <p className="text-muted-foreground">{moment.title}</p>
+                      </div>
+                    )}
+                  </div>
+                ))
+              : (pageContent.featuredCategories && pageContent.featuredCategories.length > 0
+                  ? pageContent.featuredCategories.map(c => c.title || '')
+                  : ["Competitions", "Community", "Celebrations"]
+                ).map((title) => (
+                  <div
+                    key={title}
+                    className="aspect-video rounded-lg bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 flex items-center justify-center"
+                  >
+                    <div className="text-center">
+                      <Camera className="h-12 w-12 text-muted-foreground/50 mx-auto mb-2" />
+                      <p className="text-muted-foreground">{title}</p>
+                    </div>
+                  </div>
+                ))}
           </div>
 
           <div className="mt-8 text-center">

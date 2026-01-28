@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/routing";
+import Image from "next/image";
 import { ArrowRight, Target, Heart, Users, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
-import { getAboutPage, getSiteSettings } from "@/lib/data";
+import { getAboutPage, getSiteSettings, getMediaSizedUrl } from "@/lib/data";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -86,6 +87,10 @@ export default async function AboutPage() {
     statutesCardDescription?: string | null;
     yearsLabel?: string | null;
     sinceLabel?: string | null;
+    // Image for story section
+    storyImage?: { url?: string; sizes?: Record<string, { url?: string }>; caption?: string | null } | null;
+    showStoryImageCaption?: boolean | null;
+    storyImageCaption?: string | null;
   } = {};
 
   try {
@@ -207,17 +212,36 @@ export default async function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="text-6xl md:text-8xl font-bold text-primary">
-                    {new Date().getFullYear() - settings.founded}+
-                  </div>
-                  <p className="text-xl font-medium mt-4">{pageContent.yearsLabel || "Years of Excellence"}</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {pageContent.sinceLabel || "Since"} {settings.founded}
-                  </p>
+              {pageContent.storyImage ? (
+                <div className="aspect-square rounded-2xl overflow-hidden relative">
+                  <Image
+                    src={getMediaSizedUrl(pageContent.storyImage, 'large')}
+                    alt="ASAD Story"
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Caption overlay - only shown if enabled, uses page caption or falls back to image caption */}
+                  {pageContent.showStoryImageCaption && (pageContent.storyImageCaption || pageContent.storyImage.caption) && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                      <p className="text-white text-sm">
+                        {pageContent.storyImageCaption || pageContent.storyImage.caption}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="text-6xl md:text-8xl font-bold text-primary">
+                      {new Date().getFullYear() - settings.founded}+
+                    </div>
+                    <p className="text-xl font-medium mt-4">{pageContent.yearsLabel || "Years of Excellence"}</p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {pageContent.sinceLabel || "Since"} {settings.founded}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

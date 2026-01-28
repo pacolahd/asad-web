@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/routing";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/layout";
 import { FeatureGrid } from "@/components/sections";
 import { communityPrograms } from "@/data/programs";
 import { siteConfig } from "@/data/site-config";
-import { getCommunityPage } from "@/lib/data";
+import { getCommunityPage, getMediaSizedUrl } from "@/lib/data";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
@@ -144,17 +145,36 @@ export default async function CommunityPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="text-6xl md:text-8xl font-bold text-primary">
-                    {programs.length}
-                  </div>
-                  <p className="text-xl font-medium mt-4">{tCommunity('activePrograms')}</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {tCommunity('supportingCommunity')}
-                  </p>
+              {pageContent?.overviewImage ? (
+                <div className="aspect-square rounded-2xl overflow-hidden relative">
+                  <Image
+                    src={getMediaSizedUrl(pageContent.overviewImage as { url?: string; sizes?: Record<string, { url?: string }> }, 'large')}
+                    alt="Community Programs"
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Caption overlay - only shown if enabled, uses page caption or falls back to image caption */}
+                  {pageContent.showOverviewImageCaption && (pageContent.overviewImageCaption || (pageContent.overviewImage as { caption?: string | null })?.caption) && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                      <p className="text-white text-sm">
+                        {pageContent.overviewImageCaption || (pageContent.overviewImage as { caption?: string | null })?.caption}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ) : (
+                <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
+                  <div className="text-center p-8">
+                    <div className="text-6xl md:text-8xl font-bold text-primary">
+                      {programs.length}
+                    </div>
+                    <p className="text-xl font-medium mt-4">{tCommunity('activePrograms')}</p>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      {tCommunity('supportingCommunity')}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

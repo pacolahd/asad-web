@@ -24,6 +24,7 @@ export const CommunityPage: GlobalConfig = {
           'headerDescription',
           'introTitle',
           'introContent',
+          'overviewImageCaption',
           'ctaTitle',
           'ctaDescription',
           // Community Hub page
@@ -182,6 +183,52 @@ export const CommunityPage: GlobalConfig = {
                   en: 'Main text explaining community programs',
                   fr: 'Texte principal expliquant les programmes communautaires',
                 },
+              },
+            },
+            {
+              name: 'overviewImage',
+              type: 'upload',
+              relationTo: 'media',
+              label: {
+                en: 'Overview Section Image',
+                fr: 'Image Section Aperçu',
+              },
+              admin: {
+                description: {
+                  en: 'Image for the community overview section',
+                  fr: 'Image pour la section aperçu de la communauté',
+                },
+              },
+            },
+            {
+              name: 'showOverviewImageCaption',
+              type: 'checkbox',
+              defaultValue: false,
+              label: {
+                en: 'Show Image Caption',
+                fr: 'Afficher la Légende de l\'Image',
+              },
+              admin: {
+                description: {
+                  en: 'Enable to display a caption overlay on the image',
+                  fr: 'Activer pour afficher une légende sur l\'image',
+                },
+              },
+            },
+            {
+              name: 'overviewImageCaption',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Image Caption (Optional Override)',
+                fr: 'Légende de l\'Image (Remplacement Optionnel)',
+              },
+              admin: {
+                description: {
+                  en: 'Leave empty to use the image\'s default caption, or enter text to override it',
+                  fr: 'Laisser vide pour utiliser la légende par défaut de l\'image, ou entrer du texte pour la remplacer',
+                },
+                condition: (data) => data?.showOverviewImageCaption === true,
               },
             },
             {
