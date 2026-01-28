@@ -114,33 +114,33 @@ export function Footer({ settings }: FooterProps) {
           <div>
             <h3 className="font-semibold mb-4">{t("contactUs")}</h3>
             <ul className="space-y-3">
-              {settings.contact.address && (
+              {(settings.primaryAddress || settings.contact.address) && (
                 <li className="flex items-start gap-2">
                   <MapPin className="h-5 w-5 text-muted-foreground shrink-0" />
                   <span className="text-sm text-muted-foreground">
-                    {settings.contact.address}
+                    {settings.primaryAddress || settings.contact.address}
                   </span>
                 </li>
               )}
-              {settings.contact.phone && (
+              {(settings.primaryPhone || settings.contact.phone) && (
                 <li className="flex items-center gap-2">
                   <Phone className="h-5 w-5 text-muted-foreground" />
                   <a
-                    href={`tel:${settings.contact.phone}`}
+                    href={`tel:${settings.primaryPhone || settings.contact.phone}`}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {settings.contact.phone}
+                    {settings.primaryPhone || settings.contact.phone}
                   </a>
                 </li>
               )}
-              {settings.contact.email && (
+              {(settings.primaryEmail || settings.contact.email) && (
                 <li className="flex items-center gap-2">
                   <Mail className="h-5 w-5 text-muted-foreground" />
                   <a
-                    href={`mailto:${settings.contact.email}`}
+                    href={`mailto:${settings.primaryEmail || settings.contact.email}`}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    {settings.contact.email}
+                    {settings.primaryEmail || settings.contact.email}
                   </a>
                 </li>
               )}

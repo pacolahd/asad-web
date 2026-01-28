@@ -25,7 +25,9 @@ export const ContactPage: GlobalConfig = {
           'socialTitle',
           'socialDescription',
           'whenToFindUsTitle',
+          'asadSundaysTitle',
           'asadSundaysDescription',
+          'bestWayTitle',
           'bestWayDescription',
           'finalCtaTitle',
           'finalCtaDescription',
@@ -105,12 +107,30 @@ export const ContactPage: GlobalConfig = {
               },
             },
             {
+              name: 'asadSundaysTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'ASAD Sundays Title',
+                fr: 'Titre Dimanches ASAD',
+              },
+            },
+            {
               name: 'asadSundaysDescription',
               type: 'textarea',
               localized: true,
               label: {
                 en: 'ASAD Sundays Description',
                 fr: 'Description des Dimanches ASAD',
+              },
+            },
+            {
+              name: 'bestWayTitle',
+              type: 'text',
+              localized: true,
+              label: {
+                en: 'Best Way to Reach Us Title',
+                fr: 'Titre Meilleur Moyen de Nous Contacter',
               },
             },
             {

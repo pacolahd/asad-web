@@ -5,6 +5,15 @@ export interface NavItem {
   children?: NavItem[];
 }
 
+export interface ContactMethod {
+  id?: string;
+  icon: 'map-pin' | 'phone' | 'whatsapp' | 'mail' | 'clock';
+  title: string;
+  description?: string;
+  value: string;
+  linkType: 'none' | 'tel' | 'mailto' | 'whatsapp' | 'url';
+}
+
 export interface SiteConfig {
   name: string;
   fullName: string;
@@ -22,6 +31,10 @@ export interface SiteConfig {
     phone?: string;
     address?: string;
   };
+  contactMethods?: ContactMethod[];
+  primaryAddress?: string;
+  primaryEmail?: string;
+  primaryPhone?: string;
   social: {
     facebook?: string;
     twitter?: string;

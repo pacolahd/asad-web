@@ -18,6 +18,32 @@ export const siteConfig: SiteConfig = {
     phone: "+237 6XX XXX XXX",
     address: "Bonaberi, Douala, Cameroon",
   },
+  contactMethods: [
+    {
+      icon: "map-pin",
+      title: "Location",
+      description: "Where we gather",
+      value: "Bonaberi, Douala, Cameroon",
+      linkType: "none",
+    },
+    {
+      icon: "phone",
+      title: "Phone",
+      description: "Call us",
+      value: "+237 6XX XXX XXX",
+      linkType: "tel",
+    },
+    {
+      icon: "mail",
+      title: "Email",
+      description: "Send us a message",
+      value: "contact@asad-bonaberi.org",
+      linkType: "mailto",
+    },
+  ],
+  primaryAddress: "Bonaberi, Douala, Cameroon",
+  primaryEmail: "contact@asad-bonaberi.org",
+  primaryPhone: "+237 6XX XXX XXX",
   social: {
     facebook: "https://facebook.com/asadbonaberi",
     instagram: "https://instagram.com/asadbonaberi",

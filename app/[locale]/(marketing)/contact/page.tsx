@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { LucideIcon } from "lucide-react";
 import {
   MapPin,
   Phone,
@@ -20,6 +21,7 @@ import { siteConfig } from "@/data/site-config";
 import { getContactPage, getSiteSettings } from "@/lib/data";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
+import type { ContactMethod } from "@/types";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -27,6 +29,31 @@ export const metadata: Metadata = {
 };
 
 export const revalidate = 300;
+
+// Icon mapping for contact methods
+const iconMap: Record<string, LucideIcon> = {
+  'map-pin': MapPin,
+  'phone': Phone,
+  'whatsapp': MessageCircle,
+  'mail': Mail,
+  'clock': Clock,
+};
+
+// Generate link href based on link type
+function getContactHref(method: ContactMethod): string | null {
+  switch (method.linkType) {
+    case 'tel':
+      return `tel:${method.value}`;
+    case 'mailto':
+      return `mailto:${method.value}`;
+    case 'whatsapp':
+      return `https://wa.me/${method.value.replace(/[^0-9]/g, '')}`;
+    case 'url':
+      return method.value;
+    default:
+      return null;
+  }
+}
 
 export default async function ContactPage() {
   const locale = await getLocale() as Locale;
@@ -38,7 +65,9 @@ export default async function ContactPage() {
     socialTitle?: string | null;
     socialDescription?: string | null;
     whenToFindUsTitle?: string | null;
+    asadSundaysTitle?: string | null;
     asadSundaysDescription?: string | null;
+    bestWayTitle?: string | null;
     bestWayDescription?: string | null;
     finalCtaTitle?: string | null;
     finalCtaDescription?: string | null;
@@ -50,6 +79,10 @@ export default async function ContactPage() {
       settings = {
         ...siteConfig,
         contact: payloadSettings.contact || siteConfig.contact,
+        contactMethods: payloadSettings.contactMethods || siteConfig.contactMethods,
+        primaryAddress: payloadSettings.primaryAddress || siteConfig.primaryAddress,
+        primaryEmail: payloadSettings.primaryEmail || siteConfig.primaryEmail,
+        primaryPhone: payloadSettings.primaryPhone || siteConfig.primaryPhone,
         social: payloadSettings.social || siteConfig.social,
       };
     }
@@ -62,33 +95,8 @@ export default async function ContactPage() {
     console.log('Using static contact data:', error instanceof Error ? error.message : 'CMS not available');
   }
 
-  const contactMethods = [
-    {
-      icon: MapPin,
-      title: "Location",
-      description: "Where we gather",
-      content: settings.contact.address || "Bonaberi, Douala, Cameroon",
-      action: null,
-    },
-    {
-      icon: Phone,
-      title: "Phone",
-      description: "Call or WhatsApp",
-      content: settings.contact.phone || "+237 6XX XXX XXX",
-      action: settings.contact.phone
-        ? `tel:${settings.contact.phone}`
-        : null,
-    },
-    {
-      icon: Mail,
-      title: "Email",
-      description: "Send us a message",
-      content: settings.contact.email || "contact@asad-bonaberi.org",
-      action: settings.contact.email
-        ? `mailto:${settings.contact.email}`
-        : null,
-    },
-  ];
+  // Use contactMethods from CMS or fallback to static config
+  const contactMethods = settings.contactMethods || siteConfig.contactMethods || [];
 
   const socialLinks = [
     {
@@ -115,30 +123,38 @@ export default async function ContactPage() {
       {/* Contact Methods */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
-            {contactMethods.map((method) => (
-              <Card key={method.title} className="text-center">
-                <CardHeader>
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto mb-4">
-                    <method.icon className="h-7 w-7" />
-                  </div>
-                  <CardTitle>{method.title}</CardTitle>
-                  <CardDescription>{method.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {method.action ? (
-                    <a
-                      href={method.action}
-                      className="text-primary hover:underline font-medium"
-                    >
-                      {method.content}
-                    </a>
-                  ) : (
-                    <p className="text-muted-foreground">{method.content}</p>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
+          <div className={`grid gap-6 max-w-4xl mx-auto ${contactMethods.length === 3 ? 'md:grid-cols-3' : contactMethods.length === 4 ? 'md:grid-cols-2 lg:grid-cols-4' : 'md:grid-cols-2'}`}>
+            {contactMethods.map((method, index) => {
+              const IconComponent = iconMap[method.icon] || MapPin;
+              const href = getContactHref(method);
+              return (
+                <Card key={method.id || index} className="text-center">
+                  <CardHeader>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary mx-auto mb-4">
+                      <IconComponent className="h-7 w-7" />
+                    </div>
+                    <CardTitle>{method.title}</CardTitle>
+                    {method.description && (
+                      <CardDescription>{method.description}</CardDescription>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    {href ? (
+                      <a
+                        href={href}
+                        className="text-primary hover:underline font-medium"
+                        target={method.linkType === 'url' || method.linkType === 'whatsapp' ? '_blank' : undefined}
+                        rel={method.linkType === 'url' || method.linkType === 'whatsapp' ? 'noopener noreferrer' : undefined}
+                      >
+                        {method.value}
+                      </a>
+                    ) : (
+                      <p className="text-muted-foreground">{method.value}</p>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -193,13 +209,17 @@ export default async function ContactPage() {
             <Card className="p-6">
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">ASAD Sundays</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {pageContent.asadSundaysTitle || "ASAD Sundays"}
+                  </h3>
                   <p className="text-muted-foreground">
                     {pageContent.asadSundaysDescription || "Every Sunday morning starting at 7:00 AM. This is the best time to meet the community, play football, and learn more about ASAD."}
                   </p>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg mb-2">Best Way to Reach Us</h3>
+                  <h3 className="font-semibold text-lg mb-2">
+                    {pageContent.bestWayTitle || "Best Way to Reach Us"}
+                  </h3>
                   <p className="text-muted-foreground">
                     {pageContent.bestWayDescription || "For quick responses, WhatsApp or phone calls work best. For detailed inquiries, email is preferred."}
                   </p>

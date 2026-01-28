@@ -20,6 +20,12 @@ export const SiteSettings: GlobalConfig = {
     afterChange: [
       createGlobalTranslationHook({
         localizedFields: ['fullName', 'description', 'shortDescription', 'slogan'],
+        arrayFields: [
+          {
+            name: 'contactMethods',
+            localizedSubfields: ['title', 'description'],
+          },
+        ],
       }),
     ],
   },
@@ -150,38 +156,113 @@ export const SiteSettings: GlobalConfig = {
           },
           fields: [
             {
-              name: 'contact',
-              type: 'group',
-              label: {
-                en: 'Contact Information',
-                fr: 'Informations de Contact',
+              name: 'contactMethods',
+              type: 'array',
+              label: { en: 'Contact Methods', fr: 'Méthodes de Contact' },
+              admin: {
+                description: {
+                  en: 'Add contact methods like phone, email, WhatsApp, location, etc.',
+                  fr: 'Ajoutez des méthodes de contact comme téléphone, email, WhatsApp, emplacement, etc.',
+                },
               },
               fields: [
                 {
-                  name: 'email',
-                  type: 'email',
-                  label: {
-                    en: 'Email',
-                    fr: 'Email',
+                  name: 'icon',
+                  type: 'select',
+                  required: true,
+                  label: { en: 'Icon', fr: 'Icône' },
+                  options: [
+                    { label: 'Location/Map', value: 'map-pin' },
+                    { label: 'Phone', value: 'phone' },
+                    { label: 'WhatsApp', value: 'whatsapp' },
+                    { label: 'Email', value: 'mail' },
+                    { label: 'Clock/Hours', value: 'clock' },
+                  ],
+                },
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  label: { en: 'Title', fr: 'Titre' },
+                  admin: {
+                    description: {
+                      en: 'e.g., "Phone", "WhatsApp", "Email"',
+                      fr: 'ex: "Téléphone", "WhatsApp", "Email"',
+                    },
                   },
                 },
                 {
-                  name: 'phone',
+                  name: 'description',
                   type: 'text',
-                  label: {
-                    en: 'Phone',
-                    fr: 'Téléphone',
+                  localized: true,
+                  label: { en: 'Description', fr: 'Description' },
+                  admin: {
+                    description: {
+                      en: 'e.g., "Call or text us", "Send us a message"',
+                      fr: 'ex: "Appelez ou envoyez un SMS", "Envoyez-nous un message"',
+                    },
                   },
                 },
                 {
-                  name: 'address',
+                  name: 'value',
                   type: 'text',
-                  label: {
-                    en: 'Address',
-                    fr: 'Adresse',
+                  required: true,
+                  label: { en: 'Value', fr: 'Valeur' },
+                  admin: {
+                    description: {
+                      en: 'The phone number, email, or address',
+                      fr: 'Le numéro de téléphone, email ou adresse',
+                    },
                   },
+                },
+                {
+                  name: 'linkType',
+                  type: 'select',
+                  label: { en: 'Link Type', fr: 'Type de Lien' },
+                  defaultValue: 'none',
+                  options: [
+                    { label: { en: 'None (just text)', fr: 'Aucun (juste du texte)' }, value: 'none' },
+                    { label: { en: 'Phone (tel:)', fr: 'Téléphone (tel:)' }, value: 'tel' },
+                    { label: { en: 'Email (mailto:)', fr: 'Email (mailto:)' }, value: 'mailto' },
+                    { label: { en: 'WhatsApp', fr: 'WhatsApp' }, value: 'whatsapp' },
+                    { label: { en: 'External URL', fr: 'URL Externe' }, value: 'url' },
+                  ],
                 },
               ],
+            },
+            {
+              name: 'primaryAddress',
+              type: 'text',
+              label: { en: 'Primary Address', fr: 'Adresse Principale' },
+              admin: {
+                description: {
+                  en: 'Main address used in footer',
+                  fr: 'Adresse principale utilisée dans le pied de page',
+                },
+              },
+            },
+            {
+              name: 'primaryEmail',
+              type: 'email',
+              label: { en: 'Primary Email', fr: 'Email Principal' },
+              admin: {
+                description: {
+                  en: 'Main email used in footer',
+                  fr: 'Email principal utilisé dans le pied de page',
+                },
+              },
+            },
+            {
+              name: 'primaryPhone',
+              type: 'text',
+              label: { en: 'Primary Phone', fr: 'Téléphone Principal' },
+              admin: {
+                description: {
+                  en: 'Main phone used in footer',
+                  fr: 'Téléphone principal utilisé dans le pied de page',
+                },
+              },
             },
           ],
         },
