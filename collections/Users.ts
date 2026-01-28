@@ -16,8 +16,8 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'role'],
     group: {
-      en: 'Admin',
-      fr: 'Administration',
+      en: 'Content Management',
+      fr: 'Gestion du Contenu',
     },
   },
   auth: true,

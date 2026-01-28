@@ -53,6 +53,11 @@ export default buildConfig({
         Logo: '@/components/admin/Logo#default',
         Icon: '@/components/admin/Icon#default',
       },
+      beforeDashboard: [
+        '@/components/admin/DashboardWelcome#default',
+        '@/components/admin/DashboardStats#default',
+        '@/components/admin/DashboardSections#default',
+      ],
     },
   },
   // Admin UI translations

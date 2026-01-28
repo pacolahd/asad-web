@@ -17,8 +17,8 @@ export const Documents: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'category', 'updatedAt'],
     group: {
-      en: 'Shared Content',
-      fr: 'Contenu Partagé',
+      en: 'Content Management',
+      fr: 'Gestion du Contenu',
     },
   },
   access: {

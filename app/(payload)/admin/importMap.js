@@ -4,6 +4,9 @@ import { default as default_e94ec99d9b10763f5738e123f19a3a84 } from '@/component
 import { default as default_8b63df151343b9cd7c4e14f86583b4db } from '@/components/admin/MediaPageCalculatedStats'
 import { default as default_534076e2c753ea5d539a54b05f456b1b } from '@/components/admin/Icon'
 import { default as default_a44df17d0fc3dcd873dae43dc3bf66bd } from '@/components/admin/Logo'
+import { default as default_b81acdec2f847f3a2418fa446f7762ad } from '@/components/admin/DashboardWelcome'
+import { default as default_7b57228c6f06a06348e4c53967f631ca } from '@/components/admin/DashboardStats'
+import { default as default_2b5b5b664bbbf9f9b9d7d99bfeb16f66 } from '@/components/admin/DashboardSections'
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_ab83ff7e88da8d3530831f296ec4756a } from '@payloadcms/ui/rsc'
 
@@ -14,6 +17,9 @@ export const importMap = {
   "@/components/admin/MediaPageCalculatedStats#default": default_8b63df151343b9cd7c4e14f86583b4db,
   "@/components/admin/Icon#default": default_534076e2c753ea5d539a54b05f456b1b,
   "@/components/admin/Logo#default": default_a44df17d0fc3dcd873dae43dc3bf66bd,
+  "@/components/admin/DashboardWelcome#default": default_b81acdec2f847f3a2418fa446f7762ad,
+  "@/components/admin/DashboardStats#default": default_7b57228c6f06a06348e4c53967f631ca,
+  "@/components/admin/DashboardSections#default": default_2b5b5b664bbbf9f9b9d7d99bfeb16f66,
   "@payloadcms/storage-s3/client#S3ClientUploadHandler": S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24,
   "@payloadcms/ui/rsc#CollectionCards": CollectionCards_ab83ff7e88da8d3530831f296ec4756a
 }

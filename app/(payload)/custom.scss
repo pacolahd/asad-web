@@ -1,0 +1,344 @@
+// ASAD Admin Panel Custom Theme
+// =============================
+// Brand colors aligned with ASAD's identity
+
+// ASAD Brand Colors
+$asad-green: #1B5E20;
+$asad-green-light: #2E7D32;
+$asad-blue: #1976D2;
+$asad-blue-light: #42A5F5;
+$asad-yellow: #FFC107;
+
+// CSS Custom Properties (CSS Variables)
+:root {
+  // ASAD Brand Colors as CSS Variables
+  --asad-green: #{$asad-green};
+  --asad-green-light: #{$asad-green-light};
+  --asad-blue: #{$asad-blue};
+  --asad-blue-light: #{$asad-blue-light};
+  --asad-yellow: #{$asad-yellow};
+
+  // Gradient definitions
+  --asad-gradient: linear-gradient(135deg, #{$asad-green} 0%, #{$asad-blue} 100%);
+  --asad-gradient-horizontal: linear-gradient(90deg, #{$asad-green} 0%, #{$asad-blue} 100%);
+}
+
+// Override Payload's success colors with ASAD green
+:root,
+[data-theme="light"] {
+  --theme-success-50: #E8F5E9;
+  --theme-success-100: #C8E6C9;
+  --theme-success-200: #A5D6A7;
+  --theme-success-300: #81C784;
+  --theme-success-400: #66BB6A;
+  --theme-success-500: #{$asad-green};
+  --theme-success-600: #{$asad-green};
+  --theme-success-700: #{$asad-green};
+  --theme-success-800: #1B5E20;
+  --theme-success-900: #1B5E20;
+}
+
+[data-theme="dark"] {
+  --theme-success-50: #1B5E20;
+  --theme-success-100: #1B5E20;
+  --theme-success-200: #2E7D32;
+  --theme-success-300: #388E3C;
+  --theme-success-400: #43A047;
+  --theme-success-500: #4CAF50;
+  --theme-success-600: #66BB6A;
+  --theme-success-700: #81C784;
+  --theme-success-800: #A5D6A7;
+  --theme-success-900: #C8E6C9;
+}
+
+// Primary Button Styling - Green Theme with White Text
+.btn--style-primary,
+button[class*="btn--style-primary"] {
+  background-color: $asad-green !important;
+  border-color: $asad-green !important;
+  color: #ffffff !important;
+
+  &:hover,
+  &:focus {
+    background-color: $asad-green-light !important;
+    border-color: $asad-green-light !important;
+    color: #ffffff !important;
+  }
+
+  &:active {
+    background-color: darken($asad-green, 5%) !important;
+    border-color: darken($asad-green, 5%) !important;
+    color: #ffffff !important;
+  }
+
+  // Ensure all child elements have white text
+  span, svg, * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+}
+
+// Secondary Button Styling - Blue Theme
+.btn--style-secondary {
+  &:hover,
+  &:focus {
+    border-color: $asad-blue-light !important;
+    color: $asad-blue !important;
+  }
+}
+
+// Navigation - Active States with Green Highlight
+.nav-group__toggle--active,
+.nav__link--active {
+  background-color: rgba($asad-green, 0.1) !important;
+
+  &::before {
+    background-color: $asad-green !important;
+  }
+}
+
+// Nav link active indicator (left border)
+.nav__link--active {
+  border-left-color: $asad-green !important;
+
+  .nav__link__label {
+    color: $asad-green !important;
+    font-weight: 600;
+  }
+}
+
+// Dark mode nav adjustments
+[data-theme="dark"] {
+  .nav-group__toggle--active,
+  .nav__link--active {
+    background-color: rgba($asad-green-light, 0.15) !important;
+  }
+
+  .nav__link--active .nav__link__label {
+    color: $asad-green-light !important;
+  }
+}
+
+// Form Field Focus States
+.field-type:focus-within {
+  .field-label {
+    color: $asad-green !important;
+  }
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: $asad-green !important;
+  box-shadow: 0 0 0 2px rgba($asad-green, 0.2) !important;
+}
+
+// Checkbox and Radio Styling
+input[type="checkbox"]:checked {
+  background-color: $asad-green !important;
+  border-color: $asad-green !important;
+}
+
+// Toggle/Switch Styling
+.toggle-input:checked + .toggle-icon {
+  background-color: $asad-green !important;
+}
+
+// Pill/Tag Styling for Published Status
+.pill--style-success,
+.pill--has-action.pill--style-success {
+  background-color: rgba($asad-green, 0.15) !important;
+  color: $asad-green !important;
+
+  [data-theme="dark"] & {
+    background-color: rgba($asad-green-light, 0.2) !important;
+    color: $asad-green-light !important;
+  }
+}
+
+// Document Controls - Save Button with White Text
+.doc-controls__save {
+  .btn--style-primary {
+    background-color: $asad-green !important;
+    border-color: $asad-green !important;
+    color: #ffffff !important;
+
+    &:hover {
+      background-color: $asad-green-light !important;
+      border-color: $asad-green-light !important;
+      color: #ffffff !important;
+    }
+
+    span, * {
+      color: #ffffff !important;
+    }
+  }
+}
+
+// Step Nav (Form Steps) Active State
+.step-nav__step--active {
+  .step-nav__step__label {
+    color: $asad-green !important;
+  }
+
+  &::after {
+    background-color: $asad-green !important;
+  }
+}
+
+// Table Row Selection
+.table__row--selected {
+  background-color: rgba($asad-green, 0.08) !important;
+}
+
+// Relationship Field - Selected Items
+.relationship--hasMany .rs__multi-value {
+  background-color: rgba($asad-green, 0.1) !important;
+  border-color: $asad-green !important;
+}
+
+// Upload Thumbnail Border on Hover
+.upload__thumbnail:hover {
+  border-color: $asad-green !important;
+}
+
+// Rich Text Editor Link Color
+.rich-text a {
+  color: $asad-blue !important;
+
+  &:hover {
+    color: $asad-blue-light !important;
+  }
+}
+
+// Toast Notifications - Success
+.toast--success {
+  background-color: $asad-green !important;
+  border-color: $asad-green !important;
+}
+
+// Account/Profile Menu Styling
+.account__name {
+  &:hover {
+    color: $asad-green !important;
+  }
+}
+
+// Global Toolbar Accent
+.edit-view__api-url {
+  .copy-to-clipboard:hover {
+    color: $asad-green !important;
+  }
+}
+
+// Dashboard Cards Enhancement
+.dashboard__card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    border-color: rgba($asad-green, 0.3) !important;
+    box-shadow: 0 4px 12px rgba($asad-green, 0.1) !important;
+  }
+}
+
+// Version Badge Styling
+.versions__version-count {
+  background-color: $asad-yellow !important;
+  color: #1a1a1a !important;
+}
+
+// Locale Switcher Active State
+.localizer__locale-button--active {
+  background-color: rgba($asad-blue, 0.1) !important;
+  color: $asad-blue !important;
+  border-color: $asad-blue !important;
+}
+
+// Loading Spinner Color
+.spinner {
+  border-color: rgba($asad-green, 0.2) !important;
+  border-top-color: $asad-green !important;
+}
+
+// Scroll to Top Button
+.scrollTop {
+  background-color: $asad-green !important;
+
+  &:hover {
+    background-color: $asad-green-light !important;
+  }
+}
+
+// Date Picker Selected Date
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: $asad-green !important;
+
+  &:hover {
+    background-color: $asad-green-light !important;
+  }
+}
+
+// Code Block Styling
+.code-editor {
+  border-color: rgba($asad-green, 0.2) !important;
+}
+
+// Breadcrumb Current Item
+.step-nav__breadcrumb--active {
+  color: $asad-green !important;
+}
+
+// Modal Confirm Actions
+.modal-confirm__actions {
+  .btn--style-primary {
+    background-color: $asad-green !important;
+    color: #ffffff !important;
+
+    span, * {
+      color: #ffffff !important;
+    }
+  }
+}
+
+// ===========================================
+// HIDE DEFAULT PAYLOAD DASHBOARD CONTENT
+// ===========================================
+// We have custom dashboard sections, so hide the default ones
+// The defaults show: Admin, Media, Shared Content, Site, Pages groups
+
+// Hide dashboard card lists (the main culprit)
+.dashboard__card-list {
+  display: none !important;
+}
+
+// Hide by ID patterns - Payload uses #card-* for dashboard items
+[id^="card-"] {
+  display: none !important;
+}
+
+// Hide list items that contain card links
+li:has([id^="card-"]) {
+  display: none !important;
+}
+
+// Hide any ul that might contain the default links
+.dashboard ul {
+  display: none !important;
+}
+
+// Hide group labels/headers for default sections
+.dashboard h4,
+.dashboard h5,
+.dashboard .label,
+.dashboard [class*="label"] {
+  display: none !important;
+}
+
+// But keep our custom content visible - it uses inline styles, not Payload classes
+// Our custom components use div with inline styles, not ul/h4/h5
+
+// Alternative: hide everything in dashboard except first few children (our components)
+.dashboard > *:nth-child(n+5) {
+  display: none !important;
+}

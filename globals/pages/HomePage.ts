@@ -9,8 +9,8 @@ export const HomePage: GlobalConfig = {
   },
   admin: {
     group: {
-      en: 'Pages',
-      fr: 'Pages',
+      en: 'Site Pages',
+      fr: 'Pages du Site',
     },
   },
   access: {

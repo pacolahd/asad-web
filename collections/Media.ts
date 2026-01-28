@@ -17,8 +17,8 @@ export const Media: CollectionConfig = {
     useAsTitle: 'alt',
     defaultColumns: ['filename', 'alt', 'updatedAt'],
     group: {
-      en: 'Media',
-      fr: 'Médias',
+      en: 'Content Management',
+      fr: 'Gestion du Contenu',
     },
   },
   access: {

@@ -17,8 +17,8 @@ export const GalleryAlbums: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'date', 'updatedAt'],
     group: {
-      en: 'Shared Content',
-      fr: 'Contenu Partagé',
+      en: 'Content Management',
+      fr: 'Gestion du Contenu',
     },
   },
   access: {
