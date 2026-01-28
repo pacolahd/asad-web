@@ -26,7 +26,11 @@ export default async function MarketingLayout({
         slogan: cmsSettings.slogan || siteConfig.slogan,
         founded: cmsSettings.founded || siteConfig.founded,
         location: cmsSettings.location || siteConfig.location,
-        contact: cmsSettings.contact || siteConfig.contact,
+        contact: siteConfig.contact, // Legacy fallback only
+        contactMethods: cmsSettings.contactMethods || siteConfig.contactMethods,
+        primaryAddress: cmsSettings.primaryAddress || siteConfig.primaryAddress,
+        primaryEmail: cmsSettings.primaryEmail || siteConfig.primaryEmail,
+        primaryPhone: cmsSettings.primaryPhone || siteConfig.primaryPhone,
         social: cmsSettings.social || siteConfig.social,
       };
     }
