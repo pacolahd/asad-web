@@ -6,8 +6,19 @@
     "viewAll": "Voir tout",
     "comingSoon": "Bientôt disponible",
     "download": "Télécharger",
+    "downloadPdf": "Télécharger PDF",
     "back": "Retour",
-    "loading": "Chargement..."
+    "loading": "Chargement...",
+    "exploreHistory": "Explorer notre histoire",
+    "joinUs": "Nous rejoindre",
+    "joinNow": "Rejoindre maintenant",
+    "readMore": "Lire la suite",
+    "seeAll": "Voir tout",
+    "meetTeam": "Rencontrer l'équipe",
+    "howToJoin": "Comment adhérer",
+    "readyToJoin": "Prêt à nous rejoindre ?",
+    "interestedInJoining": "Intéressé à nous rejoindre ?",
+    "whereWeMeet": "Où nous nous retrouvons"
   },
   "nav": {
     "home": "Accueil",

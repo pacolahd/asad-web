@@ -19,7 +19,7 @@ import {
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getMembersPage } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -101,6 +101,8 @@ const defaultMembershipProcess = [
 
 export default async function MembersPage() {
   const locale = await getLocale() as Locale;
+  const tCommon = await getTranslations('common');
+  const tNav = await getTranslations('nav');
 
   let pageContent: {
     headerTitle?: string | null;
@@ -256,11 +258,11 @@ export default async function MembersPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Button asChild>
                 <Link href="/contact">
-                  Contact Us <ArrowRight className="ml-2 h-4 w-4" />
+                  {tCommon('contactUs')} <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" asChild>
-                <Link href="/members/in-memoriam">In Memoriam</Link>
+                <Link href="/members/in-memoriam">{tNav('inMemoriam')}</Link>
               </Button>
             </div>
           </div>

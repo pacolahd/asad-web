@@ -175,7 +175,7 @@ export default async function StatutesPage() {
                       <Button asChild className="w-full">
                         <a href={doc.href} download>
                           <Download className="mr-2 h-4 w-4" />
-                          {t('download')} PDF
+                          {t('downloadPdf')}
                         </a>
                       </Button>
                     ) : (

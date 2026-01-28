@@ -6,8 +6,19 @@
     "viewAll": "View All",
     "comingSoon": "Coming Soon",
     "download": "Download",
+    "downloadPdf": "Download PDF",
     "back": "Back",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "exploreHistory": "Explore Our History",
+    "joinUs": "Join Us",
+    "joinNow": "Join Now",
+    "readMore": "Read More",
+    "seeAll": "See All",
+    "meetTeam": "Meet the Team",
+    "howToJoin": "How to Join",
+    "readyToJoin": "Ready to Join?",
+    "interestedInJoining": "Interested in Joining?",
+    "whereWeMeet": "Where We Meet"
   },
   "nav": {
     "home": "Home",

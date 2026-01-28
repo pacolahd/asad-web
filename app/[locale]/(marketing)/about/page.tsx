@@ -12,7 +12,7 @@ import {
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getAboutPage, getSiteSettings } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -55,6 +55,7 @@ const defaultValues = [
 
 export default async function AboutPage() {
   const locale = await getLocale() as Locale;
+  const tCommon = await getTranslations('common');
 
   let settings = siteConfig;
   let pageContent: {
@@ -200,7 +201,7 @@ export default async function AboutPage() {
               <div className="mt-8">
                 <Button asChild>
                   <Link href="/about/history">
-                    Explore Our History <ArrowRight className="ml-2 h-4 w-4" />
+                    {tCommon('exploreHistory')} <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>

@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getProgramOfYearPage, getMediaUrl } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 
 export const metadata: Metadata = {
@@ -102,6 +102,7 @@ const eventTypes = {
 
 export default async function ProgramPage() {
   const locale = await getLocale() as Locale;
+  const tCommon = await getTranslations('common');
 
   let pageContent: {
     headerTitle?: string | null;
@@ -169,13 +170,13 @@ export default async function ProgramPage() {
               <Button variant="outline" asChild>
                 <a href={documentUrl} target="_blank" rel="noopener noreferrer">
                   <Download className="mr-2 h-4 w-4" />
-                  {pageContent.downloadButtonText || "Download PDF"}
+                  {pageContent.downloadButtonText || tCommon('downloadPdf')}
                 </a>
               </Button>
             ) : (
               <Button variant="outline" disabled>
                 <Download className="mr-2 h-4 w-4" />
-                {pageContent.downloadButtonText || "Download PDF (Coming Soon)"}
+                {pageContent.downloadButtonText || `${tCommon('downloadPdf')} (${tCommon('comingSoon')})`}
               </Button>
             )}
           </div>
