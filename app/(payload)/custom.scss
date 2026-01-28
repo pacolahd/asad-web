@@ -804,3 +804,41 @@ li:has([id^="card-"]) {
     }
   }
 }
+
+// ===========================================
+// LOGIN PAGE STYLING
+// ===========================================
+
+// Increase login card width
+.login {
+  &__card {
+    max-width: 520px !important;
+    width: 100% !important;
+  }
+}
+
+// Login form container
+.login__wrap {
+  max-width: 520px !important;
+}
+
+// Ensure form inputs are larger
+.login {
+  .form-submit {
+    margin-top: 24px;
+  }
+
+  .field-type {
+    margin-bottom: 20px;
+  }
+
+  input {
+    padding: 14px 16px !important;
+    font-size: 1rem !important;
+  }
+
+  label {
+    font-size: 1rem !important;
+    margin-bottom: 8px !important;
+  }
+}

@@ -89,8 +89,8 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
       style={{
         display: 'flex',
         alignItems: 'center',
-        gap: '10px',
-        padding: '12px',
+        gap: '12px',
+        padding: '14px 16px',
         backgroundColor: 'var(--theme-elevation-0)',
         border: '1px solid var(--theme-elevation-100)',
         borderRadius: '8px',
@@ -100,14 +100,14 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
     >
       <div
         style={{
-          width: '36px',
-          height: '36px',
-          borderRadius: '8px',
+          width: '44px',
+          height: '44px',
+          borderRadius: '10px',
           backgroundColor: `${color}15`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '18px',
+          fontSize: '22px',
           flexShrink: 0,
         }}
       >
@@ -116,7 +116,7 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
       <div style={{ flex: 1, minWidth: 0 }}>
         <div
           style={{
-            fontSize: '0.95rem',
+            fontSize: '1.1rem',
             fontWeight: 600,
             color: 'var(--theme-elevation-1000)',
           }}
@@ -126,9 +126,9 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
         {description && (
           <div
             style={{
-              fontSize: '0.8rem',
+              fontSize: '0.95rem',
               color: 'var(--theme-elevation-500)',
-              marginTop: '2px',
+              marginTop: '3px',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
@@ -138,7 +138,7 @@ function QuickLink({ href, icon, label, description, color }: QuickLinkProps) {
           </div>
         )}
       </div>
-      <div style={{ color: 'var(--theme-elevation-400)', fontSize: '14px' }}>
+      <div style={{ color: 'var(--theme-elevation-400)', fontSize: '16px' }}>
         →
       </div>
     </a>
@@ -155,27 +155,27 @@ interface SectionProps {
 
 function Section({ title, description, icon, color, children }: SectionProps) {
   return (
-    <div style={{ marginBottom: '24px' }}>
+    <div style={{ marginBottom: '32px' }}>
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
-          marginBottom: '14px',
-          paddingBottom: '10px',
+          gap: '14px',
+          marginBottom: '18px',
+          paddingBottom: '12px',
           borderBottom: `2px solid ${color}30`,
         }}
       >
         <div
           style={{
-            width: '40px',
-            height: '40px',
-            borderRadius: '10px',
+            width: '48px',
+            height: '48px',
+            borderRadius: '12px',
             background: `linear-gradient(135deg, ${color} 0%, ${color}cc 100%)`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '18px',
+            fontSize: '22px',
             boxShadow: `0 2px 8px ${color}40`,
             flexShrink: 0,
           }}
@@ -186,7 +186,7 @@ function Section({ title, description, icon, color, children }: SectionProps) {
           <h3
             style={{
               margin: 0,
-              fontSize: '1.25rem',
+              fontSize: '1.5rem',
               fontWeight: 700,
               color: 'var(--theme-elevation-1000)',
             }}
@@ -195,8 +195,8 @@ function Section({ title, description, icon, color, children }: SectionProps) {
           </h3>
           <p
             style={{
-              margin: '2px 0 0 0',
-              fontSize: '0.9rem',
+              margin: '4px 0 0 0',
+              fontSize: '1.05rem',
               color: 'var(--theme-elevation-500)',
             }}
           >
@@ -207,8 +207,8 @@ function Section({ title, description, icon, color, children }: SectionProps) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-          gap: '10px',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: '12px',
         }}
       >
         {children}

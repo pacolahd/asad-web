@@ -105,11 +105,11 @@ export default function DashboardStats() {
   ];
 
   return (
-    <div style={{ marginBottom: '24px' }}>
+    <div style={{ marginBottom: '28px' }}>
       <h3
         style={{
-          margin: '0 0 14px 0',
-          fontSize: '1.15rem',
+          margin: '0 0 16px 0',
+          fontSize: '1.35rem',
           fontWeight: 600,
           color: 'var(--theme-elevation-1000)',
         }}
@@ -119,32 +119,32 @@ export default function DashboardStats() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-          gap: '12px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+          gap: '16px',
         }}
       >
         {statCards.map((card) => (
           <div
             key={card.label}
             style={{
-              padding: '16px',
-              borderRadius: '10px',
+              padding: '20px',
+              borderRadius: '12px',
               backgroundColor: 'var(--theme-elevation-0)',
               border: '1px solid var(--theme-elevation-100)',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
               <div
                 style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '10px',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '12px',
                   backgroundColor: card.bgColor,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '18px',
+                  fontSize: '22px',
                   flexShrink: 0,
                 }}
               >
@@ -153,7 +153,7 @@ export default function DashboardStats() {
               <div>
                 <div
                   style={{
-                    fontSize: '1.4rem',
+                    fontSize: '1.75rem',
                     fontWeight: 700,
                     color: card.color,
                     lineHeight: 1.2,
@@ -163,9 +163,9 @@ export default function DashboardStats() {
                 </div>
                 <div
                   style={{
-                    fontSize: '0.85rem',
+                    fontSize: '1rem',
                     color: 'var(--theme-elevation-500)',
-                    marginTop: '2px',
+                    marginTop: '3px',
                   }}
                 >
                   {card.label}
