@@ -1,9 +1,43 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/data/site-config";
 
-export function Hero() {
+interface HeroProps {
+  settings?: {
+    name?: string;
+    fullName?: string;
+    slogan?: string;
+    founded?: number;
+    location?: {
+      neighborhood?: string;
+      city?: string;
+    };
+  };
+  heroDescription?: string | null;
+  translations: {
+    becomeMember: string;
+    learnMore: string;
+  };
+}
+
+export function Hero({ settings, heroDescription, translations }: HeroProps) {
+  // Merge with fallback static config
+  const config = {
+    name: settings?.name || siteConfig.name,
+    fullName: settings?.fullName || siteConfig.fullName,
+    slogan: settings?.slogan || siteConfig.slogan,
+    founded: settings?.founded || siteConfig.founded,
+    location: {
+      neighborhood: settings?.location?.neighborhood || siteConfig.location.neighborhood,
+      city: settings?.location?.city || siteConfig.location.city,
+    },
+  };
+
+  // Build description from heroDescription or fallback
+  const description = heroDescription ||
+    `A community sports organization bringing together sports enthusiasts in ${config.location.neighborhood}, ${config.location.city} since ${config.founded}.`;
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary/90 to-secondary py-20 md:py-32">
       {/* Background Pattern */}
@@ -16,7 +50,7 @@ export function Hero() {
             <div className="flex h-28 w-28 items-center justify-center rounded-full bg-white/10 backdrop-blur ring-4 ring-white/20 p-2">
               <Image
                 src="/images/logo/asad-logo.png"
-                alt={siteConfig.name}
+                alt={config.name}
                 width={96}
                 height={96}
                 className="h-full w-full object-contain"
@@ -27,24 +61,22 @@ export function Hero() {
 
           {/* Title */}
           <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-            {siteConfig.name}
+            {config.name}
           </h1>
 
           {/* Full Name */}
           <p className="mt-4 text-lg text-white/80 sm:text-xl">
-            {siteConfig.fullName}
+            {config.fullName}
           </p>
 
           {/* Slogan */}
           <p className="mt-6 text-xl font-medium text-accent sm:text-2xl">
-            {siteConfig.slogan}
+            {config.slogan}
           </p>
 
           {/* Description */}
           <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-            A community sports organization bringing together sports enthusiasts
-            in {siteConfig.location.neighborhood}, {siteConfig.location.city}{" "}
-            since {siteConfig.founded}.
+            {description}
           </p>
 
           {/* CTAs */}
@@ -54,7 +86,7 @@ export function Hero() {
               className="bg-accent text-accent-foreground hover:bg-accent/90"
               asChild
             >
-              <Link href="/members">Become a Member</Link>
+              <Link href="/members">{translations.becomeMember}</Link>
             </Button>
             <Button
               size="lg"
@@ -62,7 +94,7 @@ export function Hero() {
               className="border-white/30 bg-white/10 text-white hover:bg-white/20"
               asChild
             >
-              <Link href="/about">Learn More</Link>
+              <Link href="/about">{translations.learnMore}</Link>
             </Button>
           </div>
         </div>

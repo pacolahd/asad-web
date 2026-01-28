@@ -20,14 +20,18 @@ export const revalidate = 300; // Revalidate every 5 minutes
 export default async function HomePage() {
   const locale = await getLocale() as Locale;
   const t = await getTranslations('stats');
+  const tCommon = await getTranslations('common');
+  const tHome = await getTranslations('home');
 
   // Fetch from Payload with fallbacks
   let programs = communityPrograms;
   let settings = siteConfig;
   let albums: { title: string }[] = [];
   let pageContent: {
+    heroDescription?: string | null;
     whatIsAsadTitle?: string | null;
     whatIsAsadContent?: string | null;
+    storyContent?: string | null;
     communityTitle?: string | null;
     communityDescription?: string | null;
     galleryTitle?: string | null;
@@ -151,7 +155,14 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <Hero />
+      <Hero
+        settings={settings}
+        heroDescription={pageContent.heroDescription}
+        translations={{
+          becomeMember: tCommon('becomeMember'),
+          learnMore: tCommon('learnMore'),
+        }}
+      />
 
       {/* Stats Section */}
       <Stats stats={stats} />
@@ -182,14 +193,12 @@ export default async function HomePage() {
                 )}
               </p>
               <p className="mt-4 text-muted-foreground">
-                Our mission extends beyond the football pitch. Through various
-                programs, we support education, promote financial discipline,
-                and provide a safety net for our members in times of need.
+                {pageContent.storyContent || tHome('storyP2')}
               </p>
               <div className="mt-8">
                 <Button asChild>
                   <Link href="/about">
-                    Learn Our Story <ArrowRight className="ml-2 h-4 w-4" />
+                    {tHome('ourStory')} <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -200,7 +209,7 @@ export default async function HomePage() {
                   <div className="flex h-20 w-20 mx-auto items-center justify-center rounded-full bg-primary/10 text-primary mb-4">
                     <span className="text-4xl font-bold">A</span>
                   </div>
-                  <p className="text-lg font-medium">Since {settings.founded}</p>
+                  <p className="text-lg font-medium">{tHome('since', { year: settings.founded })}</p>
                   <p className="text-sm text-muted-foreground mt-2">
                     {settings.location.neighborhood}, {settings.location.city}
                   </p>
@@ -256,7 +265,7 @@ export default async function HomePage() {
           <div className="mt-8 text-center">
             <Button variant="outline" asChild>
               <Link href="/media/gallery">
-                View All Photos <ArrowRight className="ml-2 h-4 w-4" />
+                {tHome('viewAllPhotos')} <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -267,8 +276,8 @@ export default async function HomePage() {
       <CTA
         title={pageContent.ctaTitle || "Join the ASAD Family"}
         description={pageContent.ctaDescription || "Become part of a community that values sports, unity, and mutual support. Whether you're a football enthusiast or looking for a supportive community, ASAD welcomes you."}
-        primaryAction={{ label: "Become a Member", href: "/members" }}
-        secondaryAction={{ label: "Contact Us", href: "/contact" }}
+        primaryAction={{ label: tCommon('becomeMember'), href: "/members" }}
+        secondaryAction={{ label: tCommon('contactUs'), href: "/contact" }}
       />
     </>
   );
