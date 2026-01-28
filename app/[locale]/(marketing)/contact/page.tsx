@@ -8,6 +8,7 @@ import {
   Instagram,
   Clock,
   MessageCircle,
+  Share2,
 } from "lucide-react";
 import {
   Card,
@@ -19,7 +20,7 @@ import {
 import { PageHeader } from "@/components/layout";
 import { siteConfig } from "@/data/site-config";
 import { getContactPage, getSiteSettings } from "@/lib/data";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/config";
 import type { ContactMethod } from "@/types";
 
@@ -57,6 +58,7 @@ function getContactHref(method: ContactMethod): string | null {
 
 export default async function ContactPage() {
   const locale = await getLocale() as Locale;
+  const t = await getTranslations('contact');
 
   let settings = siteConfig;
   let pageContent: {
@@ -95,8 +97,38 @@ export default async function ContactPage() {
     console.log('Using static contact data:', error instanceof Error ? error.message : 'CMS not available');
   }
 
-  // Use contactMethods from CMS or fallback to static config
-  const contactMethods = settings.contactMethods || siteConfig.contactMethods || [];
+  // Build contact methods from the same fields the footer uses
+  const contactMethods: ContactMethod[] = [];
+
+  if (settings.primaryAddress || settings.contact.address) {
+    contactMethods.push({
+      icon: 'map-pin',
+      title: t('location'),
+      description: t('locationDescription'),
+      value: settings.primaryAddress || settings.contact.address || '',
+      linkType: 'none',
+    });
+  }
+
+  if (settings.primaryPhone || settings.contact.phone) {
+    contactMethods.push({
+      icon: 'phone',
+      title: t('phone'),
+      description: t('phoneDescription'),
+      value: settings.primaryPhone || settings.contact.phone || '',
+      linkType: 'tel',
+    });
+  }
+
+  if (settings.primaryEmail || settings.contact.email) {
+    contactMethods.push({
+      icon: 'mail',
+      title: t('email'),
+      description: t('emailDescription'),
+      value: settings.primaryEmail || settings.contact.email || '',
+      linkType: 'mailto',
+    });
+  }
 
   const socialLinks = [
     {
@@ -163,6 +195,7 @@ export default async function ContactPage() {
       <section className="py-16 md:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center mb-12">
+            <Share2 className="h-12 w-12 text-primary mx-auto mb-4" />
             <h2 className="text-2xl font-bold">
               {pageContent.socialTitle || "Connect on Social Media"}
             </h2>

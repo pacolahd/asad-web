@@ -173,5 +173,13 @@
     "explore": "Explore",
     "viewFullGallery": "View Full Gallery",
     "photos": "photos"
+  },
+  "contact": {
+    "location": "Location",
+    "locationDescription": "Where we gather",
+    "phone": "Phone",
+    "phoneDescription": "Call us",
+    "email": "Email",
+    "emailDescription": "Send us a message"
   }
 }

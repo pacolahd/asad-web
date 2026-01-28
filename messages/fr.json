@@ -173,5 +173,13 @@
     "explore": "Explorer",
     "viewFullGallery": "Voir toute la galerie",
     "photos": "photos"
+  },
+  "contact": {
+    "location": "Emplacement",
+    "locationDescription": "Où nous nous retrouvons",
+    "phone": "Téléphone",
+    "phoneDescription": "Appelez-nous",
+    "email": "Email",
+    "emailDescription": "Envoyez-nous un message"
   }
 }
